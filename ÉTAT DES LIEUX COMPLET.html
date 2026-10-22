@@ -1,0 +1,3587 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Finance Widget · Édition Intégrale</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700;800&family=Google+Sans:wght@400;500;700&family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --font-main: 'Google Sans', 'Google Sans Flex', 'Inter', 'Roboto', 'Poppins', system-ui, -apple-system, sans-serif;
+  --bg:#070a13; --card:rgba(255,255,255,.032); --card-hover:rgba(255,255,255,.058);
+  --card-solid:#0d1322; --brd:rgba(255,255,255,.08); --brd-strong:rgba(255,255,255,.16);
+  --txt:#f8fafc; --muted:#94a3b8; --modal-bg:#0b1120;
+  --green:#34d399; --blue:#38bdf8; --purple:#a78bfa;
+  --amber:#fbbf24; --red:#f87171; --pink:#f472b6; --cyan:#22d3ee;
+  --header-bg: linear-gradient(135deg,rgba(56,189,248,.08),rgba(167,139,250,.08) 60%,rgba(52,211,153,.05));
+  --track-bg: rgba(255,255,255,.09);
+  --thumb-bg: #070a13;
+  --thumb-brd: var(--blue);
+  --tab-bg: rgba(11,17,32,.78);
+  --input-bg: rgba(255,255,255,.05);
+  --table-border: rgba(255,255,255,.05);
+}
+
+[data-theme="light"] {
+  --bg:#f8fafc; --card:#ffffff; --card-hover:#f1f5f9;
+  --card-solid:#ffffff; --brd:#e2e8f0; --brd-strong:#cbd5e1;
+  --txt:#0f172a; --muted:#64748b; --modal-bg:#ffffff;
+  --green:#059669; --blue:#0284c7; --purple:#7c3aed;
+  --amber:#d97706; --red:#dc2626; --pink:#db2777; --cyan:#0891b2;
+  --header-bg: linear-gradient(135deg,rgba(2,132,199,.06),rgba(124,58,237,.06) 60%,rgba(5,150,105,.04));
+  --track-bg: #e2e8f0;
+  --thumb-bg: #ffffff;
+  --thumb-brd: var(--blue);
+  --tab-bg: rgba(255,255,255,.88);
+  --input-bg: #f8fafc;
+  --table-border: #f1f5f9;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font-main);
+  background:var(--bg); color:var(--txt); min-height:100vh;
+  background-image:
+    radial-gradient(1100px 600px at 8% -8%, rgba(56,189,248,.09), transparent 60%),
+    radial-gradient(1000px 600px at 96% 2%, rgba(167,139,250,.09), transparent 60%),
+    radial-gradient(1100px 700px at 50% 108%, rgba(52,211,153,.06), transparent 60%);
+  background-attachment:fixed;
+  padding:22px 16px 100px;
+  -webkit-font-smoothing:antialiased;
+  transition:background-color .3s, color .3s;
+}
+[data-theme="light"] body{
+  background-image:
+    radial-gradient(1000px 500px at 8% -8%, rgba(2,132,199,.06), transparent 60%),
+    radial-gradient(1000px 500px at 96% 2%, rgba(124,58,237,.06), transparent 60%),
+    radial-gradient(1100px 600px at 50% 108%, rgba(5,150,105,.05), transparent 60%);
+}
+.app{max-width:1280px;margin:0 auto}
+
+/* HERO */
+.hero{
+  display:grid;grid-template-columns:1fr auto auto;gap:22px;align-items:center;
+  padding:22px 26px;border-radius:22px;
+  background:linear-gradient(135deg,rgba(56,189,248,.09),rgba(167,139,250,.09) 60%,rgba(52,211,153,.06));
+  border:1px solid var(--brd);margin-bottom:18px;position:relative;overflow:hidden;
+}
+.hero::before{content:'';position:absolute;top:-60%;right:-8%;width:480px;height:480px;
+  background:radial-gradient(circle,rgba(56,189,248,.14),transparent 70%);pointer-events:none;
+  animation:float 20s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translate(0,0)}50%{transform:translate(-30px,30px)}}
+.hero-left{position:relative;z-index:1}
+.eyebrow{font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--blue);font-weight:800;margin-bottom:7px}
+h1{font-size:clamp(19px,2.6vw,25px);font-weight:800;letter-spacing:-.025em;line-height:1.25}
+.sub{color:var(--muted);font-size:12.5px;margin-top:5px;max-width:460px;line-height:1.5}
+.sub kbd{font-family:'SF Mono',Menlo,monospace;font-size:9.5px;padding:1px 5px;border-radius:4px;
+  background:rgba(255,255,255,.08);border:1px solid var(--brd);color:var(--muted);font-weight:700}
+.health-box{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:6px;min-width:120px}
+.health-ring{width:100px;height:100px}
+.health-ring circle{transition:stroke-dashoffset 1s cubic-bezier(.4,0,.2,1), stroke .4s}
+.health-meta{text-align:center}
+.health-num{font-size:24px;font-weight:800;letter-spacing:-.03em;line-height:1}
+.health-grade{font-size:9.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin-top:2px}
+.health-breakdown{display:flex;gap:3px;margin-top:5px}
+.hb-seg{height:3px;border-radius:2px;background:rgba(255,255,255,.1);flex:1;transition:background .3s}
+.income-box{min-width:240px;position:relative;z-index:1}
+.income-box label{font-size:10.5px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:700}
+.save-indicator{display:inline-flex;align-items:center;gap:4px;font-size:9px;padding:2px 6px;border-radius:20px;
+  background:rgba(52,211,153,.15);color:#6ee7b7;font-weight:800;opacity:0;transition:opacity .3s;margin-left:6px}
+.save-indicator.active{opacity:1}
+.income-val{font-size:26px;font-weight:800;letter-spacing:-.03em;margin:3px 0 8px;font-variant-numeric:tabular-nums}
+.income-val span{color:var(--green)}
+@media(max-width:880px){.hero{grid-template-columns:1fr auto;gap:14px}.income-box{grid-column:1/-1;min-width:0}.health-box{grid-row:1/3;grid-column:2}}
+@media(max-width:560px){.hero{grid-template-columns:1fr;padding:16px}.health-box{grid-row:auto;grid-column:auto;flex-direction:row;justify-content:center;gap:14px}}
+
+/* TABS */
+.tabs{display:flex;gap:4px;overflow-x:auto;padding:5px;border-radius:14px;
+  background:var(--tab-bg);border:1px solid var(--brd);margin-bottom:18px;
+  scrollbar-width:none;position:sticky;top:10px;z-index:50;backdrop-filter:blur(20px)}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:8px 13px;border-radius:9px;border:none;background:transparent;color:var(--muted);
+  font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;transition:.18s;font-family:inherit;display:flex;align-items:center;gap:5px}
+.tab:hover{color:var(--txt);background:rgba(255,255,255,.05)}
+[data-theme="light"] .tab:hover{background:rgba(0,0,0,.04)}
+.tab.active{background:linear-gradient(135deg,var(--blue),var(--purple));color:#ffffff;font-weight:800;box-shadow:0 2px 8px rgba(56,189,248,.35)}
+[data-theme="light"] .tab.active{color:#ffffff;box-shadow:0 2px 8px rgba(2,132,199,.3)}
+
+.panel{display:none;animation:fade .3s ease}
+.panel.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* CARDS & GRIDS */
+.grid{display:grid;gap:12px}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:960px){.g4{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:1fr}}
+@media(max-width:720px){.g2,.g4{grid-template-columns:1fr}}
+
+.card{background:var(--card);border:1px solid var(--brd);border-radius:15px;padding:18px;
+  backdrop-filter:blur(10px);transition:border-color .2s, box-shadow .2s}
+.card:hover{border-color:var(--brd-strong)}
+[data-theme="light"] .card{box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.card h3{font-size:11px;font-weight:800;letter-spacing:.10em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:13px;display:flex;align-items:center;gap:8px}
+.card h3::before{content:'';width:3px;height:13px;border-radius:2px;background:var(--blue)}
+.card h3 .count{margin-left:auto;font-size:10px;padding:2px 7px;border-radius:20px;
+  background:rgba(56,189,248,.14);color:#7dd3fc;letter-spacing:0;font-weight:800}
+
+/* KPI */
+.kpi{padding:14px 16px;border-radius:14px;background:var(--card);border:1px solid var(--brd);position:relative;overflow:hidden;transition:transform .15s, border-color .15s}
+.kpi:hover{transform:translateY(-2px);border-color:var(--brd-strong)}
+[data-theme="light"] .kpi{box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.kpi::after{content:'';position:absolute;inset:0 auto 0 0;width:3px;background:var(--blue)}
+.kpi.k-green::after{background:var(--green)}.kpi.k-red::after{background:var(--red)}
+.kpi.k-amber::after{background:var(--amber)}.kpi.k-purple::after{background:var(--purple)}
+.kpi.k-cyan::after{background:var(--cyan)}.kpi.k-pink::after{background:var(--pink)}
+.kpi-label{font-size:10px;text-transform:uppercase;letter-spacing:.10em;color:var(--muted);font-weight:700}
+.kpi-val{font-size:20px;font-weight:800;letter-spacing:-.03em;margin:4px 0 2px;font-variant-numeric:tabular-nums;color:var(--txt)}
+.kpi-sub{font-size:10.5px;color:var(--muted);line-height:1.4}
+
+/* ALERTS & INSIGHTS */
+.alert{display:flex;gap:9px;padding:10px 13px;border-radius:11px;font-size:12px;
+  margin-bottom:7px;line-height:1.5;border:1px solid transparent}
+.alert.ok{background:rgba(52,211,153,.08);border-color:rgba(52,211,153,.22);color:var(--green)}
+.alert.warn{background:rgba(251,191,36,.08);border-color:rgba(251,191,36,.22);color:var(--amber)}
+.alert.danger{background:rgba(248,113,113,.08);border-color:rgba(248,113,113,.22);color:var(--red)}
+.insight{display:flex;gap:11px;padding:12px 14px;border-radius:11px;margin-bottom:8px;
+  background:var(--card);border:1px solid var(--brd);transition:.18s}
+.insight:hover{background:var(--card-hover)}
+.insight-icon{font-size:18px;flex-shrink:0}
+.insight-content{flex:1}
+.insight-title{font-size:12.5px;font-weight:700;margin-bottom:2px}
+.insight-body{font-size:11.5px;color:var(--muted);line-height:1.5}
+.insight-action{margin-top:7px}
+.insight-action button{background:rgba(56,189,248,.14);border:1px solid rgba(56,189,248,.3);color:#7dd3fc;
+  padding:3px 9px;border-radius:6px;font-size:10.5px;font-weight:700;cursor:pointer;font-family:inherit;transition:.15s}
+[data-theme="light"] .insight-action button{color:#0284c7;background:rgba(2,132,199,.1)}
+.insight-action button:hover{background:rgba(56,189,248,.25)}
+.insight.danger .insight-title{color:var(--red)}
+.insight.warn .insight-title{color:var(--amber)}
+.insight.ok .insight-title{color:var(--green)}
+
+/* BARS */
+.bar-row{margin-bottom:12px}
+.bar-top{display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:5px;gap:8px}
+.bar-top b{font-weight:700;font-variant-numeric:tabular-nums}
+.bar-track{height:8px;border-radius:6px;background:var(--track-bg);overflow:hidden}
+.bar-fill{height:100%;border-radius:6px;transition:width .5s cubic-bezier(.4,0,.2,1),background .3s}
+
+/* SLIDERS */
+.slider-row{margin-bottom:14px}
+.sr-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;font-size:12px;gap:8px}
+.sr-label{color:var(--txt);display:flex;align-items:center;gap:6px;font-weight:600;flex-wrap:wrap;flex:1;min-width:0;letter-spacing:-.01em}
+.sr-input-group{display:flex;align-items:center;gap:2px;background:var(--input-bg);
+  border:1px solid var(--brd);border-radius:8px;padding:2px 8px 2px 6px;transition:.15s}
+.sr-input-group:focus-within{border-color:var(--blue);background:rgba(56,189,248,.08);box-shadow:0 0 0 2px rgba(56,189,248,.15)}
+.sr-input-group .num-input{background:transparent;border:none;color:var(--txt);font:inherit;
+  font-size:12px;font-weight:800;width:72px;padding:3px 0;outline:none;text-align:right;
+  font-variant-numeric:tabular-nums;-moz-appearance:textfield}
+.sr-input-group .num-input::-webkit-outer-spin-button,.sr-input-group .num-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.sr-input-group .unit{font-size:10.5px;color:var(--muted);font-weight:700}
+.tag{font-size:9px;font-weight:800;padding:2px 5px;border-radius:5px;font-style:normal;letter-spacing:.05em}
+.tag.n1{background:rgba(248,113,113,.18);color:#fca5a5}
+.tag.n2{background:rgba(251,191,36,.18);color:#fcd34d}
+.tag.n3{background:rgba(56,189,248,.18);color:#7dd3fc}
+.tag.n4{background:rgba(167,139,250,.18);color:#c4b5fd}
+
+/* ERGONOMIC MINIMALIST SLIDER TRACK */
+input[type=range]{width:100%;height:6px;-webkit-appearance:none;appearance:none;
+  background:var(--track-bg);border-radius:6px;outline:none;cursor:pointer;
+  transition:background .2s;position:relative;margin:6px 0}
+input[type=range]:hover{background:rgba(148,163,184,.2)}
+[data-theme="light"] input[type=range]:hover{background:#cbd5e1}
+
+/* POIGNÉE DE CURSEUR (THUMB) : FORME D'ANNEAU OVALE / RECTANGULAIRE AUX COINS ARRONDIS ORIENTÉ VERTICALEMENT */
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;
+  width:12px;height:24px;border-radius:6px;
+  background:var(--thumb-bg);
+  border:2.5px solid var(--thumb-brd);
+  cursor:grab;
+  box-shadow:0 2px 6px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.15);
+  transition:transform .15s ease, border-color .15s ease, box-shadow .15s ease, background-color .15s ease;
+}
+input[type=range]::-webkit-slider-thumb:hover{
+  transform:scaleY(1.1) scaleX(1.15);
+  border-color:var(--cyan);
+  box-shadow:0 0 10px rgba(56,189,248,.45), inset 0 0 0 1.5px rgba(255,255,255,.3);
+}
+input[type=range]:active::-webkit-slider-thumb{
+  cursor:grabbing;
+  background:var(--blue);
+  border-color:#ffffff;
+  transform:scaleY(1.15) scaleX(1.2);
+  box-shadow:0 0 12px rgba(56,189,248,.6);
+}
+
+/* FIREFOX THUMB */
+input[type=range]::-moz-range-thumb{
+  width:12px;height:24px;border-radius:6px;
+  background:var(--thumb-bg);
+  border:2.5px solid var(--thumb-brd);
+  cursor:grab;
+  box-shadow:0 2px 6px rgba(0,0,0,.35);
+  transition:transform .15s ease, border-color .15s ease;
+}
+input[type=range]::-moz-range-thumb:hover{
+  transform:scaleY(1.1) scaleX(1.15);
+  border-color:var(--cyan);
+}
+input[type=range]:active::-moz-range-thumb{
+  cursor:grabbing;
+  background:var(--blue);
+  border-color:#ffffff;
+}
+
+[data-theme="light"] input[type=range]::-webkit-slider-thumb{
+  background:#ffffff;
+  border:2.5px solid var(--blue);
+  box-shadow:0 2px 5px rgba(0,0,0,.15), inset 0 0 0 1px rgba(0,0,0,.05);
+}
+[data-theme="light"] input[type=range]::-moz-range-thumb{
+  background:#ffffff;
+  border:2.5px solid var(--blue);
+  box-shadow:0 2px 5px rgba(0,0,0,.15);
+}
+
+/* LEGEND */
+.legend{display:flex;flex-direction:column;gap:8px;font-size:11.5px}
+.legend-item{display:flex;align-items:center;gap:8px}
+.dot{width:9px;height:9px;border-radius:3px;flex-shrink:0}
+.legend-item .val{margin-left:auto;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* STACKED BAR WITH HOVER DIMMING */
+.stacked-bar-container{margin:10px 0 16px}
+.stacked-bar{display:flex;height:38px;border-radius:12px;overflow:hidden;border:1px solid var(--brd);background:rgba(255,255,255,.02);gap:1px}
+.stacked-seg{display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:800;
+  color:#06101f;transition:opacity .25s ease, transform .25s ease, width .5s cubic-bezier(.4,0,.2,1);cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 4px}
+.stacked-bar.has-hover .stacked-seg{opacity:0.35}
+.stacked-bar.has-hover .stacked-seg.is-hovered{opacity:1;transform:scaleY(1.08);z-index:2}
+
+/* FLUID ACCORDION VIA CSS GRID */
+.pat-section{border:1px solid var(--brd);border-radius:12px;overflow:hidden;background:rgba(255,255,255,.02);margin-bottom:8px;transition:border-color .2s, background .2s, opacity .25s ease}
+.pat-section:hover{border-color:var(--brd-strong)}
+.pat-section.is-dimmed{opacity:0.35}
+.pat-section.is-highlighted{border-color:var(--blue);background:rgba(56,189,248,.05)}
+.pat-header{padding:12px 15px;display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:12px;font-weight:700;cursor:pointer;user-select:none;transition:background .15s}
+.pat-header:hover{background:rgba(255,255,255,.03)}
+.pat-chevron{display:inline-block;transition:transform .3s ease;font-size:10px;color:var(--muted)}
+.pat-section.open .pat-chevron{transform:rotate(90deg)}
+.pat-collapse{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s cubic-bezier(.4,0,.2,1)}
+.pat-section.open .pat-collapse{grid-template-rows:1fr}
+.pat-collapse-inner{overflow:hidden}
+.pat-items{padding:4px 14px 14px}
+.pat-cat-total{font-variant-numeric:tabular-nums;font-weight:800;font-size:13px}
+
+/* LIVE ANNOUNCER (ACCESSIBILITY) & CIRCUIT BREAKER */
+#liveAnnouncer{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+#circuitBreakerFallback{display:none;background:var(--card);border:2px solid var(--red);border-radius:14px;padding:20px;margin-bottom:18px}
+#circuitBreakerFallback h3{color:var(--red);margin-bottom:10px}
+
+/* SPLIT BAR */
+.split{display:flex;height:38px;border-radius:10px;overflow:hidden;margin:10px 0 12px;border:1px solid var(--brd)}
+.split-seg{display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;
+  color:#06101f;transition:width .5s cubic-bezier(.4,0,.2,1);overflow:hidden;white-space:nowrap}
+
+/* CHECKLIST */
+.check-week{margin-bottom:14px}
+.check-week h4{font-size:10.5px;text-transform:uppercase;letter-spacing:.12em;color:var(--blue);font-weight:800;margin-bottom:8px}
+.check-item{display:flex;align-items:center;gap:9px;padding:8px 11px;border-radius:9px;cursor:pointer;
+  font-size:12px;transition:.15s;border:1px solid transparent;user-select:none}
+.check-item:hover{background:rgba(255,255,255,.04);border-color:var(--brd)}
+.check-item input{appearance:none;width:16px;height:16px;border-radius:5px;border:2px solid rgba(255,255,255,.22);
+  cursor:pointer;flex-shrink:0;position:relative;transition:.18s}
+.check-item input:checked{background:var(--green);border-color:var(--green)}
+.check-item input:checked::after{content:'';position:absolute;inset:0;display:flex;align-items:center;
+  justify-content:center;font-size:10px;color:#06200f;font-weight:900}
+.check-item.done span{text-decoration:line-through;color:var(--muted)}
+
+/* GOAL CARDS */
+.goal-card{background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:11px;padding:13px 15px;margin-bottom:10px;transition:.18s}
+.goal-card:hover{border-color:var(--brd-strong)}
+.goal-head{display:flex;align-items:center;gap:9px;margin-bottom:9px}
+.goal-name{font-size:12.5px;font-weight:700;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis}
+.goal-delete{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:14px;padding:2px 6px;border-radius:5px;transition:.15s;opacity:0}
+.goal-card:hover .goal-delete{opacity:1}
+.goal-delete:hover{background:rgba(248,113,113,.15);color:var(--red)}
+.goal-progress-info{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:5px}
+.goal-add{display:flex;gap:7px;margin-top:11px;padding:9px;background:rgba(56,189,248,.06);
+  border:1px dashed rgba(56,189,248,.25);border-radius:10px;flex-wrap:wrap}
+.goal-add input{flex:1;background:rgba(255,255,255,.05);border:1px solid var(--brd);
+  color:var(--txt);padding:6px 10px;border-radius:7px;font:inherit;font-size:11.5px;outline:none;min-width:100px}
+.goal-add input:focus{border-color:var(--blue)}
+.goal-add button{background:var(--blue);border:none;color:#06101f;padding:6px 12px;border-radius:7px;
+  font:inherit;font-size:11.5px;font-weight:800;cursor:pointer;white-space:nowrap;transition:.15s}
+.goal-add button:hover{filter:brightness(1.1)}
+
+/* MISC */
+.mini{font-size:10.5px;color:var(--muted);line-height:1.55}
+.chip{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:700;
+  padding:4px 9px;border-radius:20px;background:var(--card);border:1px solid var(--brd);
+  color:var(--txt);margin:2px 4px 0 0}
+.row-flex{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.divider{height:1px;background:var(--brd);margin:12px 0}
+.big-num{font-size:24px;font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.green{color:var(--green)}.red{color:var(--red)}.amber{color:var(--amber)}
+.blue{color:var(--blue)}.purple{color:var(--purple)}.muted{color:var(--muted)}
+.badge-ok{font-size:10px;font-weight:800;padding:2px 7px;border-radius:20px;background:rgba(52,211,153,.15);color:var(--green);white-space:nowrap}
+.badge-off{font-size:10px;font-weight:800;padding:2px 7px;border-radius:20px;background:rgba(251,191,36,.15);color:var(--amber);white-space:nowrap}
+ul.clean{list-style:none}
+ul.clean li{padding:6px 0;border-bottom:1px solid var(--brd);font-size:12px;color:var(--txt);
+  display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+ul.clean li:last-child{border-bottom:none}
+ul.clean li b{text-align:right;flex-shrink:0}
+ul.dotted{list-style:none}
+ul.dotted li{padding:4px 0 4px 16px;position:relative;font-size:11.5px;color:var(--muted);line-height:1.6}
+ul.dotted li::before{content:'▸';position:absolute;left:0;color:var(--blue)}
+
+.btn{background:var(--card);border:1px solid var(--brd);color:var(--txt);
+  padding:8px 13px;border-radius:9px;font-size:11.5px;font-weight:700;cursor:pointer;
+  font-family:inherit;transition:.18s;display:inline-flex;align-items:center;gap:5px}
+.btn:hover{background:var(--card-hover);border-color:var(--brd-strong)}
+.btn-danger{background:rgba(248,113,113,.12);border-color:rgba(248,113,113,.3);color:var(--red)}
+.btn-danger:hover{background:rgba(248,113,113,.2)}
+.btn-sm{padding:5px 10px;font-size:10.5px}
+.btn-mini{background:var(--card);border:1px solid var(--brd);color:var(--txt);
+  padding:5px 10px;border-radius:7px;font-size:10.5px;font-weight:700;cursor:pointer;font-family:inherit;transition:.15s}
+.btn-mini:hover{background:var(--card-hover);border-color:var(--brd-strong)}
+
+/* PATRIMOINE */
+.pat-section{border:1px solid var(--brd);border-radius:12px;overflow:hidden;background:var(--card);margin-bottom:8px;transition:border-color .2s}
+.pat-section:hover{border-color:var(--brd-strong)}
+.pat-section summary{list-style:none;cursor:pointer;padding:11px 14px;display:flex;justify-content:space-between;
+  align-items:center;gap:10px;font-size:12px;font-weight:700;transition:background .15s}
+.pat-section summary::-webkit-details-marker{display:none}
+.pat-section summary:hover{background:var(--card-hover)}
+.pat-items{padding:5px 14px 12px}
+.pat-cat-total{font-variant-numeric:tabular-nums;font-weight:800;font-size:13px}
+
+/* MODAL / TOASTS */
+.modal-overlay{position:fixed;inset:0;background:rgba(5,8,16,.75);backdrop-filter:blur(10px);
+  display:none;align-items:center;justify-content:center;z-index:1000;padding:20px}
+[data-theme="light"] .modal-overlay{background:rgba(15,23,42,.45)}
+.modal-overlay.show{display:flex;animation:fade .2s ease}
+.modal{background:var(--modal-bg);border:1px solid var(--brd-strong);border-radius:16px;padding:22px;
+  max-width:420px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.35);color:var(--txt)}
+.modal h3{font-size:15px;font-weight:800;margin-bottom:10px}
+.modal p{font-size:12.5px;color:var(--muted);line-height:1.6;margin-bottom:16px}
+.modal-actions{display:flex;gap:9px;justify-content:flex-end}
+.toast-container{position:fixed;bottom:20px;right:20px;display:flex;flex-direction:column;gap:8px;
+  z-index:2000;pointer-events:none;max-width:340px}
+.toast{background:var(--modal-bg);border:1px solid var(--brd-strong);border-radius:11px;padding:11px 14px;
+  font-size:12px;color:var(--txt);transform:translateX(120%);opacity:0;
+  transition:transform .3s cubic-bezier(.4,0,.2,1),opacity .3s;border-left:3px solid var(--blue);
+  pointer-events:auto;line-height:1.5;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.toast.show{transform:translateX(0);opacity:1}
+.toast-success{border-left-color:var(--green)}
+.toast-warn{border-left-color:var(--amber)}
+.toast-error{border-left-color:var(--red)}
+
+/* MONTHLY TABLE */
+.table{width:100%;border-collapse:collapse;font-size:11px}
+.table th{text-align:left;padding:8px 6px;color:var(--muted);font-weight:700;
+  text-transform:uppercase;letter-spacing:.06em;font-size:9.5px;border-bottom:1px solid var(--brd);white-space:nowrap}
+.table td{padding:6px;border-bottom:1px solid var(--brd);color:var(--txt);font-variant-numeric:tabular-nums}
+.table tr:hover td{background:var(--card-hover)}
+.table input{background:transparent;border:1px solid transparent;color:var(--txt);font:inherit;
+  font-size:11px;padding:4px 6px;border-radius:6px;outline:none;width:100%;min-width:50px}
+.table input:focus{border-color:var(--blue);background:rgba(56,189,248,.08)}
+.table .del-btn{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:12px;padding:2px 5px;border-radius:4px;transition:.15s}
+.table .del-btn:hover{color:var(--red);background:rgba(248,113,113,.15)}
+
+/* STACK */
+.stack-card{background:rgba(255,255,255,.02);border:1px solid var(--brd);border-radius:11px;padding:13px 15px;margin-bottom:9px}
+.stack-title{font-size:12.5px;font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.stack-list{list-style:none;font-size:11.5px;color:var(--muted);line-height:1.7}
+.stack-list li{padding:2px 0 2px 16px;position:relative}
+.stack-list li::before{content:'•';position:absolute;left:4px;color:var(--blue);font-weight:900}
+
+/* NEGOTIATION */
+.neg-block{background:rgba(255,255,255,.02);border:1px solid var(--brd);border-radius:11px;padding:12px 14px;margin-bottom:9px}
+.neg-title{font-size:12px;font-weight:800;color:var(--txt);margin-bottom:6px;display:flex;align-items:center;gap:7px}
+.neg-body{font-size:11px;color:var(--muted);line-height:1.65}
+.neg-body strong{color:var(--txt);font-weight:700}
+.neg-phrase{background:rgba(56,189,248,.08);border-left:2px solid var(--blue);padding:7px 10px;
+  border-radius:5px;margin-top:7px;font-size:11px;color:#7dd3fc;font-style:italic;line-height:1.5}
+
+/* INSURANCE */
+.ins-block{background:rgba(255,255,255,.02);border:1px solid var(--brd);border-radius:11px;padding:12px 14px;margin-bottom:9px}
+.ins-title{font-size:12px;font-weight:800;margin-bottom:7px;display:flex;align-items:center;gap:7px}
+.ins-body{font-size:11px;color:var(--muted);line-height:1.7}
+
+/* CONTACTS */
+.contact-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;
+  border-bottom:1px solid rgba(255,255,255,.05);font-size:11.5px}
+.contact-row:last-child{border-bottom:none}
+.contact-label{color:var(--muted)}
+.contact-val{font-weight:700;color:var(--txt);font-variant-numeric:tabular-nums}
+.contact-val.placeholder{color:var(--muted);font-weight:500;font-style:italic}
+.contact-val a{color:var(--blue);text-decoration:none}
+.contact-val a:hover{text-decoration:underline}
+
+/* SCENARIOS */
+.scenario-detail{border:1px solid var(--brd);border-radius:11px;overflow:hidden;background:rgba(255,255,255,.02)}
+.scenario-detail summary{list-style:none;cursor:pointer;padding:11px 14px;font-size:12px;font-weight:700;
+  display:flex;justify-content:space-between;align-items:center;gap:9px}
+.scenario-detail summary::-webkit-details-marker{display:none}
+.scenario-detail summary:hover{background:rgba(255,255,255,.03)}
+.scenario-body{padding:0 14px 12px;font-size:11px;color:var(--muted);line-height:1.7}
+
+@media(max-width:720px){body{padding:14px 11px 100px}.hero{padding:16px}.card{padding:14px}}
+@media print{.tabs,.reset-btn,.btn,.btn-mini,.toast-container,.modal-overlay,.save-indicator{display:none!important}
+  .panel{display:block!important;page-break-inside:avoid;margin-bottom:15px}
+  .panel::before{content:attr(data-title);display:block;font-size:14px;font-weight:800;margin-bottom:10px;color:#111}
+  body{background:white;color:#111}}
+</style>
+</head>
+<body>
+<div class="app">
+
+<div id="liveAnnouncer" aria-live="polite" aria-atomic="true"></div>
+<div id="circuitBreakerFallback">
+  <h3>Mode Dégradé Activé</h3>
+  <p>Une anomalie d'affichage a été détectée. Vos données sont conservées en sécurité.</p>
+</div>
+
+<header class="hero">
+  <div class="hero-left">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap">
+      <div class="eyebrow" style="margin-bottom:0">Guide d'organisation financière · Édition Intégrale</div>
+      <div style="display:flex;gap:6px;align-items:center">
+        <!-- CURRENCY SELECTOR -->
+        <select id="currencySelector" style="background:var(--card);border:1px solid var(--brd);color:var(--txt);padding:4px 9px;border-radius:8px;font-size:11.5px;font-weight:700;outline:none;cursor:pointer">
+          <option value="€">EUR (€)</option>
+          <option value="FCFA">FCFA (XOF/XAF)</option>
+          <option value="$">USD ($)</option>
+          <option value="£">GBP (£)</option>
+          <option value="CHF">CHF</option>
+        </select>
+        <!-- THEME TOGGLE -->
+        <button class="btn btn-mini" id="themeToggleBtn" title="Basculer Mode Clair / Sombre" style="padding:4px 9px;font-size:11.5px">Thème</button>
+      </div>
+    </div>
+    <h1>Tableau de bord financier <span class="save-indicator" id="saveIndicator">Enregistré</span></h1>
+    <p class="sub">Toutes les sections du guide, vivantes et interactives · <kbd>1</kbd>–<kbd>9</kbd> pour naviguer</p>
+    
+    <!-- 3-COLUMNS KPI HEADER SUMMARY WITH SUBTLE VERTICAL DIVIDERS -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);margin-top:14px;padding:12px 14px;background:var(--card);border:1px solid var(--brd);border-radius:12px;gap:8px">
+      <div style="padding-right:12px;border-right:1px solid var(--brd)">
+        <div style="font-size:9.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700">Charges mensuelles</div>
+        <div style="font-size:16px;font-weight:800;color:var(--txt);margin-top:2px;font-variant-numeric:tabular-nums" id="heroExp">0</div>
+      </div>
+      <div style="padding:0 12px;border-right:1px solid var(--brd)">
+        <div style="font-size:9.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700">Surplus / Déficit</div>
+        <div style="font-size:16px;font-weight:800;color:var(--green);margin-top:2px;font-variant-numeric:tabular-nums" id="heroSurplus">+0</div>
+      </div>
+      <div style="padding-left:12px">
+        <div style="font-size:9.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700">Taux couverture</div>
+        <div style="font-size:16px;font-weight:800;color:var(--blue);margin-top:2px;font-variant-numeric:tabular-nums" id="heroCouverture">0%</div>
+      </div>
+    </div>
+
+    <div style="margin-top:10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-mini" id="openSheetsModalBtn" style="background:rgba(52,211,153,.12);border-color:rgba(52,211,153,.3);color:#6ee7b7">
+        <span class="dot dot-green" style="width:7px;height:7px;display:inline-block;border-radius:50%;background:var(--green);margin-right:6px"></span><span id="sheetsStatusText">Google Sheets : Connecté</span>
+      </button>
+      <button class="btn btn-mini" id="syncSheetsNowBtn" style="background:rgba(56,189,248,.12);border-color:rgba(56,189,248,.3);color:#7dd3fc">
+        Synchroniser
+      </button>
+      <button class="btn btn-mini" id="openHistoryModalBtn" style="background:rgba(167,139,250,.12);border-color:rgba(167,139,250,.3);color:#c4b5fd">
+        Historique Google Sheets
+      </button>
+    </div>
+  </div>
+  <div class="health-box">
+    <svg class="health-ring" viewBox="0 0 120 120">
+      <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="10"/>
+      <circle id="healthProgress" cx="60" cy="60" r="50" fill="none" stroke="#34d399" stroke-width="10"
+        stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="314" transform="rotate(-90 60 60)"/>
+    </svg>
+    <div class="health-meta">
+      <div class="health-num" id="healthNum">—</div>
+      <div class="health-grade" id="healthGrade">…</div>
+      <div class="health-breakdown" id="healthBreakdown"></div>
+    </div>
+  </div>
+  <div class="income-box">
+    <label>Revenu net mensuel</label>
+    <div class="income-val"><span id="incomeDisplay">975</span> <span class="curr-unit">€</span></div>
+    <input type="range" id="incomeSlider" min="0" max="5000" step="5" value="975" data-bind="income.salaireNet">
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="overview">Vue d'ensemble</button>
+  <button class="tab" data-tab="revenus">Revenus</button>
+  <button class="tab" data-tab="budget">Budget</button>
+  <button class="tab" data-tab="patrimoine">Patrimoine</button>
+  <button class="tab" data-tab="goals">Objectifs</button>
+  <button class="tab" data-tab="security">Sécurité</button>
+  <button class="tab" data-tab="auto">Automatisation</button>
+  <button class="tab" data-tab="invest">Investissement</button>
+  <button class="tab" data-tab="suivi">Suivi</button>
+  <button class="tab" data-tab="practices">Bonnes pratiques</button>
+  <button class="tab" data-tab="checklist">Checklist</button>
+</nav>
+
+<!-- ========== OVERVIEW ========== -->
+<section class="panel active" id="panel-overview" data-title="Vue d'ensemble">
+  <div class="grid g4" style="margin-bottom:12px">
+    <div class="kpi k-green"><div class="kpi-label">Revenu total</div><div class="kpi-val" id="kpiIncome">0 €</div><div class="kpi-sub" id="kpiIncomeSub">—</div></div>
+    <div class="kpi k-red"><div class="kpi-label">Dépenses totales</div><div class="kpi-val" id="kpiExp">0 €</div><div class="kpi-sub" id="kpiExpSub">—</div></div>
+    <div class="kpi k-purple"><div class="kpi-label">Capacité d'épargne</div><div class="kpi-val" id="kpiSave">0 €</div><div class="kpi-sub" id="kpiSaveSub">—</div></div>
+    <div class="kpi k-amber"><div class="kpi-label">Reste à allouer</div><div class="kpi-val" id="kpiReste">0 €</div><div class="kpi-sub">Zero-Based</div></div>
+  </div>
+
+  <!-- STACKED BAR PROPORTIONNELLE AVEC HOVER DIMMING -->
+  <div class="card" style="margin-bottom:12px">
+    <div class="row-flex" style="margin-bottom:6px">
+      <h3 style="margin:0">Répartition visuelle des charges</h3>
+      <span class="mini" id="stackedBarHoverLabel">Survolez un segment pour isoler</span>
+    </div>
+    <div class="stacked-bar-container">
+      <div class="stacked-bar" id="expensesStackedBar"></div>
+    </div>
+  </div>
+
+  <div class="grid g2" style="margin-bottom:12px">
+    <div class="card">
+      <h3>Dépenses par strate</h3>
+      <div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap">
+        <div id="donutWrap" style="flex-shrink:0"></div>
+        <div class="legend" id="legendStrata" style="flex:1;min-width:140px"></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Indicateurs clés</h3>
+      <div class="bar-row"><div class="bar-top"><span>Taux d'épargne brut</span><b id="tauxEpargneTxt">0%</b></div><div class="bar-track"><div class="bar-fill" id="barEpargne" style="width:0%"></div></div></div>
+      <div class="bar-row"><div class="bar-top"><span>Taux d'endettement <em class="mini">(&lt;33%)</em></span><b id="tauxEndTxt">0%</b></div><div class="bar-track"><div class="bar-fill" id="barEndettement" style="width:0%"></div></div></div>
+      <div class="bar-row"><div class="bar-top"><span>Ratio de flexibilité <em class="mini">(N3+N4)</em></span><b id="ratioFlexTxt">0%</b></div><div class="bar-track"><div class="bar-fill" id="barFlex" style="width:0%"></div></div></div>
+      <div class="divider"></div>
+      <div class="row-flex"><span class="mini">Jours d'autonomie</span><b id="joursAuto" style="font-size:14px;color:var(--green)">0 j</b></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:12px">
+    <h3>Analyses & Recommandations <span class="count" id="insightCount">0</span></h3>
+    <div id="insightsBox"></div>
+  </div>
+  <div class="card">
+    <h3>Alertes système</h3>
+    <div id="alertsBox"></div>
+  </div>
+</section>
+
+<!-- ========== REVENUS ========== -->
+<section class="panel" id="panel-revenus" data-title="Cartographie des revenus">
+  <div class="grid g3" style="margin-bottom:12px">
+    <div class="kpi k-green"><div class="kpi-label">Revenus principaux</div><div class="kpi-val" id="revPrincipaux">0 €</div><div class="kpi-sub">Salaire + primes + indemnités</div></div>
+    <div class="kpi k-cyan"><div class="kpi-label">Revenus secondaires</div><div class="kpi-val" id="revSecondaires">0 €</div><div class="kpi-sub">Freelance + loyers + etc.</div></div>
+    <div class="kpi k-purple"><div class="kpi-label">Revenu total</div><div class="kpi-val" id="revTotal">0 €</div><div class="kpi-sub" id="revTotalSub">—</div></div>
+  </div>
+
+  <div class="grid g2" style="margin-bottom:12px">
+    <div class="card">
+      <h3>Revenus principaux</h3>
+      <div id="revPrincipauxSliders"></div>
+    </div>
+    <div class="card">
+      <h3>Revenus secondaires</h3>
+      <div id="revSecondairesSliders"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Outils de tracking</h3>
+    <ul class="dotted">
+      <li><b>Exportez vos relevés bancaires en CSV</b> — pour analyse granulaire</li>
+      <li><b>Catégories à utiliser</b> : Fixe/Variable, Garanti/Aléatoire</li>
+      <li><b>Calculez votre revenu mensuel moyen sur 12 mois</b> — lissez les irrégularités</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ========== BUDGET ========== -->
+<section class="panel" id="panel-budget" data-title="Budget">
+  <div class="grid g2" style="margin-bottom:12px">
+    <div class="card">
+      <h3>Dépenses détaillées — N1 → N4</h3>
+      <p class="mini" style="margin-bottom:12px">Clique sur chaque catégorie pour décomposer.</p>
+      <div id="detailedExpenses"></div>
+      <div class="divider"></div>
+      <div class="row-flex"><span style="font-size:12.5px;font-weight:700">Total dépenses</span><span class="big-num red" id="budgetExpTotal" style="font-size:19px">0 €</span></div>
+    </div>
+    <div class="card">
+      <h3>Enveloppe Futur</h3>
+      <div id="futurSliders"></div>
+      <div class="divider"></div>
+      <div class="row-flex"><span style="font-size:12.5px;font-weight:700">Total Futur</span><span class="big-num green" id="budgetFuturTotal" style="font-size:19px">0 €</span></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:12px">
+    <h3>Les 4 enveloppes — contrôle des cibles</h3>
+    <div id="envelopeCards" class="grid g2" style="gap:11px"></div>
+    <div class="divider"></div>
+    <div class="row-flex"><span class="mini">Somme allouée</span><b id="allocSummary" style="font-size:12.5px">0 € / 0 €</b></div>
+    <div class="bar-track" style="margin-top:7px;height:11px"><div class="bar-fill" id="allocBar" style="background:linear-gradient(90deg,var(--blue),var(--purple));width:0%"></div></div>
+    <p class="mini" style="margin-top:10px"><b>Zero-Based Budgeting :</b> Revenus − (Dépenses + Épargne + Investissements) = 0. Chaque euro a une affectation préalable.</p>
+  </div>
+
+  <div class="grid g2" style="margin-bottom:12px">
+    <div class="card">
+      <h3>Architecture des comptes multiples</h3>
+      <p class="mini" style="margin-bottom:12px">Chaque compte a un rôle dédié — ségrégation mentale et opérationnelle.</p>
+      <div id="comptesList"></div>
+    </div>
+    <div class="card">
+      <h3>Gestion des revenus variables</h3>
+      <p class="mini" style="margin-bottom:12px">Pour les revenus non garantis (freelance, bonus, commissions).</p>
+      <div class="slider-row">
+        <div class="sr-head"><span class="sr-label">Revenu minimum garanti</span>
+          <div class="sr-input-group"><input type="number" class="num-input" data-bind="incomeMinGuaranteed" value="0" min="0" max="5000" step="10"><span class="unit curr-unit">€</span></div>
+        </div>
+        <input type="range" min="0" max="5000" step="10" value="0" data-bind="incomeMinGuaranteed">
+      </div>
+      <div class="slider-row">
+        <div class="sr-head"><span class="sr-label">Bonus/commissions → investissement</span>
+          <div class="sr-input-group"><input type="number" class="num-input" data-bind="bonusInvestPct" value="50" min="0" max="100" step="5"><span class="unit">%</span></div>
+        </div>
+        <input type="range" min="0" max="100" step="5" value="50" data-bind="bonusInvestPct">
+      </div>
+      <div class="divider"></div>
+      <ul class="dotted">
+        <li>Établir un revenu mensuel minimum garanti (base de budget)</li>
+        <li>Bonus/commissions : 50 % en investissement par défaut</li>
+        <li>Lissage annuel pour dépenses irrégulières</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Suivi granulaire mensuel</h3>
+    <p class="mini" style="margin-bottom:11px">Suivi date par date, avec écart budget/réel et commentaire. Ajoute une ligne pour chaque transaction importante.</p>
+    <div style="overflow-x:auto">
+      <table class="table" id="monthlyTable">
+        <thead><tr>
+          <th>Date</th><th>Catégorie</th><th>Sous-cat.</th><th>Budget</th><th>Réel</th><th>Écart</th><th>Commentaire</th><th></th>
+        </tr></thead>
+        <tbody id="monthlyTableBody"></tbody>
+      </table>
+    </div>
+    <div class="row-flex" style="margin-top:11px;flex-wrap:wrap;gap:8px">
+      <button class="btn btn-sm" id="addMonthlyRowBtn">+ Ajouter une ligne</button>
+      <button class="btn btn-sm" id="importBankCsvBtn" style="background:rgba(167,139,250,.14);border-color:rgba(167,139,250,.3);color:#c4b5fd">Importer Relevé CSV</button>
+      <input type="file" id="bankCsvFileInput" accept=".csv,text/csv,text/plain" style="display:none">
+      <div style="display:flex;gap:7px;margin-left:auto">
+        <button class="btn btn-sm" id="syncTableToSheetsBtn" style="background:rgba(52,211,153,.14);border-color:rgba(52,211,153,.3);color:#6ee7b7">⬆ Sauvegarder sur Sheets</button>
+        <button class="btn btn-sm" id="syncTableFromSheetsBtn" style="background:rgba(56,189,248,.14);border-color:rgba(56,189,248,.3);color:#7dd3fc">⬇ Recharger depuis Sheets</button>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="grid g3" style="gap:9px">
+      <div style="background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:9px;padding:9px 11px">
+        <div class="mini">Taux de respect budget</div>
+        <b id="respectBudget" style="font-size:14px">—</b>
+      </div>
+      <div style="background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:9px;padding:9px 11px">
+        <div class="mini">Écart moyen</div>
+        <b id="ecartMoyen" style="font-size:14px">—</b>
+      </div>
+      <div style="background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:9px;padding:9px 11px">
+        <div class="mini">Alertes 80 %</div>
+        <b id="alertes80" style="font-size:14px">0</b>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== PATRIMOINE ========== -->
+<section class="panel" id="panel-patrimoine" data-title="Patrimoine">
+  <div class="grid g4" style="margin-bottom:12px">
+    <div class="kpi k-cyan"><div class="kpi-label">Patrimoine brut</div><div class="kpi-val" id="patBrut">0 €</div><div class="kpi-sub">Somme des actifs</div></div>
+    <div class="kpi k-red"><div class="kpi-label">Passifs</div><div class="kpi-val" id="patPassifs">0 €</div><div class="kpi-sub">Dettes</div></div>
+    <div class="kpi k-green"><div class="kpi-label">Patrimoine net</div><div class="kpi-val" id="patNet">0 €</div><div class="kpi-sub" id="patNetSub">—</div></div>
+    <div class="kpi k-purple"><div class="kpi-label">Ratio A/P</div><div class="kpi-val" id="patRatio">—</div><div class="kpi-sub">Couverture</div></div>
+  </div>
+  <div class="grid g2" style="margin-bottom:12px">
+    <div class="card">
+      <h3>Distribution du patrimoine</h3>
+      <div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap">
+        <div id="patDonut" style="flex-shrink:0"></div>
+        <div class="legend" id="patLegend" style="flex:1;min-width:140px"></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Projection sur 30 ans</h3>
+      <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
+        <button class="btn-mini scenario-btn active" data-scenario="5">Prudent · 5 %</button>
+        <button class="btn-mini scenario-btn" data-scenario="7">Équilibré · 7 %</button>
+        <button class="btn-mini scenario-btn" data-scenario="10">Dynamique · 10 %</button>
+      </div>
+      <div id="projectionChart"></div>
+      <div class="grid g3" style="gap:8px;margin-top:10px">
+        <div style="background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:8px;padding:8px 10px"><div class="mini">Aujourd'hui</div><b id="projNow" style="font-size:13px">—</b></div>
+        <div style="background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:8px;padding:8px 10px"><div class="mini">Dans 10 ans</div><b id="proj10" style="font-size:13px;color:var(--cyan)">—</b></div>
+        <div style="background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:8px;padding:8px 10px"><div class="mini">Dans 30 ans</div><b id="proj30" style="font-size:13px;color:var(--green)">—</b></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Détail des actifs et passifs</h3>
+    <div id="patTree"></div>
+  </div>
+</section>
+
+<!-- ========== GOALS ========== -->
+<section class="panel" id="panel-goals" data-title="Objectifs">
+  <div class="grid g2" style="margin-bottom:12px">
+    <div class="card">
+      <h3>Objectifs actifs <span class="count" id="goalsCount">0</span></h3>
+      <div id="goalsList"></div>
+      <div class="goal-add">
+        <input type="text" id="newGoalName" placeholder="Nom de l'objectif">
+        <input type="number" id="newGoalTarget" placeholder="Cible €" min="0" step="100">
+        <button id="addGoalBtn">+ Ajouter</button>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Calculateur d'Indépendance Financière (FIRE)</h3>
+      <div class="grid g2" style="gap:9px;margin-bottom:11px">
+        <div class="kpi k-green" style="padding:11px 13px"><div class="kpi-label">Dépenses annuelles</div><div class="kpi-val" id="fireAnnual" style="font-size:16px">—</div></div>
+        <div class="kpi k-purple" style="padding:11px 13px"><div class="kpi-label">Capital FIRE (×25)</div><div class="kpi-val" id="fireNumber" style="font-size:16px">—</div></div>
+      </div>
+      <div class="bar-row"><div class="bar-top"><span>Progression</span><b id="fireProgressTxt">0 %</b></div><div class="bar-track"><div class="bar-fill" id="fireProgressBar" style="width:0%"></div></div></div>
+      <div class="grid g2" style="gap:9px;margin-top:11px">
+        <div style="background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:9px;padding:10px 12px"><div class="mini">Patrimoine net</div><b id="fireCurrentNet" style="font-size:14px">—</b></div>
+        <div style="background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:9px;padding:10px 12px"><div class="mini">Temps estimé</div><b id="fireYears" style="font-size:14px;color:var(--amber)">—</b></div>
+      </div>
+      <p class="mini" style="margin-top:10px">Règle des 4 % : capital = dépenses annuelles × 25. Rendement 7 %/an.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:12px">
+    <h3>La pyramide des besoins</h3>
+    <div class="pyr">
+      <details class="pyr-item pyr-l3">
+        <summary><span>Niveau 3 — Liberté financière</span><span class="pyr-tag">5–15 ans · 2032-2047</span></summary>
+        <div class="pyr-body"><ul>
+          <li>Épargne retraite complémentaire (10–15 % des revenus)</li>
+          <li>Investissement locatif ou SCPI</li>
+          <li>Transmission patrimoniale (assurance-vie, donation)</li>
+          <li>Création business parallèle</li>
+          <li>Prévoyance dépendance/long terme</li>
+        </ul></div>
+      </details>
+      <details class="pyr-item pyr-l2">
+        <summary><span>Niveau 2 — Stabilité financière</span><span class="pyr-tag">1–5 ans · 2027-2032</span></summary>
+        <div class="pyr-body"><ul>
+          <li>Apport immobilier (10–20 % du prix)</li>
+          <li>Fonds d'urgence complet (3–6 mois de dépenses)</li>
+          <li>Formation certifiante pour évolution pro</li>
+          <li>Création business parallèle</li>
+          <li>Élimination dettes &gt; 7 %</li>
+          <li>Début diversification patrimoniale</li>
+        </ul></div>
+      </details>
+      <details class="pyr-item pyr-l1" open>
+        <summary><span>Niveau 1 — Sécurité financière</span><span class="pyr-tag">0–12 mois · 2026-2027</span></summary>
+        <div class="pyr-body"><ul>
+          <li>Fonds de précaution immédiat : 1 000 € disponibles 24 h/24</li>
+          <li>Couverture des déficits récurrents</li>
+          <li>Régularisation des impôts/charges en retard</li>
+          <li>Assurances de base : responsabilité civile, habitation</li>
+        </ul></div>
+      </details>
+    </div>
+  </div>
+
+  <div class="grid g2">
+    <div class="card">
+      <h3>Matrice de priorisation</h3>
+      <div style="margin-bottom:11px">
+        <div class="chip" style="background:rgba(248,113,113,.14);border-color:rgba(248,113,113,.3);color:#fca5a5"><span class="dot" style="width:6px;height:6px;background:var(--red);border-radius:50%;display:inline-block;margin-right:6px"></span>Haute priorité</div>
+        <ul class="clean" style="margin-top:5px">
+          <li><span>Dettes toxiques (&gt; 7 %)</span><b class="red">critique</b></li>
+          <li><span>Dépenses obligatoires (loyer, abonnements)</span><b class="amber">essentiel</b></li>
+        </ul>
+      </div>
+      <div style="margin-bottom:11px">
+        <div class="chip" style="background:rgba(251,191,36,.14);border-color:rgba(251,191,36,.3);color:#fcd34d"><span class="dot" style="width:6px;height:6px;background:var(--amber);border-radius:50%;display:inline-block;margin-right:6px"></span>Priorité moyenne</div>
+        <ul class="clean" style="margin-top:5px">
+          <li><span>Épargne projet</span><b class="amber">planifié</b></li>
+          <li><span>Investissement formation</span><b class="amber">planifié</b></li>
+        </ul>
+      </div>
+      <div>
+        <div class="chip" style="background:rgba(56,189,248,.14);border-color:rgba(56,189,248,.3);color:#7dd3fc"><span class="dot" style="width:6px;height:6px;background:var(--blue);border-radius:50%;display:inline-block;margin-right:6px"></span>Basse priorité</div>
+        <ul class="clean" style="margin-top:5px">
+          <li><span>Amélioration confort</span><b class="muted">différable</b></li>
+          <li><span>Loisirs coûteux</span><b class="muted">différable</b></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Technique SMART — exemple</h3>
+      <ul class="clean">
+        <li><span>Spécifique</span><b class="blue">« Économiser 5 000 € »</b></li>
+        <li><span>Mesurable</span><b class="blue">« Sur compte séparé numéroté »</b></li>
+        <li><span>Atteignable</span><b class="blue">« 416,67 €/mois × 10 mois »</b></li>
+        <li><span>Réaliste</span><b class="blue">« Réduire sorties de 30 % »</b></li>
+        <li><span>Temporel</span><b class="blue">« 31 décembre 2026 »</b></li>
+      </ul>
+      <div class="divider"></div>
+      <p class="mini"><b style="color:var(--txt)">Niveau 3 — Calcul d'indépendance financière :</b> Dépenses annuelles × 25 = Capital nécessaire (règle des 4 %). Exemple : 30 000 €/an × 25 = 750 000 €.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== SECURITE ========== -->
+<section class="panel" id="panel-security" data-title="Sécurité financière">
+  <div class="card" style="margin-bottom:12px">
+    <h3>Fonds d'urgence stratifié</h3>
+    <div class="slider-row">
+      <div class="sr-head"><span class="sr-label">Épargne de précaution actuelle</span>
+        <div class="sr-input-group"><input type="number" class="num-input" data-bind="emergencySaved" value="0" min="0" max="20000" step="50"><span class="unit curr-unit">€</span></div>
+      </div>
+      <input type="range" min="0" max="20000" step="50" value="0" data-bind="emergencySaved">
+    </div>
+    <div class="grid g3" id="emergencyCards" style="gap:11px"></div>
+    <p class="mini" style="margin-top:12px"><b>Formule :</b> [Dépenses fixes × 3] + [Dépenses variables essentielles × 3] + [Marge imprévu 15 %] = <b id="emFormula" style="color:var(--green)">—</b></p>
+  </div>
+
+  <div class="card" style="margin-bottom:12px">
+    <h3>Audit assurance annuel</h3>
+    <div class="grid g2" style="gap:10px">
+      <div class="ins-block">
+        <div class="ins-title"><span style="color:var(--pink)">Santé</span></div>
+        <div class="ins-body">
+          <ul class="dotted">
+            <li>Couverture hospitalisation 100 %</li>
+            <li>Forfait optique/dentaire adapté</li>
+            <li>Médecine douce si utilisée</li>
+            <li>Comparatif tous les 2 ans</li>
+          </ul>
+        </div>
+      </div>
+      <div class="ins-block">
+        <div class="ins-title"><span style="color:var(--blue)">Habitation</span></div>
+        <div class="ins-body">
+          <ul class="dotted">
+            <li>Valeur reconstruction à jour</li>
+            <li>Plafonds vol/casse suffisants</li>
+            <li>Responsabilité civile étendue</li>
+            <li>Assistance adaptée à la situation</li>
+          </ul>
+        </div>
+      </div>
+      <div class="ins-block">
+        <div class="ins-title"><span style="color:var(--green)">Protection des revenus</span></div>
+        <div class="ins-body">
+          <ul class="dotted">
+            <li>Invalidité / perte autonomie</li>
+            <li>Prévoyance décès (capital suffisant)</li>
+            <li>Garantie accidents vie</li>
+            <li>Assurance chômage si indépendant</li>
+          </ul>
+        </div>
+      </div>
+      <div class="ins-block">
+        <div class="ins-title"><span style="color:var(--amber)">Optimisation</span></div>
+        <div class="ins-body">
+          <ul class="dotted">
+            <li>Regroupement si avantageux</li>
+            <li>Franchises ajustées au risque réel</li>
+            <li>Loyauté récompensée &gt; 5 ans</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid g2">
+    <div class="card">
+      <div class="row-flex" style="margin-bottom:8px">
+        <h3 style="margin:0">Contacts d'urgence</h3>
+        <button class="btn btn-mini" id="addContactBtn">+ Ajouter</button>
+      </div>
+      <div id="contactsContainer"></div>
+    </div>
+    <div class="card">
+      <h3>Documents digitalisés</h3>
+      <ul class="dotted">
+        <li>Passeport, visa, carte d'identité</li>
+        <li>Attestation d'inscription, diplômes</li>
+        <li>Contrat de bail</li>
+        <li>RIB, contrats d'assurance</li>
+        <li>Attestations mutuelle / santé</li>
+      </ul>
+      <div class="divider"></div>
+      <p class="mini"><b style="color:var(--txt)">Règle :</b> si tout brûle, tu redémarres quand même. Scan + sauvegarde chiffrée (cloud + copie hors ligne).</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== AUTOMATISATION ========== -->
+<section class="panel" id="panel-auto" data-title="Automatisation">
+  <div class="card" style="margin-bottom:12px">
+    <h3>Architecture des virements — J+1 réception salaire</h3>
+    <div class="split" id="splitBar"></div>
+    <div id="splitDetails"></div>
+  </div>
+  <div class="grid g2">
+    <div class="card">
+      <h3>Système d'alertes & contrôles</h3>
+      <ul class="clean">
+        <li><span>Solde &lt; 500 €</span><b class="red">SMS immédiat</b></li>
+        <li><span>Dépense &gt; 300 €</span><b class="amber">Notification</b></li>
+        <li><span>Frais bancaires</span><b class="amber">Alerte systématique</b></li>
+        <li><span>Découvert</span><b class="red">Double alerte (SMS + email)</b></li>
+        <li><span>Virement sortant &gt; seuil</span><b class="blue">Confirmation manuelle</b></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Automatisations complémentaires</h3>
+      <ul class="clean">
+        <li><span>Prélèvements impôts/taxes</span><b class="green">échéancier mensuel</b></li>
+        <li><span>Capitalisation intérêts/plus-values</span><b class="green">automatique</b></li>
+        <li><span>Réinvestissement des dividendes</span><b class="green">automatique</b></li>
+        <li><span>Alimentation fonds urgence</span><b class="green">progressive</b></li>
+      </ul>
+      <p class="mini" style="margin-top:11px">L'automatisation supprime la décision : ce qui n'est pas décidé chaque mois est décidé une fois pour toutes.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== INVESTISSEMENT ========== -->
+<section class="panel" id="panel-invest" data-title="Investissement">
+  <div class="card" style="margin-bottom:12px">
+    <h3>Hiérarchie des priorités financières</h3>
+    <div class="pyr">
+      <details class="pyr-item" open>
+        <summary><span>1️⃣ Éliminer les dettes toxiques</span><span class="pyr-tag" style="background:rgba(248,113,113,.16);color:#fca5a5">priorité</span></summary>
+        <div class="pyr-body"><ul>
+          <li>Dettes &gt; 7 % → remboursement anticipé prioritaire</li>
+          <li>Crédits revolving → clôture après remboursement</li>
+        </ul></div>
+      </details>
+      <details class="pyr-item">
+        <summary><span>2️⃣ Maximiser les supports fiscalisés</span><span class="pyr-tag" style="background:rgba(251,191,36,.16);color:#fcd34d">court terme</span></summary>
+        <div class="pyr-body"><ul>
+          <li>LEP si éligible (6 % net, plafond 10 000 €)</li>
+          <li>Livret A (3 %, plafond 22 950 €)</li>
+          <li>LDDS (3 %, plafond 12 000 €)</li>
+        </ul></div>
+      </details>
+      <details class="pyr-item">
+        <summary><span>3️⃣ Accumulation long terme — PEA</span><span class="pyr-tag" style="background:rgba(52,211,153,.16);color:#6ee7b7">cœur</span></summary>
+        <div class="pyr-body"><ul>
+          <li>PEA (150 000 € plafond, 5 ans minimum)</li>
+          <li>ETF Monde (CW8, EWLD) : 70–80 %</li>
+          <li>ETF émergents : 10–15 %</li>
+          <li>ETF Europe : 10–15 %</li>
+        </ul></div>
+      </details>
+      <details class="pyr-item">
+        <summary><span>4️⃣ Diversification</span><span class="pyr-tag" style="background:rgba(56,189,248,.16);color:#7dd3fc">moyen</span></summary>
+        <div class="pyr-body"><ul>
+          <li>Assurance-vie (fonds euros + UC)</li>
+          <li>PER (avantage fiscal selon TMI)</li>
+          <li>Immobilier locatif ou SCPI</li>
+        </ul></div>
+      </details>
+      <details class="pyr-item">
+        <summary><span>5️⃣ Optimisation fiscale</span><span class="pyr-tag" style="background:rgba(167,139,250,.16);color:#c4b5fd">avancé</span></summary>
+        <div class="pyr-body"><ul>
+          <li>Défiscalisation (Pinel, Malraux selon situation)</li>
+          <li>Donations familiales anticipées</li>
+          <li>Holding familiale si patrimoine important</li>
+        </ul></div>
+      </details>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:12px">
+    <h3>Simulateur DCA — Monte Carlo</h3>
+    <p class="mini" style="margin-bottom:11px">300 scénarios avec volatilité annuelle de 15 %. Bandes P10 / P50 / P90.</p>
+    <div class="grid g3" style="gap:13px;margin-bottom:13px">
+      <div class="slider-row" style="margin:0">
+        <div class="sr-head"><span class="sr-label">Montant / mois</span>
+          <div class="sr-input-group"><input type="number" class="num-input" data-bind="dca.monthly" value="125" min="0" max="2000" step="5"><span class="unit curr-unit">€</span></div>
+        </div>
+        <input type="range" min="0" max="2000" step="5" value="125" data-bind="dca.monthly">
+      </div>
+      <div class="slider-row" style="margin:0">
+        <div class="sr-head"><span class="sr-label">Rendement annuel</span>
+          <div class="sr-input-group"><input type="number" class="num-input" data-bind="dca.rate" value="7" min="0" max="12" step="0.5"><span class="unit">%</span></div>
+        </div>
+        <input type="range" min="0" max="12" step="0.5" value="7" data-bind="dca.rate">
+      </div>
+      <div class="slider-row" style="margin:0">
+        <div class="sr-head"><span class="sr-label">Durée</span>
+          <div class="sr-input-group"><input type="number" class="num-input" data-bind="dca.years" value="20" min="1" max="40" step="1"><span class="unit">ans</span></div>
+        </div>
+        <input type="range" min="1" max="40" step="1" value="20" data-bind="dca.years">
+      </div>
+    </div>
+    <div id="monteCarloChart"></div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;font-size:10.5px;color:var(--muted);margin-top:8px">
+      <span style="display:flex;align-items:center;gap:5px"><span class="dot" style="background:#a78bfa"></span>Investi</span>
+      <span style="display:flex;align-items:center;gap:5px"><span class="dot" style="background:#f87171"></span>P10 (pessimiste)</span>
+      <span style="display:flex;align-items:center;gap:5px"><span class="dot" style="background:#34d399"></span>P50 (médian)</span>
+      <span style="display:flex;align-items:center;gap:5px"><span class="dot" style="background:#22d3ee"></span>P90 (optimiste)</span>
+    </div>
+    <div class="grid g4" style="margin-top:12px;gap:9px">
+      <div class="kpi k-purple" style="padding:10px 12px"><div class="kpi-label">Total investi</div><div class="kpi-val" id="dcaInvested" style="font-size:15px">0 €</div></div>
+      <div class="kpi k-red" style="padding:10px 12px"><div class="kpi-label">P10</div><div class="kpi-val" id="dcaP10" style="font-size:15px">0 €</div></div>
+      <div class="kpi k-green" style="padding:10px 12px"><div class="kpi-label">P50</div><div class="kpi-val" id="dcaP50" style="font-size:15px">0 €</div></div>
+      <div class="kpi k-cyan" style="padding:10px 12px"><div class="kpi-label">P90</div><div class="kpi-val" id="dcaP90" style="font-size:15px">0 €</div></div>
+    </div>
+  </div>
+
+  <div class="grid g2">
+    <div class="card">
+      <h3>Allocation selon l'âge</h3>
+      <div class="slider-row">
+        <div class="sr-head"><span class="sr-label">Âge</span>
+          <div class="sr-input-group"><input type="number" class="num-input" data-bind="age" value="30" min="18" max="70" step="1"><span class="unit">ans</span></div>
+        </div>
+        <input type="range" min="18" max="70" step="1" value="30" data-bind="age">
+      </div>
+      <div class="split" id="allocSplitBar" style="height:42px">
+        <div class="split-seg" id="segActions" style="background:var(--green)">Actions</div>
+        <div class="split-seg" id="segOblig" style="background:var(--blue)">Obligations</div>
+      </div>
+      <div class="row-flex"><span class="mini">Règle : % actions = 100 − âge</span><b id="allocTxt" style="font-size:12px">70 % / 30 %</b></div>
+      <div class="divider"></div>
+      <p class="mini"><b style="color:var(--txt)">Rebalancing trimestriel :</b> comparer allocation réelle vs cible, ajuster par nouvel investissement, vendre seulement si écart &gt; 10 %.</p>
+    </div>
+    <div class="card">
+      <h3>Répartition cible PEA</h3>
+      <div style="margin-bottom:11px">
+        <div class="chip">ETF Monde 70–80 %</div>
+        <div class="chip">ETF Émergents 10–15 %</div>
+        <div class="chip">ETF Europe 10–15 %</div>
+      </div>
+      <div class="divider"></div>
+      <p class="mini"><b style="color:var(--txt)">Méthode DCA :</b> investissement fixe mensuel, dates fixes (ex. le 5 du mois), indépendant des conditions de marché — réduit le risque de timing.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== SUIVI ========== -->
+<section class="panel" id="panel-suivi" data-title="Suivi et réajustement">
+  <div class="grid g2" style="margin-bottom:12px">
+    <div class="card">
+      <h3>Contrôle mensuel structuré</h3>
+      <div class="check-week">
+        <h4>Check-list du 1er du mois</h4>
+        <div id="suiviMensuelChecks"></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Rapport mensuel synthétique</h3>
+      <ul class="dotted">
+        <li>État des comptes (solde, variation)</li>
+        <li>Taux d'épargne effectif</li>
+        <li>Progression vers objectifs</li>
+        <li>Incidents / ajustements</li>
+        <li>Actions du mois suivant</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:12px">
+    <h3>Revue trimestrielle approfondie</h3>
+    <div class="grid g4" style="gap:10px">
+      <div style="background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:10px;padding:11px 13px">
+        <div class="stack-title" style="color:var(--green);font-size:12px">Performance investissements</div>
+        <ul class="dotted">
+          <li>Rendement vs référence</li>
+          <li>Frais payés (TER, gestion)</li>
+          <li>Allocation vs cible</li>
+        </ul>
+      </div>
+      <div style="background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:10px;padding:11px 13px">
+        <div class="stack-title" style="color:var(--blue);font-size:12px">Actualisation budgétaire</div>
+        <ul class="dotted">
+          <li>Inflation sur postes clés</li>
+          <li>Changements habitudes</li>
+          <li>Nouvelles dépenses/économies</li>
+        </ul>
+      </div>
+      <div style="background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:10px;padding:11px 13px">
+        <div class="stack-title" style="color:var(--amber);font-size:12px">Revue assurances</div>
+        <ul class="dotted">
+          <li>Échéances annuelles</li>
+          <li>Comparatifs concurrents</li>
+          <li>Négociations possibles</li>
+        </ul>
+      </div>
+      <div style="background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:10px;padding:11px 13px">
+        <div class="stack-title" style="color:var(--purple);font-size:12px">Progression objectifs</div>
+        <ul class="dotted">
+          <li>Avancement % par objectif</li>
+          <li>Ajustement échéancier</li>
+          <li>Réallocation si nécessaire</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Bilan annuel stratégique — Décembre / Janvier</h3>
+    <div class="grid g2" style="gap:12px">
+      <div>
+        <div class="stack-title" style="color:var(--blue);font-size:12.5px;margin-bottom:8px">Partie 1 : Analyse de l'année écoulée</div>
+        <ul class="dotted">
+          <li>Revenus totaux (évolution %)</li>
+          <li>Dépenses par catégorie (évolution)</li>
+          <li>Patrimoine net (variation)</li>
+          <li>Objectifs atteints / échoués</li>
+          <li>Leçons apprises</li>
+        </ul>
+      </div>
+      <div>
+        <div class="stack-title" style="color:var(--green);font-size:12.5px;margin-bottom:8px">Partie 2 : Planification année suivante</div>
+        <ul class="dotted">
+          <li>Nouveaux objectifs SMART</li>
+          <li>Ajustement allocation actifs</li>
+          <li>Changements majeurs prévus</li>
+          <li>Budget prévisionnel détaillé</li>
+          <li>Plan d'action trimestriel</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- HISTORIQUE DU PATRIMOINE & BUDGÉTAIRE GOOGLE SHEETS -->
+  <div class="card" style="margin-top:14px" id="historyCardContainer">
+    <div class="row-flex" style="margin-bottom:12px;flex-wrap:wrap;gap:8px">
+      <div>
+        <h3 style="margin:0">Historique des instantanés (Google Sheets)</h3>
+        <p class="mini" style="margin-top:3px">Chaque synchronisation conserve un instantané complet de votre patrimoine net, de vos flux et de vos dettes.</p>
+      </div>
+      <div style="display:flex;gap:6px">
+        <button class="btn btn-mini" id="refreshHistoryBtn">Actualiser</button>
+        <button class="btn btn-mini" id="snapshotNowBtn" style="background:var(--blue);color:#06101f;border:none">Créer un instantané</button>
+      </div>
+    </div>
+    <div id="historyTableContainer" style="overflow-x:auto">
+      <div style="padding:24px;text-align:center;color:var(--muted);font-size:12px">
+        Cliquez sur <b>Actualiser</b> ou configurez Google Sheets pour afficher votre historique complet.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== BONNES PRATIQUES ========== -->
+<section class="panel" id="panel-practices" data-title="Bonnes pratiques avancées">
+  <div class="grid g2" style="margin-bottom:12px">
+    <div class="card">
+      <h3>Psychologie financière</h3>
+      <div style="margin-bottom:11px">
+        <div class="stack-title" style="color:var(--red);font-size:12px">Biais à combattre</div>
+        <ul class="dotted">
+          <li><b>Dépense émotionnelle</b> → retard de 24 h obligatoire</li>
+          <li><b>Effet de cliquet</b> → hausse de niveau de vie irréversible</li>
+          <li><b>Dissonance cognitive</b> → justification d'achats</li>
+        </ul>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div class="stack-title" style="color:var(--green);font-size:12px">Habitudes quotidiennes</div>
+        <ul class="dotted">
+          <li>Revue dépenses 5 min/jour</li>
+          <li>« Prix par utilisation » pour gros achats</li>
+          <li>Règle des 30 jours pour +500 €</li>
+          <li>Automatisation des décisions</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Crédit scoring personnel</h3>
+      <p class="mini" style="margin-bottom:11px"><b style="color:var(--txt)">Objectif :</b> être toujours finançable, même sans projet immédiat.</p>
+      <div class="stack-title" style="color:var(--blue);font-size:12px">Surveillance gratuite (3 agences)</div>
+      <ul class="dotted">
+        <li>Activer l'accès gratuit aux rapports de crédit</li>
+        <li>Vérification trimestrielle</li>
+        <li>Surveiller : crédits inconnus, retards enregistrés, erreurs d'identité</li>
+      </ul>
+      <div class="divider"></div>
+      <div class="stack-title" style="color:var(--red);font-size:12px">Détection d'anomalies</div>
+      <ul class="dotted">
+        <li>Contestation écrite + justificatifs</li>
+        <li>Suivi jusqu'à correction</li>
+        <li><b style="color:var(--txt)">Pourquoi c'est vital :</b> une erreur peut bloquer un crédit pendant des années.</li>
+      </ul>
+      <div class="divider"></div>
+      <div class="stack-title" style="color:var(--green);font-size:12px">Règles d'or</div>
+      <ul class="dotted">
+        <li>Jamais plus de 30 % d'utilisation du crédit disponible</li>
+        <li>Aucun retard, même d'1 jour</li>
+        <li>Ancienneté des comptes conservée</li>
+        <li>Pas de demandes multiples rapprochées</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:12px">
+    <h3>Négociation annuelle</h3>
+    <p class="mini" style="margin-bottom:12px"><b style="color:var(--txt)">Objectif :</b> payer moins sans changer de niveau de service. Aucun fournisseur ne récompense la fidélité — ils récompensent la menace de départ.</p>
+
+    <div class="grid g2" style="gap:10px">
+      <div class="neg-block">
+        <div class="neg-title"><span style="color:var(--blue)">Forfaits mobile / internet</span></div>
+        <div class="neg-body">
+          <ul class="dotted">
+            <li>Note la date d'anniversaire du contrat</li>
+            <li>Compare 3 offres équivalentes (débit, data, options)</li>
+            <li>Appelle le service client</li>
+          </ul>
+          <div class="neg-phrase">« J'ai une offre équivalente moins chère ailleurs. Que pouvez-vous faire pour me retenir ? »</div>
+          <p class="mini" style="margin-top:6px">→ Résultat attendu : −20 à −40 % ou options gratuites.</p>
+        </div>
+      </div>
+
+      <div class="neg-block">
+        <div class="neg-title"><span style="color:var(--green)">Assurances habitation / auto</span></div>
+        <div class="neg-body">
+          <ul class="dotted">
+            <li>Devis comparatif chaque année (mêmes garanties)</li>
+            <li>Négociation : franchise, options inutiles, mensualisation</li>
+            <li>Loi Hamon : résiliation à tout moment après 1 an</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="neg-block">
+        <div class="neg-title"><span style="color:var(--amber)">Frais bancaires</span></div>
+        <div class="neg-body">
+          <ul class="dotted">
+            <li>Demande suppression / réduction : tenue de compte, CB, incidents</li>
+            <li>Si refus → compte secondaire en banque en ligne comme levier</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="neg-block">
+        <div class="neg-title"><span style="color:var(--purple)">Abonnements divers</span></div>
+        <div class="neg-body">
+          <ul class="dotted">
+            <li>Audit trimestriel : streaming, apps, logiciels, clubs</li>
+            <li><b style="color:var(--txt)">Question clé :</b> « Est-ce que je l'utiliserais encore si je devais repayer aujourd'hui ? »</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:12px">
+    <h3>Plan de contingence</h3>
+    <p class="mini" style="margin-bottom:12px"><b style="color:var(--txt)">Objectif :</b> ne jamais improviser dans une crise. Temps gagné en crise = stress évité.</p>
+
+    <div style="margin-bottom:11px;padding:11px 13px;background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.2);border-radius:10px">
+      <div style="font-size:12px;font-weight:800;color:#6ee7b7;margin-bottom:6px">Minimum vital à organiser avant toute crise</div>
+      <ul class="dotted" style="color:#a7f3d0">
+        <li>Épargne de précaution : 3 mois de frais fixes (loyer, assurance, nourriture)</li>
+        <li>Documents scannés : passeport, visa, attestation d'inscription, contrat de bail, RIB, assurance</li>
+        <li>Assurances obligatoires : responsabilité civile, santé (complémentaire si possible)</li>
+        <li>Contacts d'urgence : ambassade/consulat, service des étudiants étrangers, famille</li>
+        <li>Réseau de soutien : autres étudiants, associations, professeur référent</li>
+      </ul>
+    </div>
+
+    <div class="grid g2" style="gap:9px">
+      <details class="scenario-detail">
+        <summary><span>Perte de revenu</span><span class="pyr-tag" style="background:rgba(248,113,113,.16);color:#fca5a5">30/60/90 j</span></summary>
+        <div class="scenario-body">
+          <b style="color:var(--txt)">J30 :</b> activer le fonds d'urgence, contacter la banque (report d'échéance)<br>
+          <b style="color:var(--txt)">J60 :</b> réduire N3/N4 à zéro, activer les droits sociaux<br>
+          <b style="color:var(--txt)">J90 :</b> plan B revenus (freelance, temps partiel, réseau)
+        </div>
+      </details>
+      <details class="scenario-detail">
+        <summary><span>Problème de santé</span><span class="pyr-tag" style="background:rgba(251,191,36,.16);color:#fcd34d">30/60/90 j</span></summary>
+        <div class="scenario-body">
+          <b style="color:var(--txt)">J30 :</b> médecin + mutuelle, arrêt de travail déclaré<br>
+          <b style="color:var(--txt)">J60 :</b> prévoyance, aménagement du poste<br>
+          <b style="color:var(--txt)">J90 :</b> réévaluation budget sur 12 mois
+        </div>
+      </details>
+      <details class="scenario-detail">
+        <summary><span>Panne majeure</span><span class="pyr-tag" style="background:rgba(56,189,248,.16);color:#7dd3fc">30/60/90 j</span></summary>
+        <div class="scenario-body">
+          <b style="color:var(--txt)">J30 :</b> devis + assurance habitation<br>
+          <b style="color:var(--txt)">J60 :</b> arbitrage réparation vs remplacement<br>
+          <b style="color:var(--txt)">J90 :</b> ajustement du fonds d'urgence
+        </div>
+      </details>
+      <details class="scenario-detail">
+        <summary><span>Urgence familiale</span><span class="pyr-tag" style="background:rgba(167,139,250,.16);color:#c4b5fd">30/60/90 j</span></summary>
+        <div class="scenario-body">
+          <b style="color:var(--txt)">J30 :</b> mobilisation du palier N1 (1 000–2 000 €)<br>
+          <b style="color:var(--txt)">J60 :</b> réévaluation des priorités, aide du réseau<br>
+          <b style="color:var(--txt)">J90 :</b> reconstruction du fonds d'urgence
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <div class="grid g2" style="margin-bottom:12px">
+    <div class="card">
+      <h3>Ressources & Éducation continue</h3>
+      <ul class="clean">
+        <li><span>1 livre / mois — finances personnelles</span><b class="blue">1×/mois</b></li>
+        <li><span>2 podcasts / semaine — économie</span><b class="blue">2×/sem.</b></li>
+        <li><span>1 formation technique / an</span><b class="amber">1×/an</b></li>
+        <li><span>Réseautage avec pairs financièrement responsables</span><b class="green">continu</b></li>
+      </ul>
+      <div class="divider"></div>
+      <div class="stack-title" style="color:var(--purple);font-size:12px;margin-bottom:7px">Ressources francophones</div>
+      <ul class="dotted">
+        <li><b>Livre :</b> « Votre vie en mieux » — J. Pasquier</li>
+        <li><b>Podcasts :</b> Épargnant 3.0 · Money 360</li>
+        <li><b>Blogs :</b> Avenue des investisseurs · Le Revenu</li>
+        <li><b>YouTube :</b> Heu?reka · Des livres pour changer de vie</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Outils & Technologies recommandés</h3>
+      <div class="stack-card">
+        <div class="stack-title"><span style="color:var(--green)">Niveau 1 — Essentiel</span></div>
+        <ul class="stack-list">
+          <li>Google Sheets / Excel modèles</li>
+          <li>Bankin' (version gratuite)</li>
+          <li>Calculateurs en ligne</li>
+          <li>Application banque</li>
+        </ul>
+      </div>
+      <div class="stack-card">
+        <div class="stack-title"><span style="color:var(--amber)">Niveau 2 — Avancé</span></div>
+        <ul class="stack-list">
+          <li>YNAB (You Need A Budget)</li>
+          <li>Finary (suivi patrimoine)</li>
+          <li>Boursorama Banque</li>
+          <li>Tableaux personnalisés</li>
+        </ul>
+      </div>
+      <div class="stack-card">
+        <div class="stack-title"><span style="color:var(--purple)">Niveau 3 — Expert</span></div>
+        <ul class="stack-list">
+          <li>Comptabilité double-entry (Actual)</li>
+          <li>Portfolio Performance (investissements)</li>
+          <li>Solutions maison avec API bancaires</li>
+          <li>Conseiller en gestion de patrimoine</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== CHECKLIST ========== -->
+<section class="panel" id="panel-checklist" data-title="Checklist de démarrage">
+  <div class="card">
+    <div class="row-flex" style="margin-bottom:11px">
+      <h3 style="margin:0">Checklist de démarrage — 4 semaines</h3>
+      <b id="checkProgress" style="font-size:12.5px">0 / 16</b>
+    </div>
+    <div class="bar-track" style="height:11px"><div class="bar-fill" id="checkBar" style="background:linear-gradient(90deg,var(--green),var(--blue));width:0%"></div></div>
+    <div class="divider"></div>
+    <div id="checklistWrap"></div>
+    <div class="row-flex" style="margin-top:8px;flex-wrap:wrap;gap:9px">
+      <div style="display:flex;gap:7px;flex-wrap:wrap">
+        <button class="btn btn-sm" id="exportBtn">Exporter JSON</button>
+        <button class="btn btn-sm" id="importBtn">Importer JSON</button>
+        <input type="file" id="importFileInput" accept=".json,application/json" style="display:none">
+        <button class="btn btn-sm" onclick="window.print()">Imprimer</button>
+        <button class="btn btn-sm btn-danger" id="resetBtn">Réinitialiser</button>
+      </div>
+      <span class="mini">La perfection est l'ennemi du bien. Commence petit, sois constant.</span>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<div class="modal-overlay" id="resetModal">
+  <div class="modal">
+    <h3>Réinitialiser le widget ?</h3>
+    <p>Toutes tes données seront effacées. Action irréversible.</p>
+    <div class="modal-actions">
+      <button class="btn" id="cancelReset">Annuler</button>
+      <button class="btn btn-danger" id="confirmReset">Réinitialiser</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="sheetsModal">
+  <div class="modal" style="max-width:560px">
+    <div class="row-flex" style="margin-bottom:12px">
+      <h3 style="margin:0">Connexion Google Sheets</h3>
+      <button class="btn-mini" id="closeSheetsModal" style="font-size:12px;padding:3px 8px;font-weight:700">Fermer</button>
+    </div>
+    <p style="font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:14px">
+      Synchronisez vos données de patrimoine, budget et tableau mensuel directement avec votre propre Google Sheet via Google Apps Script (sans exposer de mot de passe).
+    </p>
+
+    <div style="margin-bottom:12px">
+      <label style="font-size:11px;font-weight:700;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px">URL de l'application Web Google Apps Script :</label>
+      <input type="url" id="sheetsWebAppUrl" placeholder="https://script.google.com/macros/s/.../exec" style="width:100%;background:rgba(255,255,255,.05);border:1px solid var(--brd);color:var(--txt);padding:8px 10px;border-radius:8px;font-size:11.5px;outline:none">
+    </div>
+
+    <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+      <button class="btn btn-sm" id="saveSheetsUrlBtn" style="background:var(--blue);color:#06101f;border:none">Enregistrer l'URL</button>
+      <button class="btn btn-sm" id="pushToSheetsBtn">Envoyer vers Sheet</button>
+      <button class="btn btn-sm" id="syncLiveRatesBtn" style="background:rgba(52,211,153,.16);border-color:rgba(52,211,153,.35);color:var(--txt)">Actualiser devises en direct</button>
+      <button class="btn btn-sm" id="pullFromSheetsBtn">Récupérer du Sheet</button>
+      <button class="btn btn-sm" id="viewHistoryFromModalBtn" style="background:rgba(167,139,250,.18);border-color:rgba(167,139,250,.35);color:var(--txt)">Consulter l'historique</button>
+      <button class="btn btn-sm btn-danger" id="disconnectSheetsBtn">Déconnecter</button>
+    </div>
+
+    <details style="background:rgba(255,255,255,.02);border:1px solid var(--brd);border-radius:9px;padding:9px 12px;font-size:11px;color:var(--muted);line-height:1.6">
+      <summary style="cursor:pointer;font-weight:700;color:var(--txt)">Comment configurer votre Google Sheet en 2 minutes ?</summary>
+      <ol style="margin-left:18px;margin-top:8px">
+        <li>Créez un nouveau Google Sheet dans votre Google Drive.</li>
+        <li>Cliquez sur <b>Extensions &gt; Apps Script</b>.</li>
+        <li>Collez le code fourni dans le fichier <kbd>google-apps-script.js</kbd> généré pour vous.</li>
+        <li>Cliquez sur <b>Déployer &gt; Nouveau déploiement</b> &gt; type <b>Application Web</b>.</li>
+        <li>Réglez <i>Exécuter en tant que</i> : <b>Moi</b>, et <i>Qui a accès</i> : <b>Tous les utilisateurs (Anyone)</b>.</li>
+        <li>Copiez l'<b>URL de l'application Web</b> et collez-la ci-dessus.</li>
+      </ol>
+    </details>
+  </div>
+</div>
+
+
+<!-- MODAL HISTORIQUE GOOGLE SHEETS -->
+<div class="modal-overlay" id="historyModal">
+  <div class="modal" style="max-width:760px;width:95%">
+    <div class="row-flex" style="margin-bottom:12px">
+      <div>
+        <h3 style="margin:0">Historique des synchronisations Google Sheets</h3>
+        <p class="mini" style="margin-top:2px">Instantanés de votre patrimoine enregistrés dans l'onglet 'Historique_Patrimoine'</p>
+      </div>
+      <button class="btn-mini" id="closeHistoryModal" style="font-size:12px;padding:3px 8px;font-weight:700">Fermer</button>
+    </div>
+    
+    <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center;flex-wrap:wrap">
+      <button class="btn btn-sm" id="historyModalRefreshBtn">Actualiser l'historique</button>
+      <button class="btn btn-sm" id="historyModalSnapshotBtn" style="background:var(--blue);color:#06101f;border:none">Créer un instantané maintenant</button>
+      <span class="mini" id="historyLastUpdated" style="margin-left:auto"></span>
+    </div>
+
+    <div id="historyModalContent" style="max-height:420px;overflow-y:auto;overflow-x:auto;border:1px solid var(--brd);border-radius:10px">
+      <div style="padding:30px;text-align:center;color:var(--muted);font-size:12px">
+        Chargement de l'historique depuis Google Sheets...
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+/* ============================================================
+   ÉTAT — Édition intégrale
+============================================================ */
+const STORAGE_KEY = 'finWidget_v5';
+
+const DEFAULT_STATE = {
+  income: {
+    salaireNet: 975,
+    primes: 0,
+    indemnites: 0,
+    freelance: 0,
+    revente: 0,
+    loyers: 0,
+    revenusFinanciers: 0,
+    pensions: 0
+  },
+  incomeMinGuaranteed: 0,
+  bonusInvestPct: 50,
+
+  exp: {
+    logement_loyer: 430, logement_charges: 0, logement_taxe: 0, logement_pno: 0,
+    nourriture_courses: 70, nourriture_repas: 0, nourriture_reserves: 10,
+    transport_carburant: 1.7, transport_entretien: 0, transport_assurance: 0,
+    sante_sport: 35, sante_mutuelle: 0, sante_franchises: 0, sante_prevention: 10,
+    communication: 10,
+    habillement: 0,
+    loisirs: 0,
+    restaurants: 0,
+    vacances: 0
+  },
+
+  futur: { epargneSecurite: 83.33, investissements: 125, projets: 166.67, dons: 41.67 },
+
+  comptes: {
+    courantRevolut: 0,
+    epargneCA: 0,
+    investDABA: 0,
+    investRevolut: 0,
+    scpiEden: 0,
+    urgenceRevolut: 0,
+    urgenceLiquide: 0
+  },
+
+  debt: 0,
+  emergencySaved: 0,
+
+  goals: [
+    { id:'g1', name:"Fonds d'urgence", target:1000, saved:0, color:'#34d399' },
+    { id:'g2', name:'Objectif SMART', target:5000, saved:0, color:'#38bdf8' }
+  ],
+
+  age: 30,
+  dca: { monthly: 125, rate: 7, years: 20 },
+  projectionScenario: 5,
+
+  checks: {},
+  checksSuivi: {},
+
+  monthlyTable: [],
+
+  patrimoine: {
+    comptesCourants:0, comptesEpargne:0, livrets:0, comptesTerme:0, liquide:0,
+    bourseEurope:0, bourseAfrique:0, bourseUSA:0, bourseAsie:0,
+    assuranceVie:0, per:0, crypto:0, crowdfunding:0,
+    residencePrincipale:0, immobilierLocatif:0, scpi:0,
+    entreprise:0, droitsRetraite:0, cet:0,
+    creditsConso:0, creditsImmo:0, decouverts:0, dettesPerso:0
+  },
+
+  contacts: [
+    { id:'c1', label:'Clarisse (famille)', val:'+33 758970758', isTel:true },
+    { id:'c2', label:'Papa (famille)', val:'+228 90017392', isTel:true },
+    { id:'c3', label:'Assureur', val:'', isTel:false },
+    { id:'c4', label:'Banque', val:'', isTel:false },
+    { id:'c5', label:'Médecin', val:'', isTel:false },
+    { id:'c6', label:'Avocat / Notaire', val:'', isTel:false },
+    { id:'c7', label:'Ambassade / Consulat', val:'', isTel:false },
+    { id:'c8', label:'Université (étudiants étrangers)', val:'', isTel:false }
+  ],
+
+  sheetsUrl: 'https://script.google.com/macros/s/AKfycbwvfmtAd7nrtiZGIlX-KRGxV23YKrjR9fD2117_zUuF144wyUepwwY6_VjYA-LITUIIdg/exec',
+  currency: '€',
+  theme: 'dark'
+};
+
+function deepMerge(base, patch){
+  const out = Array.isArray(base) ? [...base] : {...base};
+  if(!patch || typeof patch !== 'object') return out;
+  for(const k of Object.keys(patch)){
+    if(patch[k] && typeof patch[k] === 'object' && !Array.isArray(patch[k]) && base[k] && typeof base[k] === 'object'){
+      out[k] = deepMerge(base[k], patch[k]);
+    } else if(patch[k] !== undefined){
+      out[k] = patch[k];
+    }
+  }
+  return out;
+}
+
+let state = (() => {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if(saved){
+      const merged = deepMerge(DEFAULT_STATE, JSON.parse(saved));
+      if(!merged.sheetsUrl) merged.sheetsUrl = DEFAULT_STATE.sheetsUrl;
+      return merged;
+    }
+  } catch(e){ console.warn(e); }
+  return JSON.parse(JSON.stringify(DEFAULT_STATE));
+})();
+
+let saveTimer;
+function saveState(){
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e){}
+  const el = document.getElementById('saveIndicator');
+  if(el){ el.classList.add('active'); clearTimeout(el._t); el._t = setTimeout(()=>el.classList.remove('active'), 1400); }
+}
+function scheduleSave(){ clearTimeout(saveTimer); saveTimer = setTimeout(saveState, 350); }
+
+/* ============================================================
+   UTILS
+============================================================ */
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const EXCHANGE_RATES = {
+  '€': 1.0,
+  'FCFA': 655.957,
+  '$': 1.08,
+  '£': 0.86,
+  'CHF': 0.95
+};
+
+function fmt(n){
+  if(n === null || n === undefined || isNaN(n)) return '0';
+  const r = Math.round(n * 100) / 100;
+  const isCFA = (state.currency === 'FCFA');
+  if(isCFA){
+    return Math.round(r).toLocaleString('fr-FR');
+  }
+  return r.toLocaleString('fr-FR', {
+    minimumFractionDigits: Number.isInteger(r) ? 0 : 2,
+    maximumFractionDigits: 2
+  });
+}
+function fmtCurr(n){
+  const curr = state.currency || '€';
+  return fmt(n) + ' ' + curr;
+}
+function announce(text){
+  const el = $('#liveAnnouncer');
+  if(el){ el.textContent = ''; setTimeout(() => { el.textContent = text; }, 50); }
+}
+function setPath(obj, path, val){
+  const p = path.split('.'); let o = obj;
+  for(let i=0;i<p.length-1;i++) o = o[p[i]];
+  o[p[p.length-1]] = val;
+}
+function getPath(obj, path){ return path.split('.').reduce((o,k)=>o[k], obj); }
+
+/* ============================================================
+   DÉFINITIONS
+============================================================ */
+const INCOME_DEFS = {
+  principaux: [
+    { id:'salaireNet', label:'Salaire net après impôt', max:5000, step:5 },
+    { id:'primes', label:'Primes variables (moy. 12–24 mois)', max:2000, step:10 },
+    { id:'indemnites', label:'Indemnités (transport, repas…)', max:1000, step:10 }
+  ],
+  secondaires: [
+    { id:'freelance', label:'Freelance / auto-entrepreneur', max:3000, step:10 },
+    { id:'revente', label:'Revente', max:1000, step:10 },
+    { id:'loyers', label:'Loyers perçus (net de charges)', max:3000, step:10 },
+    { id:'revenusFinanciers', label:'Revenus financiers (dividendes, intérêts)', max:2000, step:10 },
+    { id:'pensions', label:'Pensions, aides sociales', max:2000, step:10 }
+  ]
+};
+
+const DETAILED_EXPENSE_DEFS = [
+  { cat:'logement', label:'Logement', range:'25–35 %', strata:1, color:'#38bdf8', items:[
+    { id:'logement_loyer', label:'Loyer / Prêt', max:1500, step:5 },
+    { id:'logement_charges', label:'Charges copro', max:500, step:5 },
+    { id:'logement_taxe', label:'Taxe foncière (lissée)', max:300, step:1 },
+    { id:'logement_pno', label:'Assurance PNO', max:100, step:1 }
+  ]},
+  { cat:'nourriture', label:'Nourriture', range:'10–15 %', strata:1, color:'#34d399', items:[
+    { id:'nourriture_courses', label:'Courses maison', max:600, step:5 },
+    { id:'nourriture_repas', label:'Repas midi travail', max:300, step:5 },
+    { id:'nourriture_reserves', label:'Réserves secours', max:100, step:1 }
+  ]},
+  { cat:'sante', label:'Santé', range:'5–8 %', strata:1, color:'#f472b6', items:[
+    { id:'sante_sport', label:'Sport', max:200, step:1 },
+    { id:'sante_mutuelle', label:'Mutuelle', max:300, step:1 },
+    { id:'sante_franchises', label:'Franchises / ticket modérateur', max:200, step:1 },
+    { id:'sante_prevention', label:'Prévention (dentiste, optique)', max:200, step:1 }
+  ]},
+  { cat:'transport', label:'Transports', range:'5–10 %', strata:2, color:'#fbbf24', items:[
+    { id:'transport_carburant', label:'Carburant / Pass transport', max:300, step:0.1 },
+    { id:'transport_entretien', label:'Entretien véhicule', max:200, step:1 },
+    { id:'transport_assurance', label:'Assurance auto', max:200, step:1 }
+  ]},
+  { cat:'communication', label:'Communication', range:'2–4 %', strata:3, color:'#a78bfa', items:[
+    { id:'communication', label:'Abonnement tel / internet', max:150, step:1 }
+  ]},
+  { cat:'habillement', label:'Habillement', range:'3–5 %', strata:3, color:'#22d3ee', items:[
+    { id:'habillement', label:'Vêtements', max:300, step:1 }
+  ]},
+  { cat:'loisirs', label:'Loisirs / culture', range:'5–8 %', strata:3, color:'#f87171', items:[
+    { id:'loisirs', label:'Loisirs / culture', max:300, step:1 }
+  ]},
+  { cat:'restaurants', label:'Restaurants / sorties', range:'4–6 %', strata:4, color:'#c4b5fd', items:[
+    { id:'restaurants', label:'Restaurants / sorties', max:400, step:1 }
+  ]},
+  { cat:'vacances', label:'Vacances (lissé)', range:'3–5 %', strata:4, color:'#7dd3fc', items:[
+    { id:'vacances', label:'Vacances', max:500, step:1 }
+  ]}
+];
+
+const FUTUR_DEFS = [
+  { id:'epargneSecurite', label:'Épargne sécurité',  color:'#22d3ee', max:1000, range:'5–10 %' },
+  { id:'investissements', label:'Investissements',   color:'#34d399', max:1000, range:'10–15 %' },
+  { id:'projets',         label:'Projets',           color:'#fbbf24', max:1000, range:'3–5 %' },
+  { id:'dons',            label:'Dons / charité',    color:'#f472b6', max:500,  range:'1–2 %' }
+];
+
+const COMPTES_DEFS = [
+  { key:'courantRevolut', label:'Compte 1 — Dépenses courantes', sub:'Revolut', color:'#38bdf8', max:5000 },
+  { key:'epargneCA',      label:'Compte 2 — Épargne projets',    sub:'Crédit Agricole épargne', color:'#a78bfa', max:20000 },
+  { key:'investDABA',     label:'Compte 3 — Invest. Afrique',    sub:'DABA finance', color:'#34d399', max:50000 },
+  { key:'investRevolut',  label:'Compte 3 — Invest. Occident',   sub:'Revolut investir', color:'#34d399', max:50000 },
+  { key:'scpiEden',       label:'Compte 3 — SCPI',               sub:'SCPI Eden', color:'#34d399', max:50000 },
+  { key:'urgenceRevolut', label:'Compte 4 — Fonds urgence',      sub:'Revolut épargne (sans carte)', color:'#22d3ee', max:20000 },
+  { key:'urgenceLiquide', label:'Compte 4 — Fonds urgence',      sub:'Liquide', color:'#22d3ee', max:5000 }
+];
+
+const STRATA_META = {
+  1:{ name:'N1 · Survie',      color:'#f87171' },
+  2:{ name:'N2 · Nécessaire',  color:'#fbbf24' },
+  3:{ name:'N3 · Confort',     color:'#38bdf8' },
+  4:{ name:'N4 · Luxe/Plaisir',color:'#a78bfa' }
+};
+
+const PATRIMOINE_DEFS = [
+  { cat:'Actifs liquides', key:'liquide', color:'#38bdf8', items:[
+    { id:'comptesCourants', label:'Comptes courants', max:50000 },
+    { id:'comptesEpargne', label:'Comptes épargne', max:50000 },
+    { id:'livrets', label:'Livrets (A, LDDS, LEP)', max:50000 },
+    { id:'comptesTerme', label:'Comptes à terme', max:50000 },
+    { id:'liquide', label:'Liquide (espèces)', max:10000 }
+  ]},
+  { cat:'Actifs investis', key:'investis', color:'#34d399', items:[
+    { id:'bourseEurope', label:'Bourse Europe', max:200000 },
+    { id:'bourseAfrique', label:'Bourse Afrique', max:200000 },
+    { id:'bourseUSA', label:'Bourse U.S.A.', max:200000 },
+    { id:'bourseAsie', label:'Bourse Asie', max:200000 },
+    { id:'assuranceVie', label:'Assurance-vie', max:200000 },
+    { id:'per', label:'P.E.R.', max:200000 },
+    { id:'crypto', label:'Cryptomonnaies', max:100000 },
+    { id:'crowdfunding', label:'Crowdfunding', max:100000 }
+  ]},
+  { cat:'Actifs immobiliers', key:'immobilier', color:'#a78bfa', items:[
+    { id:'residencePrincipale', label:'Résidence principale', max:500000 },
+    { id:'immobilierLocatif', label:'Immobilier locatif', max:500000 },
+    { id:'scpi', label:'S.C.P.I.', max:200000 }
+  ]},
+  { cat:'Actifs professionnels', key:'pro', color:'#fbbf24', items:[
+    { id:'entreprise', label:'Entreprise personnelle', max:500000 },
+    { id:'droitsRetraite', label:'Droits à la retraite', max:200000 },
+    { id:'cet', label:'Compte épargne-temps', max:50000 }
+  ]},
+  { cat:'Passifs', key:'passifs', color:'#f87171', items:[
+    { id:'creditsConso', label:'Crédits consommation', max:100000 },
+    { id:'creditsImmo', label:'Crédits immobiliers', max:500000 },
+    { id:'decouverts', label:'Découverts habituels', max:10000 },
+    { id:'dettesPerso', label:'Dettes personnelles', max:50000 }
+  ]}
+];
+
+const CHECKLIST = [
+  { week:'Semaine 1 · Fondations', items:[
+    'Ouvrir compte épargne dédié urgence',
+    'Exporter 3 mois relevés bancaires',
+    'Lister tous revenus / charges fixes',
+    'Calculer patrimoine net actuel' ]},
+  { week:'Semaine 2 · Structure', items:[
+    'Établir budget mensuel réaliste',
+    'Mettre 3 virements automatiques',
+    'Annuler 2 abonnements inutiles',
+    'Fixer 1 objectif SMART court terme' ]},
+  { week:'Semaine 3 · Optimisation', items:[
+    'Comparer 1 assurance / forfait',
+    'Rembourser 1 dette à fort taux',
+    'Ouvrir 1 support investissement',
+    'Automatiser 2 factures récurrentes' ]},
+  { week:'Semaine 4 · Système', items:[
+    'Créer tableau de suivi mensuel',
+    'Programmer revue mensuelle',
+    'Informer conjoint / famille système',
+    'Célébrer première réussite' ]}
+];
+
+const SUIVI_MENSUEL = [
+  'Vérifier comptes vs budget',
+  'Pointer transactions suspectes',
+  'Contrôler virements automatiques',
+  'Mettre à jour tableau patrimoine',
+  'Revoir objectifs du mois'
+];
+
+/* ============================================================
+   AGRÉGATS
+============================================================ */
+function totalIncome(){
+  return Object.values(state.income).reduce((s,v)=>s+(v||0),0);
+}
+function revPrincipaux(){
+  return state.income.salaireNet + state.income.primes + state.income.indemnites;
+}
+function revSecondaires(){
+  return state.income.freelance + state.income.revente + state.income.loyers +
+         state.income.revenusFinanciers + state.income.pensions;
+}
+function expTotal(){
+  return Object.values(state.exp).reduce((s,v)=>s+(v||0),0);
+}
+function futurTotal(){
+  return Object.values(state.futur).reduce((s,v)=>s+(v||0),0);
+}
+function catTotal(cat){
+  return Object.keys(state.exp)
+    .filter(k => k === cat || k.startsWith(cat+'_'))
+    .reduce((s,k)=>s+state.exp[k], 0);
+}
+function strataTotal(strata){
+  return DETAILED_EXPENSE_DEFS.filter(d=>d.strata===strata)
+    .reduce((s,d)=>s+catTotal(d.cat), 0);
+}
+function patrimoineBrut(){
+  return PATRIMOINE_DEFS.filter(c=>c.key!=='passifs')
+    .reduce((s,c)=>s+c.items.reduce((a,i)=>a+(state.patrimoine[i.id]||0), 0), 0);
+}
+function patrimoinePassifs(){
+  return PATRIMOINE_DEFS.find(c=>c.key==='passifs')
+    .items.reduce((s,i)=>s+(state.patrimoine[i.id]||0), 0);
+}
+function patrimoineNet(){ return patrimoineBrut() - patrimoinePassifs(); }
+function patrimoineByCat(){
+  const r = {};
+  PATRIMOINE_DEFS.forEach(cat => {
+    r[cat.key] = cat.items.reduce((s,i)=>s+(state.patrimoine[i.id]||0), 0);
+  });
+  return r;
+}
+function computeEmergencyTargets(){
+  const fixe = catTotal('logement') + catTotal('nourriture') + catTotal('sante') + catTotal('transport');
+  const variable = catTotal('communication') + catTotal('habillement') + catTotal('loisirs') + catTotal('restaurants') + catTotal('vacances');
+  const cible3m = (fixe*3) + (variable*3) + (fixe+variable)*0.15;
+  const cible1m = fixe + variable*0.5;
+  return { fixe, variable, cible1m, cible3m };
+}
+
+/* ============================================================
+   SCORE SANTÉ
+============================================================ */
+function computeHealth(){
+  const inc = totalIncome() || 1;
+  const expT = expTotal();
+  const capacite = inc - expT;
+  const tauxEpargne = (capacite / inc) * 100;
+  const em = state.emergencySaved;
+  const moisUrgence = em / (expT || 1);
+  const tauxEnd = (state.debt / inc) * 100;
+  const patByCat = patrimoineByCat();
+  const patNet = patrimoineNet();
+  const sEpargne = Math.min(25, Math.max(0, (tauxEpargne / 25) * 25));
+  const sUrgence = Math.min(20, Math.max(0, (moisUrgence / 6) * 20));
+  const sDette = Math.max(0, Math.min(15, (1 - tauxEnd / 50) * 15));
+  const cats = ['liquide','investis','immobilier','pro'].filter(k => patByCat[k] > 0).length;
+  const sDiversification = (cats / 4) * 15;
+  const avgGoal = state.goals.length > 0
+    ? state.goals.reduce((s,g) => s + Math.min(1, g.saved / Math.max(g.target,1)), 0) / state.goals.length
+    : 0;
+  const sObjectifs = avgGoal * 10;
+  const sDiscipline = 8; // neutre par défaut, pas de cible active
+  return {
+    total: sEpargne + sUrgence + sDette + sDiversification + sObjectifs + sDiscipline,
+    sEpargne, sUrgence, sDette, sDiversification, sObjectifs, sDiscipline,
+    tauxEpargne, moisUrgence, tauxEnd, cats, avgGoal, patNet
+  };
+}
+function healthGrade(v){
+  if(v >= 85) return { label:'Excellent', color:'#22d3ee' };
+  if(v >= 70) return { label:'Solide',    color:'#34d399' };
+  if(v >= 50) return { label:'Construction', color:'#fbbf24' };
+  if(v >= 30) return { label:'Fragile',   color:'#f87171' };
+  return { label:'Critique', color:'#f87171' };
+}
+
+/* ============================================================
+   INSIGHTS
+============================================================ */
+function generateInsights(){
+  const insights = [];
+  const h = computeHealth();
+  const inc = totalIncome();
+  const expT = expTotal();
+  const capacite = inc - expT;
+
+  if(h.moisUrgence < 1) insights.push({type:'danger', icon:'', title:'Fonds d\'urgence critique',
+    body:`${h.moisUrgence.toFixed(1)} mois de couverture. Objectif : 1 000 € immédiats puis 3 mois.`,
+    action:{label:'Voir Sécurité', tab:'security'}});
+  else if(h.moisUrgence < 3) insights.push({type:'warn', icon:'', title:'Fonds d\'urgence à renforcer',
+    body:`${h.moisUrgence.toFixed(1)} mois. Vise ${fmt(expT*3)} € pour 3 mois.`,
+    action:{label:'Voir Sécurité', tab:'security'}});
+  else insights.push({type:'ok', icon:'', title:'Fonds d\'urgence solide',
+    body:`${h.moisUrgence.toFixed(1)} mois de couverture.`, action:null});
+
+  if(h.tauxEpargne < 10) insights.push({type:'danger', icon:'', title:'Taux d\'épargne trop faible',
+    body:`${h.tauxEpargne.toFixed(1)} %. Pour 15 %, réduis N3/N4 de ${fmt(Math.max(0, inc*0.15 - capacite))} €/mois.`,
+    action:{label:'Ajuster Budget', tab:'budget'}});
+  else if(h.tauxEpargne < 20) insights.push({type:'warn', icon:'', title:'Taux d\'épargne correct',
+    body:`${h.tauxEpargne.toFixed(1)} %. Vise 20 % pour accélérer.`,
+    action:{label:'Voir Budget', tab:'budget'}});
+  else insights.push({type:'ok', icon:'', title:'Excellent taux d\'épargne',
+    body:`${h.tauxEpargne.toFixed(1)} % — au-dessus de 20 %.`, action:null});
+
+  if(h.tauxEnd > 33) insights.push({type:'danger', icon:'', title:'Endettement excessif',
+    body:`${h.tauxEnd.toFixed(1)} %. Priorité : rembourse les dettes > 7 %.`, action:null});
+
+  if(h.cats < 2 && h.patNet > 1000) insights.push({type:'warn', icon:'', title:'Patrimoine peu diversifié',
+    body:`${h.cats} classe(s) d'actifs. Vise 3 minimum.`,
+    action:{label:'Voir Patrimoine', tab:'patrimoine'}});
+
+  if(capacite > 100 && !state.patrimoine.bourseEurope && !state.patrimoine.bourseUSA) {
+    insights.push({type:'warn', icon:'', title:'Aucun investissement en bourse',
+      body:`Avec ${fmt(capacite)} €/mois, ouvre un PEA et place en ETF Monde via DCA.`,
+      action:{label:'Simuler', tab:'invest'}});
+  }
+
+  return insights;
+}
+
+/* ============================================================
+   MONTE CARLO + PROJECTION
+============================================================ */
+function gaussian(){
+  let u = 0, v = 0;
+  while(u === 0) u = Math.random();
+  while(v === 0) v = Math.random();
+  return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+}
+function monteCarlo(monthly, annualRate, years, sims = 200){
+  const months = years * 12;
+  const mu = annualRate / 100 / 12;
+  const sigma = 0.15 / Math.sqrt(12);
+  const paths = [];
+  for(let s = 0; s < sims; s++){
+    let bal = 0;
+    const yearly = [0];
+    for(let m = 0; m < months; m++){
+      bal = bal * (1 + mu + sigma * gaussian()) + monthly;
+      if((m+1) % 12 === 0) yearly.push(bal);
+    }
+    paths.push(yearly);
+  }
+  const n = paths[0].length;
+  const p10 = [], p50 = [], p90 = [];
+  for(let y = 0; y < n; y++){
+    const vals = paths.map(p => p[y]).sort((a,b)=>a-b);
+    p10.push(vals[Math.floor(sims * 0.1)]);
+    p50.push(vals[Math.floor(sims * 0.5)]);
+    p90.push(vals[Math.floor(sims * 0.9)]);
+  }
+  return { p10, p50, p90 };
+}
+function projectNetWorth(rate){
+  const inc = totalIncome();
+  const expT = expTotal();
+  const monthlySave = Math.max(0, inc - expT);
+  const net = patrimoineNet();
+  const annualSave = monthlySave * 12;
+  const r = rate / 100;
+  const pts = [{ year:0, value:net }];
+  let bal = net;
+  for(let y = 1; y <= 30; y++){
+    bal = bal * (1 + r) + annualSave;
+    pts.push({ year:y, value:bal });
+  }
+  return pts;
+}
+
+/* ============================================================
+   SVG
+============================================================ */
+function donutSVG(data, size=155, thick=22){
+  const total = data.reduce((s,d)=>s+d.value,0);
+  const r = (size-thick)/2, c = 2*Math.PI*r;
+  let off = 0;
+  let s = `<svg viewBox="0 0 ${size} ${size}" width="${size}" height="${size}">`;
+  s += `<circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="var(--track-bg)" stroke-width="${thick}"/>`;
+  if(total > 0){
+    data.forEach(d => {
+      const len = (d.value/total)*c;
+      if(len <= 0) return;
+      s += `<circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="${d.color}" stroke-width="${thick}" stroke-dasharray="${len} ${c-len}" stroke-dashoffset="${-off}" transform="rotate(-90 ${size/2} ${size/2})"/>`;
+      off += len;
+    });
+  }
+  s += `<text x="${size/2}" y="${size/2-2}" text-anchor="middle" fill="var(--muted)" font-size="9" font-family="var(--font-main)" letter-spacing="1.5">TOTAL</text>`;
+  s += `<text x="${size/2}" y="${size/2+14}" text-anchor="middle" fill="var(--txt)" font-size="13" font-weight="800" font-family="var(--font-main)">${fmtCurr(total)}</text>`;
+  s += `</svg>`;
+  return s;
+}
+function lineChart(series, w=480, h=170, pad=28){
+  const allVals = series.flatMap(s => s.data);
+  const max = Math.max(...allVals, 1);
+  const n = series[0].data.length - 1;
+  const X = i => pad + (i/Math.max(n,1))*(w-2*pad);
+  const Y = v => h-pad - (v/max)*(h-2*pad);
+  let s = `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" preserveAspectRatio="none" style="display:block;overflow:visible">`;
+  for(let i=0;i<=4;i++){
+    const y = pad + (i/4)*(h-2*pad);
+    s += `<line x1="${pad}" y1="${y}" x2="${w-pad}" y2="${y}" stroke="rgba(255,255,255,.05)" stroke-width="1"/>`;
+    const val = max * (1 - i/4);
+    s += `<text x="${pad-4}" y="${y+3}" text-anchor="end" fill="#8b9bb4" font-size="8" font-family="Inter,sans-serif">${fmt(val)}</text>`;
+  }
+  series.forEach(ser => {
+    if(ser.fill){
+      const area = ser.data.map((v,i)=> (i?'L':'M')+X(i).toFixed(1)+','+Y(v).toFixed(1)).join(' ') +
+        ` L${X(n).toFixed(1)},${h-pad} L${X(0).toFixed(1)},${h-pad} Z`;
+      s += `<path d="${area}" fill="${ser.fill}"/>`;
+    }
+    const path = ser.data.map((v,i)=> (i?'L':'M')+X(i).toFixed(1)+','+Y(v).toFixed(1)).join(' ');
+    s += `<path d="${path}" fill="none" stroke="${ser.color}" stroke-width="${ser.width||2}" stroke-linecap="round" stroke-linejoin="round"/>`;
+  });
+  s += `</svg>`;
+  return s;
+}
+function bandChart(series, w=560, h=190, pad=32){
+  const allVals = [...series.upper, ...series.mid, ...series.invested, ...series.lower];
+  const max = Math.max(...allVals, 1);
+  const n = series.mid.length - 1;
+  const X = i => pad + (i/Math.max(n,1))*(w-2*pad);
+  const Y = v => h-pad - (v/max)*(h-2*pad);
+  let s = `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" preserveAspectRatio="none" style="display:block">`;
+  s += `<defs><linearGradient id="bandGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#34d399" stop-opacity=".28"/><stop offset="100%" stop-color="#34d399" stop-opacity=".04"/></linearGradient></defs>`;
+  for(let i=0;i<=4;i++){
+    const y = pad + (i/4)*(h-2*pad);
+    s += `<line x1="${pad}" y1="${y}" x2="${w-pad}" y2="${y}" stroke="rgba(255,255,255,.05)" stroke-width="1"/>`;
+  }
+  const upperPath = series.upper.map((v,i)=> (i?'L':'M')+X(i).toFixed(1)+','+Y(v).toFixed(1)).join(' ');
+  const lowerPath = series.lower.slice().reverse().map((v,i) => `L${X(series.lower.length-1-i).toFixed(1)},${Y(v).toFixed(1)}`).join(' ');
+  s += `<path d="${upperPath} ${lowerPath} Z" fill="url(#bandGrad)"/>`;
+  const drawLine = (arr, color, width, dash) => {
+    const p = arr.map((v,i)=> (i?'L':'M')+X(i).toFixed(1)+','+Y(v).toFixed(1)).join(' ');
+    return `<path d="${p}" fill="none" stroke="${color}" stroke-width="${width}" ${dash?`stroke-dasharray="${dash}"`:''} stroke-linejoin="round"/>`;
+  };
+  s += drawLine(series.invested, '#a78bfa', 1.8, '5 4');
+  s += drawLine(series.lower, '#f87171', 1.2);
+  s += drawLine(series.mid, '#34d399', 2.2);
+  s += drawLine(series.upper, '#22d3ee', 1.2);
+  s += `</svg>`;
+  return s;
+}
+
+/* ============================================================
+   BUILD UI
+============================================================ */
+function rebuildSliders(){
+  const mult = EXCHANGE_RATES[state.currency] || 1;
+  const curr = state.currency || '€';
+
+  // Revenus principaux + secondaires
+  const rp = $('#revPrincipauxSliders');
+  if(rp){
+    rp.innerHTML = '';
+    INCOME_DEFS.principaux.forEach(d => {
+      rp.insertAdjacentHTML('beforeend', sliderHTML('income.'+d.id, d.label, state.income[d.id], d.max, d.step));
+    });
+  }
+  const rs = $('#revSecondairesSliders');
+  if(rs){
+    rs.innerHTML = '';
+    INCOME_DEFS.secondaires.forEach(d => {
+      rs.insertAdjacentHTML('beforeend', sliderHTML('income.'+d.id, d.label, state.income[d.id], d.max, d.step));
+    });
+  }
+
+  // Dépenses détaillées
+  const de = $('#detailedExpenses');
+  if(de){
+    de.innerHTML = '';
+    DETAILED_EXPENSE_DEFS.forEach(cat => {
+      const total = catTotal(cat.cat);
+      const isOpen = (cat.cat === 'logement' || cat.cat === 'nourriture');
+      const sec = document.createElement('div');
+      sec.className = 'pat-section' + (isOpen ? ' open' : '');
+      sec.dataset.cat = cat.cat;
+      sec.id = 'sec-cat-' + cat.cat;
+      sec.innerHTML = `
+        <div class="pat-header">
+          <span style="display:flex;align-items:center;gap:8px">
+            <span class="pat-chevron">▶</span>
+            <em class="tag n${cat.strata}">N${cat.strata}</em>
+            <span class="dot" style="background:${cat.color}"></span>
+            ${cat.label}
+            <span class="mini" style="margin-left:4px">${cat.range}</span>
+          </span>
+          <span class="pat-cat-total" style="color:${cat.color}" id="catTotal-${cat.cat}">${fmtCurr(total)}</span>
+        </div>
+        <div class="pat-collapse">
+          <div class="pat-collapse-inner">
+            <div class="pat-items"></div>
+          </div>
+        </div>`;
+      const wrap = sec.querySelector('.pat-items');
+      cat.items.forEach(item => {
+        wrap.insertAdjacentHTML('beforeend', sliderHTML('exp.'+item.id, item.label, state.exp[item.id], item.max, item.step));
+      });
+      sec.querySelector('.pat-header').addEventListener('click', () => {
+        sec.classList.toggle('open');
+      });
+      de.appendChild(sec);
+    });
+  }
+
+  // Futur sliders
+  const fs = $('#futurSliders');
+  if(fs){
+    fs.innerHTML = '';
+    FUTUR_DEFS.forEach(d => {
+      fs.insertAdjacentHTML('beforeend', sliderHTML('futur.'+d.id, d.label+' · cible '+d.range, state.futur[d.id], d.max, 1));
+    });
+  }
+
+  // Comptes multiples
+  const cl = $('#comptesList');
+  if(cl){
+    cl.innerHTML = '';
+    COMPTES_DEFS.forEach(c => {
+      cl.insertAdjacentHTML('beforeend', sliderHTML('comptes.'+c.key, c.label+' · '+c.sub, state.comptes[c.key], c.max, 10));
+    });
+  }
+
+  // Patrimoine tree
+  const pt = $('#patTree');
+  if(pt){
+    pt.innerHTML = '';
+    PATRIMOINE_DEFS.forEach(cat => {
+      const det = document.createElement('details');
+      det.className = 'pat-section';
+      det.open = (cat.key === 'liquide' || cat.key === 'passifs');
+      det.innerHTML = `
+        <summary>
+          <span style="display:flex;align-items:center;gap:9px"><span class="dot" style="background:${cat.color}"></span>${cat.cat}</span>
+          <span class="pat-cat-total" style="color:${cat.color}" id="patTotal-${cat.key}">0</span>
+        </summary>
+        <div class="pat-items"></div>`;
+      const wrap = det.querySelector('.pat-items');
+      cat.items.forEach(item => {
+        wrap.insertAdjacentHTML('beforeend', sliderHTML('patrimoine.'+item.id, item.label, state.patrimoine[item.id], item.max, 50));
+      });
+      pt.appendChild(det);
+    });
+  }
+
+  // Standalone sliders
+  const incomeSlider = $('#incomeSlider');
+  if(incomeSlider){
+    incomeSlider.max = Math.round(5000 * mult);
+    incomeSlider.step = curr === 'FCFA' ? 100 : 5;
+    incomeSlider.value = state.income.salaireNet;
+  }
+  const emSlider = $('input[data-bind="emergencySaved"]');
+  if(emSlider){
+    emSlider.max = Math.round(20000 * mult);
+    emSlider.step = curr === 'FCFA' ? 500 : 50;
+    emSlider.value = state.emergencySaved;
+  }
+  const minGInp = $('input[data-bind="incomeMinGuaranteed"]');
+  if(minGInp){
+    minGInp.max = Math.round(5000 * mult);
+    minGInp.step = curr === 'FCFA' ? 100 : 10;
+    minGInp.value = state.incomeMinGuaranteed || 0;
+  }
+  const dcaMInp = $('input[data-bind="dca.monthly"]');
+  if(dcaMInp){
+    dcaMInp.max = Math.round(2000 * mult);
+    dcaMInp.step = curr === 'FCFA' ? 100 : 5;
+    dcaMInp.value = state.dca.monthly;
+  }
+
+  // Update twins
+  $$('input.num-input[data-bind]').forEach(inp => {
+    const v = getPath(state, inp.dataset.bind);
+    if(v !== undefined) inp.value = v;
+  });
+
+  // Update curr-units
+  $$('.curr-unit').forEach(el => el.textContent = curr);
+}
+
+/* ============================================================
+   INTERCONNEXION UNIFIÉE DES DONNÉES DE MÊME NATURE
+============================================================ */
+function syncCompanionInputs(bind, val, triggerEl){
+  $$(`[data-bind="${bind}"]`).forEach(tw => {
+    if(tw !== triggerEl && parseFloat(tw.value) !== val){
+      tw.value = val;
+    }
+  });
+}
+
+function syncInterconnectedData(bind, v, triggerEl){
+  // 1. Dettes globales <-> Passifs détaillés du Patrimoine
+  if(bind === 'debt'){
+    const currentImmo = state.patrimoine.creditsImmo || 0;
+    const diff = Math.max(0, v - currentImmo);
+    state.patrimoine.creditsConso = diff;
+    syncCompanionInputs('patrimoine.creditsConso', diff);
+  } else if(bind.startsWith('patrimoine.credits') || bind.startsWith('patrimoine.decouverts') || bind.startsWith('patrimoine.dettes')){
+    const totalDettes = (state.patrimoine.creditsConso||0) + (state.patrimoine.creditsImmo||0) +
+                        (state.patrimoine.decouverts||0) + (state.patrimoine.dettesPerso||0);
+    state.debt = totalDettes;
+    syncCompanionInputs('debt', totalDettes);
+  }
+
+  // 2. Épargne d'Urgence <-> Compte Urgence <-> Objectif Fonds d'urgence
+  if(bind === 'emergencySaved'){
+    // Répercuter sur le compte bancaire dédié à l'urgence
+    state.comptes.urgenceRevolut = v;
+    syncCompanionInputs('comptes.urgenceRevolut', v);
+    // Répercuter sur l'objectif SMART 'Fonds d'urgence'
+    const urgenceGoal = state.goals.find(g => g.name.toLowerCase().includes('urgence'));
+    if(urgenceGoal){
+      urgenceGoal.saved = v;
+    }
+  } else if(bind === 'comptes.urgenceRevolut' || bind === 'comptes.urgenceLiquide'){
+    const totalUrgence = (state.comptes.urgenceRevolut||0) + (state.comptes.urgenceLiquide||0);
+    state.emergencySaved = totalUrgence;
+    syncCompanionInputs('emergencySaved', totalUrgence);
+    const urgenceGoal = state.goals.find(g => g.name.toLowerCase().includes('urgence'));
+    if(urgenceGoal){
+      urgenceGoal.saved = totalUrgence;
+    }
+  }
+
+  // 3. Comptes d'Investissement <-> Actifs Investis du Patrimoine
+  if(bind === 'comptes.scpiEden'){
+    state.patrimoine.scpi = v;
+    syncCompanionInputs('patrimoine.scpi', v);
+  } else if(bind === 'patrimoine.scpi'){
+    state.comptes.scpiEden = v;
+    syncCompanionInputs('comptes.scpiEden', v);
+  } else if(bind === 'comptes.investRevolut'){
+    state.patrimoine.bourseEurope = v;
+    syncCompanionInputs('patrimoine.bourseEurope', v);
+  } else if(bind === 'patrimoine.bourseEurope'){
+    state.comptes.investRevolut = v;
+    syncCompanionInputs('comptes.investRevolut', v);
+  } else if(bind === 'comptes.investDABA'){
+    state.patrimoine.bourseAfrique = v;
+    syncCompanionInputs('patrimoine.bourseAfrique', v);
+  } else if(bind === 'patrimoine.bourseAfrique'){
+    state.comptes.investDABA = v;
+    syncCompanionInputs('comptes.investDABA', v);
+  }
+
+  // 4. Comptes Courants & Épargne <-> Actifs Liquides du Patrimoine
+  if(bind === 'comptes.courantRevolut'){
+    state.patrimoine.comptesCourants = v;
+    syncCompanionInputs('patrimoine.comptesCourants', v);
+  } else if(bind === 'patrimoine.comptesCourants'){
+    state.comptes.courantRevolut = v;
+    syncCompanionInputs('comptes.courantRevolut', v);
+  } else if(bind === 'comptes.epargneCA'){
+    state.patrimoine.livrets = v;
+    syncCompanionInputs('patrimoine.livrets', v);
+  } else if(bind === 'patrimoine.livrets'){
+    state.comptes.epargneCA = v;
+    syncCompanionInputs('comptes.epargneCA', v);
+  }
+
+  // 5. Enveloppe Futur 'Investissements' <-> Simulateur DCA Mensuel
+  if(bind === 'futur.investissements'){
+    state.dca.monthly = v;
+    syncCompanionInputs('dca.monthly', v);
+  } else if(bind === 'dca.monthly'){
+    state.futur.investissements = v;
+    syncCompanionInputs('futur.investissements', v);
+  }
+}
+
+function buildUI(){
+  rebuildSliders();
+
+  // Checkboxes suivi mensuel
+  const sm = $('#suiviMensuelChecks');
+  SUIVI_MENSUEL.forEach((txt, i) => {
+    const key = 'sm'+i;
+    const lbl = document.createElement('label');
+    lbl.className = 'check-item' + (state.checksSuivi[key]?' done':'');
+    lbl.innerHTML = `<input type="checkbox" data-suivi="${key}"${state.checksSuivi[key]?' checked':''}><span>${txt}</span>`;
+    sm.appendChild(lbl);
+  });
+
+  // Checklist principale
+  const cw = $('#checklistWrap');
+  let idx = 0;
+  CHECKLIST.forEach(w => {
+    const block = document.createElement('div');
+    block.className = 'check-week';
+    block.innerHTML = `<h4>${w.week}</h4>`;
+    w.items.forEach(txt => {
+      const key = 'c'+(idx++);
+      const lbl = document.createElement('label');
+      lbl.className = 'check-item' + (state.checks[key]?' done':'');
+      lbl.innerHTML = `<input type="checkbox" data-check="${key}"${state.checks[key]?' checked':''}><span>${txt}</span>`;
+      block.appendChild(lbl);
+    });
+    cw.appendChild(block);
+  });
+
+  // Monthly table rows
+  renderMonthlyTable();
+
+  // Delegation avec interconnexion bidirectionnelle des données de même nature
+  document.addEventListener('input', e => {
+    const bind = e.target.dataset.bind;
+    if(!bind) return;
+    const v = parseFloat(e.target.value);
+    if(isNaN(v)) return;
+    setPath(state, bind, v);
+
+    // Synchronisation automatique des flux interconnectés de même nature
+    syncInterconnectedData(bind, v, e.target);
+
+    // Sync twins (curseur range <-> input numérique compagnon)
+    syncCompanionInputs(bind, v, e.target);
+
+    scheduleSave();
+    update();
+  });
+
+  // Checkboxes
+  document.addEventListener('change', e => {
+    if(e.target.dataset.check){
+      state.checks[e.target.dataset.check] = e.target.checked;
+      e.target.closest('.check-item').classList.toggle('done', e.target.checked);
+      scheduleSave();
+      updateChecklist();
+    }
+    if(e.target.dataset.suivi){
+      state.checksSuivi[e.target.dataset.suivi] = e.target.checked;
+      e.target.closest('.check-item').classList.toggle('done', e.target.checked);
+      scheduleSave();
+    }
+  });
+
+  // Tabs
+  $$('.tab').forEach(t => t.addEventListener('click', () => activateTab(t.dataset.tab)));
+
+  // Scénario projection
+  $$('.scenario-btn').forEach(b => {
+    b.addEventListener('click', () => {
+      $$('.scenario-btn').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      state.projectionScenario = parseFloat(b.dataset.scenario);
+      scheduleSave();
+      updateProjection();
+    });
+  });
+
+  // Goal add
+  $('#addGoalBtn').addEventListener('click', addGoal);
+
+  // Reset
+  $('#resetBtn').addEventListener('click', () => $('#resetModal').classList.add('show'));
+  $('#cancelReset').addEventListener('click', () => $('#resetModal').classList.remove('show'));
+  $('#resetModal').addEventListener('click', e => {
+    if(e.target.id === 'resetModal') e.currentTarget.classList.remove('show');
+  });
+  $('#confirmReset').addEventListener('click', doReset);
+  $('#exportBtn').addEventListener('click', exportJSON);
+
+  // Import
+  const importBtn = $('#importBtn');
+  const importInput = $('#importFileInput');
+  if(importBtn && importInput){
+    importBtn.addEventListener('click', () => importInput.click());
+    importInput.addEventListener('change', e => {
+      if(e.target.files && e.target.files[0]){
+        importJSON(e.target.files[0]);
+        e.target.value = '';
+      }
+    });
+  }
+
+  // Contacts
+  const addContactBtn = $('#addContactBtn');
+  if(addContactBtn) addContactBtn.addEventListener('click', addContact);
+  renderContacts();
+
+  // Monthly table
+  $('#addMonthlyRowBtn').addEventListener('click', addMonthlyRow);
+
+  // Google Sheets UI
+  $('#openSheetsModalBtn')?.addEventListener('click', () => {
+    updateSheetsStatusUI();
+    $('#sheetsModal').classList.add('show');
+  });
+  $('#closeSheetsModal')?.addEventListener('click', () => $('#sheetsModal').classList.remove('show'));
+  $('#sheetsModal')?.addEventListener('click', e => {
+    if(e.target.id === 'sheetsModal') e.currentTarget.classList.remove('show');
+  });
+  $('#saveSheetsUrlBtn')?.addEventListener('click', () => {
+    const val = $('#sheetsWebAppUrl').value.trim();
+    state.sheetsUrl = val;
+    scheduleSave();
+    updateSheetsStatusUI();
+    toast(val ? 'URL Google Sheets enregistrée !' : 'URL réinitialisée', 'success');
+  });
+  $('#pushToSheetsBtn')?.addEventListener('click', pushToGoogleSheets);
+  $('#pullFromSheetsBtn')?.addEventListener('click', pullFromGoogleSheets);
+  $('#syncSheetsNowBtn')?.addEventListener('click', pushToGoogleSheets);
+  $('#syncTableToSheetsBtn')?.addEventListener('click', pushToGoogleSheets);
+  $('#syncTableFromSheetsBtn')?.addEventListener('click', pullFromGoogleSheets);
+
+  // Import CSV bancaire
+  const importCsvBtn = $('#importBankCsvBtn');
+  const bankCsvInput = $('#bankCsvFileInput');
+  if(importCsvBtn && bankCsvInput){
+    importCsvBtn.addEventListener('click', () => bankCsvInput.click());
+    bankCsvInput.addEventListener('change', e => {
+      if(e.target.files && e.target.files[0]){
+        importBankCsvFile(e.target.files[0]);
+        e.target.value = '';
+      }
+    });
+  }
+
+  // Taux de change en direct
+  $('#syncLiveRatesBtn')?.addEventListener('click', fetchLiveExchangeRates);
+
+  // Déconnexion Google Sheets
+  $('#disconnectSheetsBtn')?.addEventListener('click', () => {
+    state.sheetsUrl = '';
+    const urlInput = $('#sheetsWebAppUrl');
+    if(urlInput) urlInput.value = '';
+    scheduleSave();
+    updateSheetsStatusUI();
+    toast('Google Sheets déconnecté', 'success');
+  });
+
+  // Historique Google Sheets
+  $('#openHistoryModalBtn')?.addEventListener('click', () => {
+    $('#historyModal').classList.add('show');
+    loadHistoryFromSheets();
+  });
+  $('#viewHistoryFromModalBtn')?.addEventListener('click', () => {
+    $('#sheetsModal').classList.remove('show');
+    $('#historyModal').classList.add('show');
+    loadHistoryFromSheets();
+  });
+  $('#closeHistoryModal')?.addEventListener('click', () => $('#historyModal').classList.remove('show'));
+  $('#historyModal')?.addEventListener('click', e => {
+    if(e.target.id === 'historyModal') e.currentTarget.classList.remove('show');
+  });
+  $('#historyModalRefreshBtn')?.addEventListener('click', loadHistoryFromSheets);
+  $('#refreshHistoryBtn')?.addEventListener('click', loadHistoryFromSheets);
+  $('#historyModalSnapshotBtn')?.addEventListener('click', async () => {
+    await pushToGoogleSheets();
+    setTimeout(loadHistoryFromSheets, 1200);
+  });
+  $('#snapshotNowBtn')?.addEventListener('click', async () => {
+    await pushToGoogleSheets();
+    setTimeout(loadHistoryFromSheets, 1200);
+  });
+  // Theme & Currency
+  const themeBtn = $('#themeToggleBtn');
+  if(themeBtn){
+    if(state.theme === 'light') document.documentElement.setAttribute('data-theme', 'light');
+    themeBtn.addEventListener('click', () => {
+      const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+      const newTheme = isLight ? 'dark' : 'light';
+      if(newTheme === 'light') document.documentElement.setAttribute('data-theme', 'light');
+      else document.documentElement.removeAttribute('data-theme');
+      state.theme = newTheme;
+      scheduleSave();
+      toast(`Mode ${newTheme === 'light' ? 'Clair' : 'Sombre'} activé`, 'info', 2000);
+    });
+  }
+
+  const currSel = $('#currencySelector');
+  if(currSel){
+    currSel.value = state.currency || '€';
+    currSel.addEventListener('change', e => {
+      setCurrency(e.target.value);
+    });
+  }
+
+  // Keyboard
+  document.addEventListener('keydown', e => {
+    const isInput = e.target.matches('input,textarea,select');
+    if(e.key === 'Escape'){
+      $('#resetModal').classList.remove('show');
+      $('#sheetsModal')?.classList.remove('show');
+      $('#historyModal')?.classList.remove('show');
+    }
+    if(isInput) return;
+    const tabs = ['overview','revenus','budget','patrimoine','goals','security','auto','invest','suivi','practices','checklist'];
+    if(/^[1-9]$/.test(e.key)){
+      const idx = parseInt(e.key)-1;
+      if(idx < tabs.length) activateTab(tabs[idx]);
+    }
+    if(e.key === '0') activateTab('checklist');
+  });
+  window.addEventListener('beforeunload', saveState);
+
+  // Auto-vérification de synchronisation Google Sheets au retour sur l'onglet
+  window.addEventListener('focus', () => {
+    if(state.sheetsUrl && state.sheetsUrl.startsWith('http')){
+      checkRemoteVersion();
+    }
+  });
+}
+
+function setCurrency(newCurr){
+  const oldCurr = state.currency || '€';
+  if(oldCurr === newCurr) return;
+  const oldRate = EXCHANGE_RATES[oldCurr] || 1.0;
+  const newRate = EXCHANGE_RATES[newCurr] || 1.0;
+  const factor = newRate / oldRate;
+
+  function cvt(v){
+    if(typeof v !== 'number' || isNaN(v)) return v;
+    const res = v * factor;
+    return newCurr === 'FCFA' ? Math.round(res) : Math.round(res * 100) / 100;
+  }
+
+  if(state.income){
+    Object.keys(state.income).forEach(k => { state.income[k] = cvt(state.income[k]); });
+  }
+  if(state.incomeMinGuaranteed !== undefined){
+    state.incomeMinGuaranteed = cvt(state.incomeMinGuaranteed);
+  }
+  if(state.exp){
+    Object.keys(state.exp).forEach(k => { state.exp[k] = cvt(state.exp[k]); });
+  }
+  if(state.futur){
+    Object.keys(state.futur).forEach(k => { state.futur[k] = cvt(state.futur[k]); });
+  }
+  if(state.comptes){
+    Object.keys(state.comptes).forEach(k => { state.comptes[k] = cvt(state.comptes[k]); });
+  }
+  state.debt = cvt(state.debt || 0);
+  state.emergencySaved = cvt(state.emergencySaved || 0);
+  if(state.goals && Array.isArray(state.goals)){
+    state.goals.forEach(g => {
+      g.target = cvt(g.target);
+      g.saved = cvt(g.saved);
+    });
+  }
+  if(state.patrimoine){
+    Object.keys(state.patrimoine).forEach(k => { state.patrimoine[k] = cvt(state.patrimoine[k]); });
+  }
+  if(state.dca && state.dca.monthly){
+    state.dca.monthly = cvt(state.dca.monthly);
+  }
+  if(state.monthlyTable && Array.isArray(state.monthlyTable)){
+    state.monthlyTable.forEach(r => {
+      r.budget = cvt(r.budget);
+      r.reel = cvt(r.reel);
+    });
+  }
+
+  state.currency = newCurr;
+  scheduleSave();
+
+  rebuildSliders();
+  renderMonthlyTable();
+  update();
+  toast(`Devise convertie : ${oldCurr} -> ${newCurr} (${factor >= 1 ? '×' + factor.toFixed(2) : '÷' + (1/factor).toFixed(2)})`, 'success', 3500);
+  announce(`Devise convertie en ${newCurr}`);
+}
+
+function sliderHTML(bind, label, value, max, step){
+  const curr = state.currency || '€';
+  const mult = EXCHANGE_RATES[curr] || 1;
+  const scaledMax = Math.round(max * mult);
+  let scaledStep = step;
+  if(curr === 'FCFA'){
+    scaledStep = Math.max(1, Math.round(step * mult));
+  } else if(mult !== 1){
+    scaledStep = step < 1 ? step : Math.round(step * mult * 10) / 10;
+  }
+  return `
+    <div class="slider-row">
+      <div class="sr-head">
+        <span class="sr-label">${label}</span>
+        <div class="sr-input-group">
+          <input type="number" class="num-input" data-bind="${bind}" value="${value}" min="0" max="${scaledMax}" step="${scaledStep}">
+          <span class="unit curr-unit">${curr}</span>
+        </div>
+      </div>
+      <input type="range" min="0" max="${scaledMax}" step="${scaledStep}" value="${value}" data-bind="${bind}">
+    </div>`;
+}
+
+function activateTab(name){
+  $$('.tab').forEach(x => x.classList.toggle('active', x.dataset.tab === name));
+  $$('.panel').forEach(x => x.classList.toggle('active', x.id === 'panel-'+name));
+}
+
+function doReset(){
+  localStorage.removeItem(STORAGE_KEY);
+  state = JSON.parse(JSON.stringify(DEFAULT_STATE));
+  $$('[data-bind]').forEach(el => {
+    const v = getPath(state, el.dataset.bind);
+    if(v !== undefined) el.value = v;
+  });
+  $$('input[type=checkbox]').forEach(c => {
+    c.checked = false;
+    c.closest('.check-item')?.classList.remove('done');
+  });
+  $('#resetModal').classList.remove('show');
+  renderMonthlyTable();
+  update();
+  updateChecklist();
+  toast('Widget réinitialisé', 'success');
+}
+
+function exportJSON(){
+  const blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'finances-'+new Date().toISOString().slice(0,10)+'.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('Données exportées', 'success');
+}
+
+function importJSON(file){
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      if(!parsed || typeof parsed !== 'object') throw new Error('Fichier invalide');
+      state = deepMerge(DEFAULT_STATE, parsed);
+      saveState();
+      // Re-synchronize inputs
+      $$('[data-bind]').forEach(el => {
+        const v = getPath(state, el.dataset.bind);
+        if(v !== undefined) el.value = v;
+      });
+      // Re-synchronize checkboxes
+      $$('input[data-check]').forEach(c => {
+        const k = c.dataset.check;
+        c.checked = !!state.checks[k];
+        c.closest('.check-item')?.classList.toggle('done', c.checked);
+      });
+      $$('input[data-suivi]').forEach(c => {
+        const k = c.dataset.suivi;
+        c.checked = !!state.checksSuivi[k];
+        c.closest('.check-item')?.classList.toggle('done', c.checked);
+      });
+      renderContacts();
+      renderMonthlyTable();
+      update();
+      updateChecklist();
+      toast('Données importées avec succès !', 'success', 4000);
+    } catch(err){
+      toast('Erreur lors de l\'import : ' + err.message, 'error', 4500);
+    }
+  };
+  reader.readAsText(file);
+}
+
+/* Contacts d'urgence */
+function renderContacts(){
+  const wrap = $('#contactsContainer');
+  if(!wrap) return;
+  if(!state.contacts || !state.contacts.length){
+    wrap.innerHTML = '<p class="mini" style="padding:10px 0;text-align:center">Aucun contact enregistré.</p>';
+    return;
+  }
+  wrap.innerHTML = state.contacts.map(c => `
+    <div class="contact-row" data-contact="${c.id}">
+      <input type="text" class="contact-label-input" value="${c.label||''}" placeholder="Nom / Rôle" style="background:transparent;border:none;color:var(--muted);font:inherit;font-size:11.5px;font-weight:600;outline:none;width:40%">
+      <div style="display:flex;align-items:center;gap:6px;flex:1;justify-content:flex-end">
+        <input type="text" class="contact-val-input" value="${c.val||''}" placeholder="Téléphone, email ou note" style="background:transparent;border:1px solid transparent;border-radius:4px;color:var(--txt);font:inherit;font-size:11.5px;font-weight:700;padding:2px 6px;text-align:right;outline:none;width:100%;max-width:180px">
+        ${c.val && /^[+0-9\s.-]+$/.test(c.val.trim()) ? `<a href="tel:${c.val.replace(/\s+/g,'')}" title="Appeler" style="color:var(--blue);text-decoration:none;font-size:11px;font-weight:600">Appeler</a>` : ''}
+        <button class="del-btn contact-del" data-del-contact="${c.id}" style="color:var(--muted);background:transparent;border:none;cursor:pointer;font-size:13px;padding:2px 4px">×</button>
+      </div>
+    </div>
+  `).join('');
+
+  $$('#contactsContainer .contact-label-input').forEach(inp => {
+    inp.addEventListener('input', e => {
+      const id = e.target.closest('.contact-row').dataset.contact;
+      const c = state.contacts.find(x => x.id === id);
+      if(c){ c.label = e.target.value; scheduleSave(); }
+    });
+  });
+
+  $$('#contactsContainer .contact-val-input').forEach(inp => {
+    inp.addEventListener('input', e => {
+      const id = e.target.closest('.contact-row').dataset.contact;
+      const c = state.contacts.find(x => x.id === id);
+      if(c){ c.val = e.target.value; scheduleSave(); }
+    });
+  });
+
+  $$('#contactsContainer [data-del-contact]').forEach(b => {
+    b.addEventListener('click', e => {
+      const id = e.target.dataset.delContact;
+      state.contacts = state.contacts.filter(x => x.id !== id);
+      scheduleSave();
+      renderContacts();
+    });
+  });
+}
+
+function addContact(){
+  if(!state.contacts) state.contacts = [];
+  state.contacts.push({ id:'c'+Date.now(), label:'Nouveau contact', val:'', isTel:false });
+  scheduleSave();
+  renderContacts();
+}
+
+/* ============================================================
+   GOOGLE SHEETS SYNC
+============================================================ */
+function updateSheetsStatusUI(){
+  const statusEl = $('#sheetsStatusText');
+  const syncBtn = $('#syncSheetsNowBtn');
+  const urlInput = $('#sheetsWebAppUrl');
+  if(urlInput && state.sheetsUrl) urlInput.value = state.sheetsUrl;
+
+  if(state.sheetsUrl && state.sheetsUrl.trim().startsWith('http')){
+    if(statusEl) statusEl.textContent = 'Google Sheets : Connecté';
+    if(syncBtn) syncBtn.style.display = 'inline-flex';
+  } else {
+    if(statusEl) statusEl.textContent = 'Google Sheets : Déconnecté';
+    if(syncBtn) syncBtn.style.display = 'none';
+  }
+}
+
+async function pushToGoogleSheets(){
+  if(!state.sheetsUrl || !state.sheetsUrl.startsWith('http')){
+    toast('Veuillez configurer l\'URL Google Apps Script', 'warn');
+    $('#sheetsModal').classList.add('show');
+    return;
+  }
+  toast('Envoi des données vers Google Sheets...', 'info', 2500);
+  try {
+    const payload = {
+      action: 'save',
+      timestamp: new Date().toISOString(),
+      state: state
+    };
+
+    // Envoi POST avec suivi
+    await fetch(state.sheetsUrl, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    state.lastSyncedAt = new Date().toISOString();
+    scheduleSave();
+    toast('Données et instantané synchronisés avec succès !', 'success', 3500);
+  } catch(err){
+    console.error(err);
+    toast('Erreur lors de l\'envoi : ' + err.message, 'error', 4500);
+  }
+}
+
+/* ============================================================
+   INTERCONNEXION : TAUX DE CHANGE EN DIRECT (GOOGLEFINANCE)
+============================================================ */
+async function fetchLiveExchangeRates(){
+  if(!state.sheetsUrl || !state.sheetsUrl.startsWith('http')){
+    toast('Veuillez d\'abord connecter Google Sheets', 'warn');
+    return;
+  }
+  toast('Actualisation des devises via Google Finance...', 'info', 2500);
+  try {
+    const fetchUrl = state.sheetsUrl + (state.sheetsUrl.includes('?') ? '&' : '?') + 'action=rates&t=' + Date.now();
+    const res = await fetch(fetchUrl);
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    if(data && data.status === 'success' && data.rates){
+      Object.assign(EXCHANGE_RATES, data.rates);
+      toast('Taux de change actualisés en direct depuis les marchés !', 'success', 3500);
+      rebuildSliders();
+      update();
+    } else {
+      toast('Impossible de lire les devises en direct', 'warn');
+    }
+  } catch(e){
+    console.warn('Erreur live rates:', e);
+    toast('Erreur lors de la récupération des taux : ' + e.message, 'error');
+  }
+}
+
+/* ============================================================
+   INTERCONNEXION : AUTO-VÉRIFICATION DE VERSION DISTANTE
+============================================================ */
+let lastCheckTime = 0;
+async function checkRemoteVersion(){
+  const now = Date.now();
+  if(now - lastCheckTime < 60000) return; // Limiter à une vérification par minute
+  lastCheckTime = now;
+  try {
+    const fetchUrl = state.sheetsUrl + (state.sheetsUrl.includes('?') ? '&' : '?') + 'action=load&t=' + now;
+    const res = await fetch(fetchUrl);
+    if(!res.ok) return;
+    const data = await res.json();
+    if(data && data.lastModified && state.lastSyncedAt){
+      const remoteTime = new Date(data.lastModified).getTime();
+      const localTime = new Date(state.lastSyncedAt).getTime();
+      if(remoteTime > localTime + 5000){
+        toast('Des modifications plus récentes existent sur Google Sheets. Cliquez sur Récupérer pour synchroniser.', 'info', 5000);
+      }
+    }
+  } catch(e){}
+}
+
+/* ============================================================
+   INTERCONNEXION : IMPORTATEUR UNIVERSEL CSV BANCAIRE
+============================================================ */
+function importBankCsvFile(file){
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = async e => {
+    try {
+      const text = e.target.result;
+      const lines = text.split(/\r?\n/).filter(l => l.trim().length > 0);
+      if(lines.length < 2) throw new Error('Fichier CSV vide ou incomplet');
+
+      // Détecter séparateur (; ou , ou tab)
+      const firstLine = lines[0];
+      const sep = firstLine.includes(';') ? ';' : (firstLine.includes('\t') ? '\t' : ',');
+
+      // Reconnaissance des colonnes
+      const headers = lines[0].split(sep).map(h => h.trim().toLowerCase().replace(/["']/g, ''));
+      let dateIdx = headers.findIndex(h => h.includes('date') || h.includes('valeur'));
+      let labelIdx = headers.findIndex(h => h.includes('libell') || h.includes('nom') || h.includes('description') || h.includes('opération') || h.includes('motif'));
+      let amountIdx = headers.findIndex(h => h.includes('montant') || h.includes('debit') || h.includes('valeur') || h.includes('total') || h.includes('prix'));
+
+      if(dateIdx === -1) dateIdx = 0;
+      if(labelIdx === -1) labelIdx = 1;
+      if(amountIdx === -1) amountIdx = headers.length - 1;
+
+      const newRows = [];
+      for(let i = 1; i < lines.length; i++){
+        const cols = lines[i].split(sep).map(c => c.trim().replace(/^["']|["']$/g, ''));
+        if(cols.length < 2) continue;
+
+        const rawDate = cols[dateIdx] || '';
+        const rawLabel = cols[labelIdx] || '';
+        let rawAmount = cols[amountIdx] || '0';
+        rawAmount = rawAmount.replace(/\s/g, '').replace(',', '.');
+        const amountNum = Math.abs(parseFloat(rawAmount)) || 0;
+
+        if(!rawLabel && amountNum === 0) continue;
+
+        // Catégorisation intelligente par mots-clés
+        let cat = 'Autres';
+        let sub = '';
+        const lowerLabel = rawLabel.toLowerCase();
+        if(lowerLabel.includes('loyer') || lowerLabel.includes('immo') || lowerLabel.includes('edf') || lowerLabel.includes('eau') || lowerLabel.includes('assurance')) {
+          cat = 'Logement'; sub = 'Loyer & Charges';
+        } else if(lowerLabel.includes('carrefour') || lowerLabel.includes('leclerc') || lowerLabel.includes('auchan') || lowerLabel.includes('lidl') || lowerLabel.includes('monoprix') || lowerLabel.includes('uber eats') || lowerLabel.includes('resto')) {
+          cat = 'Nourriture'; sub = 'Courses & Alimentation';
+        } else if(lowerLabel.includes('sncf') || lowerLabel.includes('ratp') || lowerLabel.includes('total') || lowerLabel.includes('essence') || lowerLabel.includes('parking') || lowerLabel.includes('uber')) {
+          cat = 'Transport'; sub = 'Transports';
+        } else if(lowerLabel.includes('netflix') || lowerLabel.includes('spotify') || lowerLabel.includes('amazon') || lowerLabel.includes('cinema') || lowerLabel.includes('sport')) {
+          cat = 'Loisirs'; sub = 'Divertissement';
+        } else if(lowerLabel.includes('pharmacie') || lowerLabel.includes('doctolib') || lowerLabel.includes('dentiste') || lowerLabel.includes('sante')) {
+          cat = 'Santé'; sub = 'Soins';
+        } else if(lowerLabel.includes('salaire') || lowerLabel.includes('virement') || lowerLabel.includes('remboursement')) {
+          cat = 'Revenus'; sub = 'Entrées';
+        }
+
+        newRows.push({
+          id: 'csv_' + Date.now() + '_' + i,
+          date: rawDate.slice(0, 10) || new Date().toISOString().slice(5, 10),
+          categorie: cat,
+          sousCat: sub,
+          budget: amountNum,
+          reel: amountNum,
+          commentaire: rawLabel.slice(0, 50)
+        });
+      }
+
+      if(newRows.length === 0){
+        toast('Aucune transaction reconnue dans le CSV', 'warn');
+        return;
+      }
+
+      if(!state.monthlyTable) state.monthlyTable = [];
+      state.monthlyTable.push(...newRows);
+      scheduleSave();
+      renderMonthlyTable();
+      update();
+      toast(`${newRows.length} transactions importées avec catégorisation automatique !`, 'success', 4500);
+
+      // Si Google Sheets est connecté, sauvegarder
+      if(state.sheetsUrl && state.sheetsUrl.startsWith('http')){
+        pushToGoogleSheets();
+      }
+    } catch(err){
+      console.error(err);
+      toast('Erreur lors de la lecture du CSV bancaire : ' + err.message, 'error', 4500);
+    }
+  };
+  reader.readAsText(file, 'utf8');
+}
+
+async function pullFromGoogleSheets(){
+  if(!state.sheetsUrl || !state.sheetsUrl.startsWith('http')){
+    toast('Veuillez configurer l\'URL Google Apps Script', 'warn');
+    $('#sheetsModal').classList.add('show');
+    return;
+  }
+  toast('Récupération depuis Google Sheets...', 'info', 2500);
+  try {
+    const fetchUrl = state.sheetsUrl + (state.sheetsUrl.includes('?') ? '&' : '?') + 'action=load&t=' + Date.now();
+    const res = await fetch(fetchUrl);
+    if(!res.ok) throw new Error('Statut HTTP ' + res.status);
+    const data = await res.json();
+    if(data && (data.state || data.income)){
+      const newState = data.state || data;
+      state = deepMerge(DEFAULT_STATE, newState);
+      saveState();
+      // Synchroniser UI
+      $$('[data-bind]').forEach(el => {
+        const v = getPath(state, el.dataset.bind);
+        if(v !== undefined) el.value = v;
+      });
+      $$('input[data-check]').forEach(c => {
+        const k = c.dataset.check;
+        c.checked = !!state.checks[k];
+        c.closest('.check-item')?.classList.toggle('done', c.checked);
+      });
+      $$('input[data-suivi]').forEach(c => {
+        const k = c.dataset.suivi;
+        c.checked = !!state.checksSuivi[k];
+        c.closest('.check-item')?.classList.toggle('done', c.checked);
+      });
+      renderContacts();
+      renderMonthlyTable();
+      update();
+      updateChecklist();
+      updateSheetsStatusUI();
+      toast('Données chargées depuis Google Sheets !', 'success', 3500);
+    } else {
+      toast('Aucune donnée valide trouvée sur le Sheet', 'warn');
+    }
+  } catch(err){
+    console.error(err);
+    toast('Erreur lors de la lecture : ' + err.message, 'error', 4500);
+  }
+}
+
+
+/* ======================== HISTORIQUE GOOGLE SHEETS ======================== */
+async function loadHistoryFromSheets(){
+  const modalContent = $('#historyModalContent');
+  const panelContainer = $('#historyTableContainer');
+  const lastUpdatedEl = $('#historyLastUpdated');
+
+  if(!state.sheetsUrl || !state.sheetsUrl.startsWith('http')){
+    const emptyMsg = `<div style="padding:28px;text-align:center;color:var(--muted);font-size:12px">
+      Veuillez d'abord connecter votre Google Apps Script via le bouton <b>Google Sheets</b>.
+    </div>`;
+    if(modalContent) modalContent.innerHTML = emptyMsg;
+    if(panelContainer) panelContainer.innerHTML = emptyMsg;
+    return;
+  }
+
+  const loadingMsg = `<div style="padding:28px;text-align:center;color:var(--muted);font-size:12px">
+    Chargement de l'historique en direct depuis votre Google Sheet...
+  </div>`;
+  if(modalContent) modalContent.innerHTML = loadingMsg;
+  if(panelContainer) panelContainer.innerHTML = loadingMsg;
+
+  try {
+    const fetchUrl = state.sheetsUrl + (state.sheetsUrl.includes('?') ? '&' : '?') + 'action=history&t=' + Date.now();
+    const res = await fetch(fetchUrl);
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+
+    if(data && data.status === 'success' && Array.isArray(data.history)){
+      renderHistoryTable(data.history);
+      if(lastUpdatedEl) lastUpdatedEl.textContent = 'Mis à jour à ' + new Date().toLocaleTimeString('fr-FR');
+    } else {
+      const noDataMsg = `<div style="padding:28px;text-align:center;color:var(--muted);font-size:12px">
+        Aucun instantané enregistré dans l'onglet 'Historique_Patrimoine'. Effectuez une première synchronisation.
+      </div>`;
+      if(modalContent) modalContent.innerHTML = noDataMsg;
+      if(panelContainer) panelContainer.innerHTML = noDataMsg;
+    }
+  } catch(err){
+    console.error('Erreur historique:', err);
+    const errMsg = `<div style="padding:24px;text-align:center;color:var(--red);font-size:12px">
+      Impossible de récupérer l'historique : ${err.message}.<br>
+      <span class="mini" style="color:var(--muted)">Assurez-vous d'avoir déployé la dernière version du script dans Google Apps Script.</span>
+    </div>`;
+    if(modalContent) modalContent.innerHTML = errMsg;
+    if(panelContainer) panelContainer.innerHTML = errMsg;
+  }
+}
+
+function renderHistoryTable(records){
+  const modalContent = $('#historyModalContent');
+  const panelContainer = $('#historyTableContainer');
+
+  if(!records || records.length === 0){
+    const emptyHtml = `<div style="padding:28px;text-align:center;color:var(--muted);font-size:12px">
+      Aucun historique trouvé. Cliquez sur <b>Créer un instantané</b> pour enregistrer l'état actuel.
+    </div>`;
+    if(modalContent) modalContent.innerHTML = emptyHtml;
+    if(panelContainer) panelContainer.innerHTML = emptyHtml;
+    return;
+  }
+
+  const tableHtml = `
+    <table class="grid-table" style="width:100%;font-size:11.5px;border-collapse:collapse">
+      <thead>
+        <tr style="background:var(--input-bg);text-align:left;border-bottom:1px solid var(--brd)">
+          <th style="padding:9px 12px;font-weight:700;color:var(--muted)">Date & Heure</th>
+          <th style="padding:9px 12px;font-weight:700;color:var(--muted);text-align:right">Patrimoine Net</th>
+          <th style="padding:9px 12px;font-weight:700;color:var(--muted);text-align:right">Revenus</th>
+          <th style="padding:9px 12px;font-weight:700;color:var(--muted);text-align:right">Dépenses</th>
+          <th style="padding:9px 12px;font-weight:700;color:var(--muted);text-align:right">Épargne / mois</th>
+          <th style="padding:9px 12px;font-weight:700;color:var(--muted);text-align:right">Taux</th>
+          <th style="padding:9px 12px;font-weight:700;color:var(--muted);text-align:right">Urgence</th>
+          <th style="padding:9px 12px;font-weight:700;color:var(--muted);text-align:right">Dettes</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${records.map((r, i) => {
+          const curr = r.currency || state.currency || '€';
+          const epargneColor = r.capaciteEpargne >= 0 ? 'var(--green)' : 'var(--red)';
+          return `
+            <tr style="border-bottom:1px solid var(--table-border);transition:background .15s">
+              <td style="padding:8px 12px;white-space:nowrap;font-weight:600">${r.dateLabel || r.timestamp || '—'}</td>
+              <td style="padding:8px 12px;text-align:right;font-weight:800;color:var(--blue);font-variant-numeric:tabular-nums">${fmt(r.patrimoineNet)} ${curr}</td>
+              <td style="padding:8px 12px;text-align:right;font-variant-numeric:tabular-nums;color:var(--txt)">${fmt(r.revenusTotaux)} ${curr}</td>
+              <td style="padding:8px 12px;text-align:right;font-variant-numeric:tabular-nums;color:var(--muted)">${fmt(r.depensesTotales)} ${curr}</td>
+              <td style="padding:8px 12px;text-align:right;font-weight:700;font-variant-numeric:tabular-nums;color:${epargneColor}">${r.capaciteEpargne > 0 ? '+' : ''}${fmt(r.capaciteEpargne)} ${curr}</td>
+              <td style="padding:8px 12px;text-align:right;font-weight:700;font-variant-numeric:tabular-nums">${r.tauxEpargne} %</td>
+              <td style="padding:8px 12px;text-align:right;font-variant-numeric:tabular-nums;color:var(--green)">${fmt(r.epargneUrgence)} ${curr}</td>
+              <td style="padding:8px 12px;text-align:right;font-variant-numeric:tabular-nums;color:var(--red)">${fmt(r.dettesTotales)} ${curr}</td>
+            </tr>
+          `;
+        }).join('')}
+      </tbody>
+    </table>
+  `;
+
+  if(modalContent) modalContent.innerHTML = tableHtml;
+  if(panelContainer) panelContainer.innerHTML = tableHtml;
+}
+
+/* Goals */
+function addGoal(){
+  const name = $('#newGoalName').value.trim();
+  const target = parseFloat($('#newGoalTarget').value);
+  if(!name || !target || target <= 0){ toast('Nom et cible requis', 'warn'); return; }
+  const colors = ['#34d399','#38bdf8','#a78bfa','#fbbf24','#f472b6','#22d3ee'];
+  state.goals.push({ id:'g'+Date.now(), name, target, saved:0, color: colors[state.goals.length % colors.length] });
+  $('#newGoalName').value = ''; $('#newGoalTarget').value = '';
+  scheduleSave(); update();
+  toast('Objectif ajouté', 'success');
+}
+function deleteGoal(id){
+  state.goals = state.goals.filter(g => g.id !== id);
+  scheduleSave(); update();
+}
+
+/* Monthly table */
+function addMonthlyRow(){
+  state.monthlyTable.push({
+    id: 'r'+Date.now(),
+    date: new Date().toISOString().slice(5,10),
+    categorie: '', sousCat: '', budget: 0, reel: 0, commentaire: ''
+  });
+  scheduleSave();
+  renderMonthlyTable();
+  update();
+}
+function deleteMonthlyRow(id){
+  state.monthlyTable = state.monthlyTable.filter(r => r.id !== id);
+  scheduleSave();
+  renderMonthlyTable();
+  update();
+}
+function renderMonthlyTable(){
+  const body = $('#monthlyTableBody');
+  if(state.monthlyTable.length === 0){
+    body.innerHTML = `<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:14px;font-size:11px">Aucune ligne — clique sur « Ajouter une ligne » pour commencer.</td></tr>`;
+    return;
+  }
+  body.innerHTML = state.monthlyTable.map(r => {
+    const ecart = r.reel - r.budget;
+    const ecartColor = Math.abs(ecart) < 10 ? 'var(--green)' : (ecart > 0 ? 'var(--red)' : 'var(--amber)');
+    return `<tr data-row="${r.id}">
+      <td><input type="text" data-field="date" value="${r.date||''}" placeholder="05/01"></td>
+      <td><input type="text" data-field="categorie" value="${r.categorie||''}" placeholder="Alimentaire"></td>
+      <td><input type="text" data-field="sousCat" value="${r.sousCat||''}" placeholder="Courses"></td>
+      <td><input type="number" data-field="budget" value="${r.budget||0}" step="1"></td>
+      <td><input type="number" data-field="reel" value="${r.reel||0}" step="1"></td>
+      <td style="color:${ecartColor};font-weight:800">${ecart>=0?'+':''}${fmtCurr(ecart)}</td>
+      <td><input type="text" data-field="commentaire" value="${r.commentaire||''}" placeholder="…"></td>
+      <td><button class="del-btn" data-del="${r.id}">×</button></td>
+    </tr>`;
+  }).join('');
+  // bind inputs
+  $$('#monthlyTableBody input').forEach(inp => {
+    inp.addEventListener('input', e => {
+      const row = e.target.closest('tr');
+      const id = row.dataset.row;
+      const item = state.monthlyTable.find(r => r.id === id);
+      if(!item) return;
+      const field = e.target.dataset.field;
+      item[field] = (field === 'budget' || field === 'reel') ? parseFloat(e.target.value)||0 : e.target.value;
+      scheduleSave();
+      // recompute écart
+      const ecart = item.reel - item.budget;
+      const ecartColor = Math.abs(ecart) < 10 ? 'var(--green)' : (ecart > 0 ? 'var(--red)' : 'var(--amber)');
+      row.children[5].style.color = ecartColor;
+      row.children[5].textContent = (ecart>=0?'+':'')+fmtCurr(ecart);
+      updateTableIndicators();
+    });
+  });
+  $$('#monthlyTableBody [data-del]').forEach(b => {
+    b.addEventListener('click', () => deleteMonthlyRow(b.dataset.del));
+  });
+}
+function updateTableIndicators(){
+  const rows = state.monthlyTable;
+  if(rows.length === 0){ $('#respectBudget').textContent = '—'; $('#ecartMoyen').textContent = '—'; $('#alertes80').textContent = '0'; return; }
+  const within = rows.filter(r => {
+    if(r.budget === 0) return r.reel === 0;
+    return Math.abs(r.reel - r.budget) / r.budget <= 0.1;
+  }).length;
+  $('#respectBudget').textContent = Math.round(within / rows.length * 100) + ' %';
+  const ecartTotal = rows.reduce((s,r) => s + Math.abs(r.reel - r.budget), 0);
+  $('#ecartMoyen').textContent = fmtCurr(ecartTotal / rows.length);
+  const alerts = rows.filter(r => r.budget > 0 && r.reel >= r.budget * 0.8).length;
+  $('#alertes80').textContent = alerts;
+  $('#alertes80').style.color = alerts > 0 ? 'var(--amber)' : 'var(--green)';
+}
+
+/* ============================================================
+   UPDATE
+============================================================ */
+function update(){
+  const inc = totalIncome();
+  const expT = expTotal();
+  const futT = futurTotal();
+  const reste = inc - expT - futT;
+  const capacite = inc - expT;
+  const tauxEpargne = inc > 0 ? (capacite/inc)*100 : 0;
+  const tauxEnd = inc > 0 ? (state.debt/inc)*100 : 0;
+  const st = {1:strataTotal(1), 2:strataTotal(2), 3:strataTotal(3), 4:strataTotal(4)};
+  const stTotal = st[1]+st[2]+st[3]+st[4] || 1;
+  const ratioFlex = ((st[3]+st[4])/stTotal)*100;
+
+  // HEALTH SCORE
+  const h = computeHealth();
+  const grade = healthGrade(h.total);
+  const pct = Math.min(100, h.total);
+  const circ = 2 * Math.PI * 50;
+  $('#healthProgress').setAttribute('stroke-dasharray', circ);
+  $('#healthProgress').setAttribute('stroke-dashoffset', circ * (1 - pct/100));
+  $('#healthProgress').setAttribute('stroke', grade.color);
+  $('#healthNum').textContent = Math.round(h.total);
+  $('#healthNum').style.color = grade.color;
+  $('#healthGrade').textContent = grade.label;
+  $('#healthGrade').style.color = grade.color;
+  const pillars = [h.sEpargne/25, h.sUrgence/20, h.sDette/15, h.sDiversification/15, h.sObjectifs/10, h.sDiscipline/15];
+  const colors = ['#34d399','#22d3ee','#38bdf8','#a78bfa','#fbbf24','#f472b6'];
+  $('#healthBreakdown').innerHTML = pillars.map((f,i) =>
+    `<div class="hb-seg" style="background:${f >= 0.7 ? colors[i] : 'rgba(255,255,255,.1)'}"></div>`
+  ).join('');
+
+  // HEADER 3-COLUMNS SUMMARY & income
+  const curr = state.currency || '€';
+  $('#incomeDisplay').textContent = fmt(inc);
+  $('#heroExp').textContent = fmtCurr(expT);
+  const surplus = inc - expT;
+  const surplusEl = $('#heroSurplus');
+  if(surplusEl){
+    surplusEl.textContent = (surplus >= 0 ? '+' : '−') + fmtCurr(Math.abs(surplus));
+    surplusEl.style.color = surplus >= 0 ? 'var(--green)' : 'var(--red)';
+  }
+  const couverture = expT > 0 ? (inc / expT * 100) : (inc > 0 ? 100 : 0);
+  const couvEl = $('#heroCouverture');
+  if(couvEl){
+    couvEl.textContent = Math.round(couverture) + '%';
+    couvEl.style.color = couverture >= 100 ? 'var(--blue)' : 'var(--amber)';
+  }
+
+  // KPIs overview
+  $('#kpiIncome').textContent = fmtCurr(inc);
+  $('#kpiIncomeSub').textContent = 'principaux ' + fmtCurr(revPrincipaux());
+  $('#kpiExp').textContent = fmtCurr(expT);
+  $('#kpiExpSub').textContent = (inc>0?Math.round(expT/inc*100):0) + ' % du revenu';
+  $('#kpiSave').textContent = fmtCurr(capacite);
+  $('#kpiSaveSub').textContent = 'taux ' + tauxEpargne.toFixed(1) + ' %';
+  $('#kpiReste').textContent = (reste<0?'−':'') + fmtCurr(Math.abs(reste));
+  $('#kpiReste').style.color = reste < -0.5 ? 'var(--red)' : reste > 0.5 ? 'var(--amber)' : 'var(--green)';
+
+  // STACKED BAR PROPORTIONNELLE WITH HOVER EFFECTS
+  const stackedBar = $('#expensesStackedBar');
+  if(stackedBar){
+    const catsData = DETAILED_EXPENSE_DEFS.map(cat => ({
+      cat: cat.cat,
+      label: cat.label,
+      color: cat.color,
+      value: catTotal(cat.cat)
+    }));
+    const totalExpVal = catsData.reduce((s,d)=>s+d.value,0);
+    stackedBar.innerHTML = catsData.map(d => {
+      const pct = totalExpVal > 0 ? (d.value / totalExpVal * 100) : 0;
+      if(pct <= 0) return '';
+      return `<div class="stacked-seg" data-cat="${d.cat}" style="width:${pct}%;background:${d.color}" title="${d.label}: ${fmtCurr(d.value)} (${pct.toFixed(1)}%)">
+        ${pct > 8 ? d.label + ' ' + Math.round(pct) + '%' : ''}
+      </div>`;
+    }).join('');
+
+    // Hover effects & cross-highlighting
+    const segs = stackedBar.querySelectorAll('.stacked-seg');
+    segs.forEach(seg => {
+      seg.addEventListener('mouseenter', () => {
+        stackedBar.classList.add('has-hover');
+        seg.classList.add('is-hovered');
+        const catKey = seg.dataset.cat;
+        const matchingCat = catsData.find(c => c.cat === catKey);
+        if(matchingCat) $('#stackedBarHoverLabel').textContent = `${matchingCat.label} : ${fmtCurr(matchingCat.value)} (${(matchingCat.value/totalExpVal*100).toFixed(1)}%)`;
+        // dim other accordion categories
+        $$('.pat-section[data-cat]').forEach(sec => {
+          if(sec.dataset.cat === catKey){
+            sec.classList.add('is-highlighted');
+            sec.classList.remove('is-dimmed');
+          } else {
+            sec.classList.add('is-dimmed');
+            sec.classList.remove('is-highlighted');
+          }
+        });
+      });
+      seg.addEventListener('mouseleave', () => {
+        stackedBar.classList.remove('has-hover');
+        seg.classList.remove('is-hovered');
+        $('#stackedBarHoverLabel').textContent = 'Survolez un segment pour isoler';
+        $$('.pat-section[data-cat]').forEach(sec => {
+          sec.classList.remove('is-dimmed');
+          sec.classList.remove('is-highlighted');
+        });
+      });
+      seg.addEventListener('click', () => {
+        const catKey = seg.dataset.cat;
+        activateTab('budget');
+        const targetSec = $(`#sec-cat-${catKey}`);
+        if(targetSec){
+          targetSec.classList.add('open');
+          targetSec.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      });
+    });
+  }
+
+  // Revenus KPIs
+  $('#revPrincipaux').textContent = fmtCurr(revPrincipaux());
+  $('#revSecondaires').textContent = fmtCurr(revSecondaires());
+  $('#revTotal').textContent = fmtCurr(inc);
+  $('#revTotalSub').textContent = revSecondaires() > 0 ? Math.round(revSecondaires()/inc*100)+' % secondaire' : '100 % principal';
+
+  // Donut
+  const donutData = [1,2,3,4].map(k => ({ label: STRATA_META[k].name, value: st[k], color: STRATA_META[k].color }));
+  $('#donutWrap').innerHTML = donutSVG(donutData);
+  $('#legendStrata').innerHTML = donutData.map(d => {
+    const p = stTotal>0 ? Math.round(d.value/stTotal*100) : 0;
+    return `<div class="legend-item"><span class="dot" style="background:${d.color}"></span><span>${d.label}</span><span class="val">${fmtCurr(d.value)} · ${p}%</span></div>`;
+  }).join('');
+
+  // Indicateurs
+  $('#tauxEpargneTxt').textContent = tauxEpargne.toFixed(1) + ' %';
+  $('#barEpargne').style.width = Math.min(100, Math.max(0, tauxEpargne)) + '%';
+  $('#barEpargne').style.background = tauxEpargne>=20 ? 'var(--green)' : (tauxEpargne>=10 ? 'var(--amber)' : 'var(--red)');
+  $('#tauxEndTxt').textContent = tauxEnd.toFixed(1) + ' %';
+  $('#barEndettement').style.width = Math.min(100, tauxEnd*3) + '%';
+  $('#barEndettement').style.background = tauxEnd<=33 ? 'var(--green)' : 'var(--red)';
+  $('#ratioFlexTxt').textContent = ratioFlex.toFixed(1) + ' %';
+  $('#barFlex').style.width = Math.min(100, ratioFlex) + '%';
+  $('#barFlex').style.background = 'var(--purple)';
+  const mensualExp = expT || 1;
+  $('#joursAuto').textContent = Math.round(state.emergencySaved / (mensualExp/30)) + ' jours';
+
+  // Insights
+  const insights = generateInsights();
+  $('#insightCount').textContent = insights.length;
+  $('#insightsBox').innerHTML = insights.map(ins =>
+    `<div class="insight ${ins.type}">
+      <div class="insight-icon">${ins.icon}</div>
+      <div class="insight-content">
+        <div class="insight-title">${ins.title}</div>
+        <div class="insight-body">${ins.body}</div>
+        ${ins.action ? `<div class="insight-action"><button data-tab="${ins.action.tab}">${ins.action.label} →</button></div>` : ''}
+      </div>
+    </div>`
+  ).join('');
+  $$('#insightsBox button[data-tab]').forEach(b => {
+    b.addEventListener('click', () => activateTab(b.dataset.tab));
+  });
+
+  // Alerts
+  const alerts = [];
+  if(reste < -0.5) alerts.push({t:'danger', m:`Budget en dépassement de <b>${fmtCurr(-reste)}</b>.`});
+  else if(reste > 0.5) alerts.push({t:'warn', m:`Attention : <b>${fmtCurr(reste)}</b> non affectés — attribue-les à l'enveloppe Futur.`});
+  else alerts.push({t:'ok', m:'Budget équilibré (Zero-Based Budgeting).'});
+  if(tauxEnd > 33) alerts.push({t:'danger', m:`Taux d'endettement ${tauxEnd.toFixed(1)} % — au-delà du seuil de 33 %.`});
+  $('#alertsBox').innerHTML = alerts.map(a => `<div class="alert ${a.t}">${a.m}</div>`).join('');
+
+  // Budget totals
+  $('#budgetExpTotal').textContent = fmtCurr(expT);
+  $('#budgetFuturTotal').textContent = fmtCurr(futT);
+  DETAILED_EXPENSE_DEFS.forEach(cat => {
+    const el = $('#catTotal-'+cat.cat);
+    if(el) el.textContent = fmtCurr(catTotal(cat.cat));
+  });
+
+  // Enveloppes
+  const fixe = catTotal('logement') + catTotal('nourriture') + catTotal('sante') + catTotal('transport');
+  const variable = catTotal('communication') + catTotal('habillement') + catTotal('loisirs') + catTotal('restaurants') + catTotal('vacances');
+  const envs = [
+    { name:'1 · Fixe Essentielle', total:fixe, color:'#38bdf8', min:50, max:60, detail:'Logement · Nourriture · Transports · Santé' },
+    { name:'2 · Variable Qualité de vie', total:variable, color:'#a78bfa', min:20, max:30, detail:'Communication · Habillement · Loisirs · Sorties' },
+    { name:'3 · Futur', total:futT, color:'#34d399', min:20, max:30, detail:'Épargne · Investissement · Projets · Dons' },
+    { name:'4 · Reste à allouer', total:reste, color: reste<0?'#f87171':'#64748b', min:0, max:100, detail:'Non affecté — doit tendre vers 0' }
+  ];
+  $('#envelopeCards').innerHTML = envs.map(e => {
+    const p = inc>0 ? (e.total/inc*100) : 0;
+    const inRange = p >= e.min-0.5 && p <= e.max+0.5;
+    const badge = e.name.startsWith('4')
+      ? (Math.abs(p)<0.5 ? '<span class="badge-ok">équilibré</span>' : '<span class="badge-off">à ajuster</span>')
+      : (inRange ? '<span class="badge-ok">dans la cible</span>' : '<span class="badge-off">hors cible</span>');
+    return `<div style="background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:11px;padding:12px 14px">
+      <div class="row-flex" style="margin-bottom:6px"><b style="font-size:12px">${e.name}</b>${badge}</div>
+      <div style="font-size:18px;font-weight:800;color:${e.color}">${fmtCurr(e.total)}</div>
+      <div class="mini" style="margin-bottom:8px">${e.detail}</div>
+      <div class="bar-track"><div class="bar-fill" style="background:${e.color};width:${Math.min(100,Math.max(0,p))}%"></div></div>
+      <div class="mini" style="margin-top:5px">${p.toFixed(1)} % du revenu${e.name.startsWith('4')?'':' · cible '+e.min+'–'+e.max+' %'}</div>
+    </div>`;
+  }).join('');
+  const alloue = fixe + variable + futT;
+  $('#allocSummary').textContent = fmtCurr(alloue) + ' / ' + fmtCurr(inc);
+  $('#allocBar').style.width = inc>0 ? Math.min(100, alloue/inc*100) + '%' : '0%';
+
+  // Patrimoine
+  const patBrut = patrimoineBrut();
+  const patPassifs = patrimoinePassifs();
+  const patNet = patBrut - patPassifs;
+  const patByCat = patrimoineByCat();
+  $('#patBrut').textContent = fmtCurr(patBrut);
+  $('#patPassifs').textContent = fmtCurr(patPassifs);
+  $('#patNet').textContent = fmtCurr(patNet);
+  $('#patNet').style.color = patNet < 0 ? 'var(--red)' : 'var(--green)';
+  $('#patNetSub').textContent = patBrut > 0 ? Math.round(patNet/patBrut*100) + ' % du brut' : '—';
+  const ratio = patPassifs > 0 ? (patBrut/patPassifs) : (patBrut > 0 ? Infinity : 0);
+  $('#patRatio').textContent = patPassifs === 0 && patBrut === 0 ? '—' : (isFinite(ratio) ? ratio.toFixed(2)+'×' : '∞');
+  $('#patRatio').style.color = ratio >= 2 ? 'var(--green)' : ratio >= 1 ? 'var(--amber)' : 'var(--red)';
+  const patDonutData = PATRIMOINE_DEFS.filter(c => c.key !== 'passifs').map(c => ({ label: c.cat, value: patByCat[c.key]||0, color: c.color }));
+  $('#patDonut').innerHTML = donutSVG(patDonutData);
+  $('#patLegend').innerHTML = patDonutData.map(d => {
+    const p = patBrut>0 ? Math.round(d.value/patBrut*100) : 0;
+    return `<div class="legend-item"><span class="dot" style="background:${d.color}"></span><span>${d.label}</span><span class="val">${fmtCurr(d.value)} · ${p}%</span></div>`;
+  }).join('');
+  PATRIMOINE_DEFS.forEach(cat => {
+    const tot = cat.items.reduce((s,i) => s + (state.patrimoine[i.id]||0), 0);
+    const el = $('#patTotal-'+cat.key);
+    if(el) el.textContent = fmtCurr(tot);
+  });
+
+  updateProjection();
+
+  // Goals
+  $('#goalsCount').textContent = state.goals.length;
+  // Cohérence continue de l'objectif Fonds d'urgence avec l'épargne d'urgence
+  const autoUrgenceGoal = state.goals.find(g => g.name.toLowerCase().includes('urgence'));
+  if(autoUrgenceGoal && autoUrgenceGoal.saved !== state.emergencySaved){
+    autoUrgenceGoal.saved = state.emergencySaved;
+  }
+  $('#goalsList').innerHTML = state.goals.length === 0
+    ? '<p class="mini" style="text-align:center;padding:14px 0">Aucun objectif — ajoute-en un.</p>'
+    : state.goals.map(g => {
+        const p = g.target > 0 ? Math.min(100, (g.saved/g.target)*100) : 0;
+        return `<div class="goal-card">
+          <div class="goal-head">
+            <span class="dot" style="background:${g.color}"></span>
+            <span class="goal-name">${g.name}</span>
+            <button class="goal-delete" data-del="${g.id}">×</button>
+          </div>
+          <div class="bar-track" style="height:7px"><div class="bar-fill" style="background:${g.color};width:${p}%"></div></div>
+          <div class="goal-progress-info"><span>${fmtCurr(g.saved)} / ${fmtCurr(g.target)}</span><b style="color:${g.color}">${Math.round(p)}%</b></div>
+          <div class="slider-row" style="margin-top:8px;margin-bottom:0">
+            <input type="range" min="0" max="${Math.max(g.target, 100)}" step="10" value="${g.saved}" data-goal="${g.id}">
+          </div>
+        </div>`;
+      }).join('');
+  $$('#goalsList [data-del]').forEach(b => b.addEventListener('click', () => deleteGoal(b.dataset.del)));
+  $$('#goalsList [data-goal]').forEach(r => {
+    r.addEventListener('input', e => {
+      const g = state.goals.find(x => x.id === e.target.dataset.goal);
+      if(g){
+        const val = parseFloat(e.target.value) || 0;
+        g.saved = val;
+        // Si cet objectif est le Fonds d'urgence, propager vers state.emergencySaved et comptes
+        if(g.name.toLowerCase().includes('urgence')){
+          state.emergencySaved = val;
+          syncCompanionInputs('emergencySaved', val);
+          syncCompanionInputs('comptes.urgenceRevolut', val);
+          setPath(state, 'comptes.urgenceRevolut', val);
+        }
+        scheduleSave();
+        update();
+      }
+    });
+  });
+
+  // FIRE
+  const annualExp = expT * 12;
+  const fireNumber = annualExp * 25;
+  const progress = fireNumber > 0 ? Math.min(100, (patNet/fireNumber)*100) : 0;
+  const annualSavings = capacite * 12;
+  let yearsToFI = null;
+  if(annualSavings > 0 && fireNumber > 0){
+    let n = patNet;
+    for(let y = 1; y <= 60; y++){
+      n = n * 1.07 + annualSavings;
+      if(n >= fireNumber){ yearsToFI = y; break; }
+    }
+  }
+  $('#fireAnnual').textContent = fmtCurr(annualExp);
+  $('#fireNumber').textContent = fmtCurr(fireNumber);
+  $('#fireProgressTxt').textContent = progress.toFixed(1) + ' %';
+  $('#fireProgressBar').style.width = progress + '%';
+  $('#fireCurrentNet').textContent = fmtCurr(patNet);
+  $('#fireYears').textContent = yearsToFI !== null ? '~'+yearsToFI+' ans' : (annualSavings <= 0 ? '—' : '>60 ans');
+
+  // Automatisation
+  const split = [
+    { pct:20, label:'Épargne urgence', color:'#22d3ee' },
+    { pct:15, label:'Investissement LT', color:'#34d399' },
+    { pct:5,  label:'Projets', color:'#fbbf24' },
+    { pct:5,  label:'Formation', color:'#a78bfa' },
+    { pct:55, label:'Dépenses courantes', color:'#64748b' }
+  ];
+  $('#splitBar').innerHTML = split.map(s => `<div class="split-seg" style="width:${s.pct}%;background:${s.color};color:${s.pct>12?'#06101f':'transparent'}">${s.pct}%</div>`).join('');
+  $('#splitDetails').innerHTML = split.map(s => {
+    const amt = inc * (s.pct/100);
+    return `<div class="row-flex" style="padding:8px 2px;border-bottom:1px solid rgba(255,255,255,.05);font-size:12px">
+      <span style="display:flex;align-items:center;gap:9px"><span class="dot" style="background:${s.color}"></span>${s.label}</span>
+      <b style="font-variant-numeric:tabular-nums">${s.pct} % · ${fmtCurr(amt)}</b></div>`;
+  }).join('');
+
+  // Sécurité
+  const cm = computeEmergencyTargets();
+  const mult = EXCHANGE_RATES[state.currency] || 1;
+  const p1Target = Math.round(1000 * mult);
+  const paliers = [
+    { name:'Palier 1 · Urgence 48 h', target:p1Target, color:'#f87171', note:'Accessible en 48 h maximum' },
+    { name:'Palier 2 · Sécurité 1 mois', target:Math.max(p1Target, cm.cible1m), color:'#fbbf24', note:'Accessible en 72 h maximum' },
+    { name:'Palier 3 · Protection 3 mois', target:Math.max(p1Target, cm.cible3m), color:'#34d399', note:'LDDS / LEP — recalculé chaque année' }
+  ];
+  $('#emergencyCards').innerHTML = paliers.map(p => {
+    const pct = p.target>0 ? Math.min(100, state.emergencySaved/p.target*100) : 0;
+    const done = state.emergencySaved >= p.target;
+    return `<div style="background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:11px;padding:12px 14px">
+      <div class="row-flex" style="margin-bottom:6px"><b style="font-size:11.5px">${p.name}</b>${done?'<span class="badge-ok">Atteint</span>':'<span class="badge-off">'+Math.round(pct)+'%</span>'}</div>
+      <div style="font-size:18px;font-weight:800;color:${p.color}">${fmtCurr(p.target)}</div>
+      <div class="mini" style="margin:4px 0 8px">${p.note}</div>
+      <div class="bar-track"><div class="bar-fill" style="background:${p.color};width:${pct}%"></div></div>
+    </div>`;
+  }).join('');
+  $('#emFormula').textContent = fmtCurr(cm.cible3m);
+
+  // Investissement
+  const actions = Math.max(20, Math.min(90, 100 - state.age));
+  const oblig = 100 - actions;
+  $('#segActions').style.width = actions + '%';
+  $('#segOblig').style.width = oblig + '%';
+  $('#segActions').textContent = 'Actions ' + actions + ' %';
+  $('#segOblig').textContent = 'Obligations ' + oblig + ' %';
+  $('#allocTxt').textContent = actions + ' % / ' + oblig + ' %';
+  updateMonteCarlo();
+
+  // Monthly table indicators
+  updateTableIndicators();
+
+  checkMilestones();
+}
+
+function updateProjection(){
+  const pts = projectNetWorth(state.projectionScenario);
+  const series = [{ data: pts.map(p => p.value), color: '#34d399', fill: 'rgba(52,211,153,.1)', width: 2.5 }];
+  $('#projectionChart').innerHTML = lineChart(series, 460, 170, 30);
+  $('#projNow').textContent = fmtCurr(pts[0].value);
+  $('#proj10').textContent = fmtCurr(pts[10]?.value || 0);
+  $('#proj30').textContent = fmtCurr(pts[30]?.value || 0);
+}
+
+function updateMonteCarlo(){
+  const { monthly, rate, years } = state.dca;
+  const mc = monteCarlo(monthly, rate, years, 150);
+  const invested = Array.from({length: years + 1}, (_, i) => i * 12 * monthly);
+  $('#monteCarloChart').innerHTML = bandChart({ upper: mc.p90, mid: mc.p50, lower: mc.p10, invested }, 560, 190, 34);
+  $('#dcaInvested').textContent = fmtCurr(invested[years]);
+  $('#dcaP10').textContent = fmtCurr(mc.p10[years]);
+  $('#dcaP50').textContent = fmtCurr(mc.p50[years]);
+  $('#dcaP90').textContent = fmtCurr(mc.p90[years]);
+}
+
+function updateChecklist(){
+  const boxes = $$('input[data-check]');
+  const done = boxes.filter(b => b.checked).length;
+  $('#checkProgress').textContent = done + ' / ' + boxes.length;
+  $('#checkBar').style.width = (done/boxes.length*100) + '%';
+}
+
+/* Toasts */
+function toast(msg, type='info', dur=3000){
+  const c = $('#toastContainer');
+  const el = document.createElement('div');
+  el.className = 'toast toast-' + type;
+  el.textContent = msg;
+  c.appendChild(el);
+  requestAnimationFrame(() => el.classList.add('show'));
+  setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 350); }, dur);
+}
+
+/* Milestones */
+const prev = { em1:false, em2:false, em3:false, checklist:false };
+function checkMilestones(){
+  const em = state.emergencySaved;
+  const cm = computeEmergencyTargets();
+  const checks = $$('input[data-check]');
+  const checklistDone = checks.length > 0 && checks.filter(b => b.checked).length === checks.length;
+  const now = {
+    em1: em >= 1000,
+    em2: em >= cm.cible1m,
+    em3: em >= cm.cible3m,
+    checklist: checklistDone
+  };
+  if(now.em1 && !prev.em1) toast('Palier 1 du fonds d\'urgence atteint', 'success', 4000);
+  if(now.em2 && !prev.em2) toast('Palier 2 du fonds d\'urgence atteint', 'success', 4000);
+  if(now.em3 && !prev.em3) toast('Fonds d\'urgence complet', 'success', 4000);
+  if(now.checklist && !prev.checklist) toast('Checklist complète !', 'success', 4000);
+  Object.assign(prev, now);
+}
+
+/* ============================================================
+   INIT & CIRCUIT BREAKER
+============================================================ */
+try {
+  const startTime = performance.now();
+  buildUI();
+  update();
+  updateChecklist();
+  if(state.theme === 'light'){
+    document.documentElement.setAttribute('data-theme', 'light');
+  }
+  const renderDuration = performance.now() - startTime;
+  if(renderDuration > 800){
+    console.warn(`[Circuit Breaker] Rendu initial ralenti: ${renderDuration.toFixed(1)}ms`);
+  }
+} catch(fatalErr){
+  console.error('[Circuit Breaker Triggered]', fatalErr);
+  const fb = document.getElementById('circuitBreakerFallback');
+  if(fb){
+    fb.style.display = 'block';
+    fb.innerHTML = `<h3>Mode de secours activé</h3>
+      <p style="color:var(--muted);font-size:12px">Le widget a rencontré une erreur d'exécution. Vos données locales restent sécurisées.</p>
+      <pre style="background:rgba(0,0,0,.3);padding:10px;border-radius:8px;font-size:11px;color:var(--red);overflow-x:auto;margin-top:10px">${fatalErr.stack||fatalErr.message}</pre>`;
+  }
+}
+</script>
+</body>
+</html>
