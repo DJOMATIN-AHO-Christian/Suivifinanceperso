@@ -2,8 +2,17 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Finance Widget · Édition Intégrale</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>Suivi Finance Perso · Dashboard Patrimonial & Budgétaire</title>
+<meta name="description" content="Dashboard patrimonial, budgétaire et d'indépendance financière (FIRE) moderne, sécurisé et multi-devises avec synchronisation Google Sheets optionnelle.">
+<meta name="theme-color" content="#070a13">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Patrimoine">
+<link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@400;500;600;700;800&family=Google+Sans:wght@400;500;700&family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
@@ -432,14 +441,269 @@ ul.dotted li::before{content:'▸';position:absolute;left:0;color:var(--blue)}
 .scenario-detail summary:hover{background:rgba(255,255,255,.03)}
 .scenario-body{padding:0 14px 12px;font-size:11px;color:var(--muted);line-height:1.7}
 
+/* EXTENDED DETAILED DASHBOARD COMPONENTS */
+.pillar-row{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:11.5px}
+.pillar-row:last-child{border-bottom:none}
+.pillar-label{flex:1;min-width:130px;color:var(--txt);font-weight:700}
+.pillar-bar-wrap{flex:1.5;min-width:120px}
+.pillar-score{font-weight:800;font-variant-numeric:tabular-nums;min-width:65px;text-align:right}
+.fire-tier-card{background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:11px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.metric-pill{font-size:10px;font-weight:800;padding:2px 8px;border-radius:12px;display:inline-block}
+.ratio-box{background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:10px;padding:11px 13px}
+.table-detail th{background:rgba(255,255,255,.04);font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;padding:8px 10px;text-align:left}
+.table-detail td{padding:8px 10px;font-size:11.5px;border-bottom:1px solid rgba(255,255,255,.04)}
+.table-detail tr:last-child td{border-bottom:none}
+
+.item-custom{background:rgba(255,255,255,.025);border:1px dashed var(--brd);border-radius:9px;padding:8px 12px;margin:6px 0;display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:11.5px;transition:all .15s}
+.item-custom:hover{border-color:var(--brd-strong);background:rgba(255,255,255,.04)}
+.item-custom-info{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}
+.item-custom-name{font-weight:700;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:11.5px}
+.item-custom-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.custom-badge{font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:5px;background:rgba(56,189,248,.12);color:var(--blue);display:inline-flex;align-items:center}
+.custom-del-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;line-height:1;padding:2px 6px;border-radius:4px;transition:all .15s}
+.custom-del-btn:hover{color:var(--red);background:rgba(248,113,113,.15)}
+.item-custom .item-tag{font-size:9.5px;padding:2px 6px;border-radius:4px;background:rgba(56,189,248,.12);color:var(--blue);font-weight:700}
+.item-custom .item-del{color:var(--muted);background:none;border:none;cursor:pointer;font-size:14px;padding:2px 5px;border-radius:4px;transition:.15s}
+.item-custom .item-del:hover{color:var(--red);background:rgba(248,113,113,.15)}
+.btn-add-line{font-size:10.5px;padding:4px 8px;border-radius:6px;background:rgba(56,189,248,.08);border:1px dashed rgba(56,189,248,.3);color:var(--blue);cursor:pointer;transition:.15s;font-weight:700;display:inline-flex;align-items:center;gap:4px}
+.btn-add-line:hover{background:rgba(56,189,248,.18);border-color:var(--blue)}
+.tax-bracket-bar{display:flex;height:24px;border-radius:6px;overflow:hidden;margin:8px 0;background:rgba(255,255,255,.03);border:1px solid var(--brd)}
+.tax-bracket-seg{display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:800;color:#06101f;transition:all .2s;overflow:hidden;white-space:nowrap}
+.profile-card{border:1px solid var(--brd);border-radius:11px;padding:12px;cursor:pointer;background:rgba(255,255,255,.02);transition:.18s}
+.profile-card:hover{border-color:var(--blue);background:rgba(56,189,248,.05);transform:translateY(-2px)}
+.snowball-row{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.04);font-size:11.5px}
+.snowball-row:last-child{border-bottom:none}
+.market-btn{font-size:10.5px;padding:5px 10px;border-radius:7px;background:rgba(255,255,255,.04);border:1px solid var(--brd);color:var(--muted);cursor:pointer;transition:all .18s;font-weight:700;display:inline-flex;align-items:center;gap:5px}
+.market-btn:hover{color:var(--txt);border-color:var(--blue);background:rgba(56,189,248,.08)}
+.market-btn.active{background:rgba(56,189,248,.18);border-color:var(--blue);color:var(--blue);box-shadow:0 0 10px rgba(56,189,248,.15)}
+.mkt-badge{font-size:9.5px;font-weight:800;padding:2px 7px;border-radius:4px;display:inline-block}
+.advice-card{background:rgba(255,255,255,.02);border:1px solid var(--brd);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:5px;transition:all .2s}
+.advice-card:hover{border-color:var(--brd-strong);background:rgba(255,255,255,.04);transform:translateY(-1px)}
+.portfolio-share-bar{display:flex;height:12px;border-radius:6px;overflow:hidden;background:rgba(255,255,255,.03);margin:8px 0;border:1px solid var(--brd)}
+.portfolio-share-seg{height:100%;transition:width .3s}
+.stress-btn{font-size:10.5px;padding:4px 9px;border-radius:6px;background:rgba(255,255,255,.04);border:1px solid var(--brd);cursor:pointer;transition:.15s;font-weight:700}
+.stress-btn:hover{background:rgba(255,255,255,.08);border-color:var(--brd-strong)}
+.stress-btn.active{background:rgba(56,189,248,.18);border-color:var(--blue);color:var(--blue)}
+.stock-badge{font-size:9.5px;font-weight:800;padding:2px 6px;border-radius:4px;display:inline-block;text-transform:uppercase}
+.stock-preset-btn{background:rgba(255,255,255,.04);border:1px solid var(--brd);color:var(--txt);padding:3px 8px;font-size:10.5px;border-radius:5px;cursor:pointer;transition:.15s;font-weight:600}
+.stock-preset-btn:hover{border-color:var(--blue);background:rgba(56,189,248,.12);color:var(--blue)}
+
 @media(max-width:720px){body{padding:14px 11px 100px}.hero{padding:16px}.card{padding:14px}}
 @media print{.tabs,.reset-btn,.btn,.btn-mini,.toast-container,.modal-overlay,.save-indicator{display:none!important}
   .panel{display:block!important;page-break-inside:avoid;margin-bottom:15px}
   .panel::before{content:attr(data-title);display:block;font-size:14px;font-weight:800;margin-bottom:10px;color:#111}
-  body{background:white;color:#111}}
+/* ============================================================
+   PORTAIL DE SÉCURITÉ & BIOMÉTRIE (EMPREINTE DIGITALE & PIN)
+============================================================ */
+.lock-portal{
+  position:fixed;inset:0;z-index:999999;
+  background:rgba(7,10,19,0.94);
+  backdrop-filter:blur(32px);
+  -webkit-backdrop-filter:blur(32px);
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;
+  animation:lockFadeIn .3s ease;
+}
+[data-theme="light"] .lock-portal{
+  background:rgba(248,250,252,0.94);
+}
+@keyframes lockFadeIn{from{opacity:0}to{opacity:1}}
+.lock-card{
+  width:100%;max-width:420px;
+  background:var(--card-solid);
+  border:1px solid var(--brd-strong);
+  border-radius:26px;
+  padding:36px 28px 28px;
+  text-align:center;
+  box-shadow:0 24px 60px rgba(0,0,0,.6), 0 0 1px 1px rgba(255,255,255,.08);
+  position:relative;
+  overflow:hidden;
+}
+[data-theme="light"] .lock-card{
+  box-shadow:0 20px 50px rgba(15,23,42,.12), 0 0 0 1px rgba(0,0,0,.06);
+}
+.lock-card::before{
+  content:'';position:absolute;top:-50%;left:50%;transform:translateX(-50%);
+  width:320px;height:320px;
+  background:radial-gradient(circle,rgba(56,189,248,.18),transparent 70%);
+  pointer-events:none;
+}
+.lock-brand{position:relative;margin-bottom:24px}
+.lock-icon-wrap{
+  width:72px;height:72px;margin:0 auto 16px;border-radius:20px;
+  background:linear-gradient(135deg,rgba(56,189,248,.15),rgba(52,211,153,.15));
+  border:1px solid rgba(56,189,248,.3);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 30px rgba(56,189,248,.2);
+}
+.lock-brand h2{font-size:20px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
+.lock-brand p{font-size:12px;color:var(--muted);line-height:1.5;max-width:300px;margin:0 auto}
+
+/* Biometric Trigger Pulse */
+.biometric-trigger-box{padding:14px 0 10px}
+.biometric-pulse-btn{
+  width:104px;height:104px;border-radius:50%;border:none;
+  background:linear-gradient(135deg,rgba(56,189,248,.12),rgba(52,211,153,.12));
+  border:2px solid rgba(52,211,153,.5);
+  color:var(--green);cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;
+  position:relative;margin-bottom:14px;
+  transition:all .25s ease;
+  box-shadow:0 0 25px rgba(52,211,153,.25);
+}
+.biometric-pulse-btn:hover{
+  transform:scale(1.05);
+  border-color:var(--green);
+  box-shadow:0 0 35px rgba(52,211,153,.45);
+}
+.biometric-pulse-btn:active{transform:scale(.97)}
+.biometric-pulse-btn svg{width:52px;height:52px;transition:transform .2s}
+.biometric-pulse-btn:hover svg{transform:scale(1.06)}
+.fp-pulse-wave{
+  position:absolute;inset:-6px;border-radius:50%;
+  border:2px solid var(--green);opacity:0;
+  animation:fpPulse 2.4s cubic-bezier(.215,.61,.355,1) infinite;
+}
+@keyframes fpPulse{
+  0%{transform:scale(.95);opacity:.8}
+  50%{transform:scale(1.22);opacity:0}
+  100%{transform:scale(1.22);opacity:0}
+}
+.fp-prompt-label{font-size:13px;font-weight:700;color:var(--txt);margin-bottom:4px}
+.fp-device-hint{font-size:11px;color:var(--muted)}
+
+/* Pin Code View */
+.pin-display{margin-bottom:20px}
+.pin-dots{display:flex;justify-content:center;gap:14px;margin:14px 0}
+.p-dot{
+  width:16px;height:16px;border-radius:50%;
+  border:2px solid var(--brd-strong);
+  background:transparent;
+  transition:all .2s cubic-bezier(.4,0,.2,1);
+}
+.p-dot.filled{
+  background:var(--blue);border-color:var(--blue);
+  box-shadow:0 0 14px rgba(56,189,248,.6);
+  transform:scale(1.15);
+}
+.pin-error-text{font-size:11.5px;color:var(--red);min-height:18px;margin-top:6px;font-weight:600}
+
+/* Numpad */
+.numpad{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:10px;max-width:280px;margin:0 auto;
+}
+.num-key{
+  height:54px;border-radius:14px;border:1px solid var(--brd);
+  background:rgba(255,255,255,.03);color:var(--txt);
+  font-size:20px;font-weight:700;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .15s;font-family:inherit;
+  -webkit-tap-highlight-color:transparent;
+}
+[data-theme="light"] .num-key{
+  background:#f1f5f9;border-color:#e2e8f0;
+}
+.num-key:hover{
+  background:rgba(56,189,248,.12);border-color:var(--blue);color:var(--blue);
+  transform:translateY(-1px);
+}
+.num-key:active{transform:scale(.95)}
+.num-action{font-size:16px;color:var(--muted)}
+.num-action:hover{color:var(--txt)}
+
+.lock-switch-box{margin-top:18px;border-top:1px solid var(--brd);padding-top:14px}
+.btn-text{background:none;border:none;color:var(--blue);font-size:11.5px;font-weight:700;cursor:pointer;padding:6px 12px;border-radius:8px;transition:.15s}
+.btn-text:hover{background:rgba(56,189,248,.1)}
+.lock-footer-info{font-size:10px;color:var(--muted);margin-top:20px;opacity:.8}
+
+/* Shake Animation on Wrong PIN */
+.shake-anim{animation:shake .45s ease}
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  20%,60%{transform:translateX(-10px)}
+  40%,80%{transform:translateX(10px)}
+}
 </style>
 </head>
 <body>
+
+<!-- ============================================================
+     PORTAIL DE CONNEXION SÉCURISÉ (EMPREINTE DIGITALE & PIN)
+============================================================ -->
+<div id="lockPortal" class="lock-portal" style="display:none">
+  <div class="lock-card" id="lockCard">
+    <div class="lock-brand">
+      <div class="lock-icon-wrap">
+        <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" stroke-width="1.8" style="color:var(--blue)">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <path d="M12 8v4M12 16h.01" stroke-width="2.2"/>
+        </svg>
+      </div>
+      <h2>Espace Patrimoine Sécurisé</h2>
+      <p id="lockSubtitle">Authentification requise pour accéder à votre tableau de bord financier.</p>
+    </div>
+
+    <!-- VUE EMPREINTE DIGITALE / BIOMÉTRIE -->
+    <div id="lockBiometricView">
+      <div class="biometric-trigger-box">
+        <button type="button" id="lockTriggerBiometricBtn" class="biometric-pulse-btn" title="Toucher pour scanner l'empreinte">
+          <svg viewBox="0 0 24 24" width="52" height="52" fill="none" stroke="currentColor" stroke-width="1.7">
+            <path stroke-linecap="round" d="M12 2a10 10 0 0 0-6.88 2.77M18.88 4.77A10 10 0 0 0 12 2"/>
+            <path stroke-linecap="round" d="M8.56 5.44A8 8 0 0 1 12 4.5a8 8 0 0 1 5.66 2.34"/>
+            <path stroke-linecap="round" d="M5.44 8.56A10 10 0 0 1 12 7a10 10 0 0 1 7.07 2.93"/>
+            <path stroke-linecap="round" d="M8.5 11a4 4 0 0 1 7 0v2.5a5.5 5.5 0 0 1-11 0V11a7.5 7.5 0 0 1 15 0v3"/>
+            <path stroke-linecap="round" d="M12 12.5v3a2.5 2.5 0 0 1-5 0V14"/>
+            <path stroke-linecap="round" d="M12 16.5v2a3.5 3.5 0 0 0 7 0v-2"/>
+          </svg>
+          <div class="fp-pulse-wave"></div>
+        </button>
+        <div class="fp-prompt-label">Cliquez pour scanner l'empreinte</div>
+        <div class="fp-device-hint" id="lockBiometricDeviceHint">Capteur d'empreinte PC ou Téléphone (Windows Hello, Touch ID, Face ID)</div>
+      </div>
+
+      <div class="lock-switch-box">
+        <button type="button" id="lockSwitchToPinBtn" class="btn-text">
+          🔢 Déverrouiller avec le code PIN de secours
+        </button>
+      </div>
+    </div>
+
+    <!-- VUE CODE PIN DE SECOURS -->
+    <div id="lockPinView" style="display:none">
+      <div class="pin-display">
+        <div class="fp-prompt-label">Saisissez votre code PIN</div>
+        <div class="pin-dots" id="lockPinDots">
+          <span class="p-dot" data-idx="0"></span>
+          <span class="p-dot" data-idx="1"></span>
+          <span class="p-dot" data-idx="2"></span>
+          <span class="p-dot" data-idx="3"></span>
+        </div>
+        <div id="lockPinError" class="pin-error-text"></div>
+      </div>
+
+      <div class="numpad">
+        <button type="button" class="num-key" data-pin="1">1</button>
+        <button type="button" class="num-key" data-pin="2">2</button>
+        <button type="button" class="num-key" data-pin="3">3</button>
+        <button type="button" class="num-key" data-pin="4">4</button>
+        <button type="button" class="num-key" data-pin="5">5</button>
+        <button type="button" class="num-key" data-pin="6">6</button>
+        <button type="button" class="num-key" data-pin="7">7</button>
+        <button type="button" class="num-key" data-pin="8">8</button>
+        <button type="button" class="num-key" data-pin="9">9</button>
+        <button type="button" class="num-key num-action" id="lockSwitchToBiometricBtn" title="Retour à l'empreinte">👆</button>
+        <button type="button" class="num-key" data-pin="0">0</button>
+        <button type="button" class="num-key num-action" id="lockPinBackspaceBtn" title="Effacer">⌫</button>
+      </div>
+    </div>
+
+    <div class="lock-footer-info">
+      Sécurité biométrique WebAuthn · Données chiffrées localement
+    </div>
+  </div>
+</div>
+
 <div class="app">
 
 <div id="liveAnnouncer" aria-live="polite" aria-atomic="true"></div>
@@ -463,6 +727,12 @@ ul.dotted li::before{content:'▸';position:absolute;left:0;color:var(--blue)}
         </select>
         <!-- THEME TOGGLE -->
         <button class="btn btn-mini" id="themeToggleBtn" title="Basculer Mode Clair / Sombre" style="padding:4px 9px;font-size:11.5px">Thème</button>
+        <!-- SECURITY BUTTON -->
+        <button class="btn btn-mini" id="securityHeaderBtn" title="Protection biométrique & Verrouillage" style="padding:4px 9px;font-size:11.5px;background:rgba(167,139,250,.12);color:var(--purple);border-color:rgba(167,139,250,.3);display:inline-flex;align-items:center;gap:4px">
+          <span>🔒</span> <span id="securityHeaderLabel">Sécurité</span>
+        </button>
+        <!-- LIVE EXCHANGE RATES BUTTON -->
+        <button class="btn btn-mini" id="liveRatesFetchBtn" title="Actualiser les taux de change du jour en direct via API" style="padding:4px 9px;font-size:11.5px;background:rgba(56,189,248,.1);color:var(--blue);border-color:rgba(56,189,248,.25)">🌐 Taux direct</button>
       </div>
     </div>
     <h1>Tableau de bord financier <span class="save-indicator" id="saveIndicator">Enregistré</span></h1>
@@ -492,7 +762,16 @@ ul.dotted li::before{content:'▸';position:absolute;left:0;color:var(--blue)}
         Synchroniser
       </button>
       <button class="btn btn-mini" id="openHistoryModalBtn" style="background:rgba(167,139,250,.12);border-color:rgba(167,139,250,.3);color:#c4b5fd">
-        Historique Google Sheets
+        Historique
+      </button>
+      <button class="btn btn-mini" id="autoBalanceZbbBtn" style="background:rgba(251,191,36,.14);border-color:rgba(251,191,36,.35);color:#fcd34d" title="Répartir automatiquement le surplus pour équilibrer à zéro">
+        🪄 Auto-Équilibrer (ZBB)
+      </button>
+      <button class="btn btn-mini" id="openProfileModalBtn" style="background:rgba(56,189,248,.12);border-color:rgba(56,189,248,.3);color:#7dd3fc" title="Charger un profil réaliste (Étudiant, Jeune Actif, Famille, Freelance)">
+        👤 Profils Réalistes
+      </button>
+      <button class="btn btn-mini" id="simulateNextMonthBtn" style="background:rgba(52,211,153,.15);border-color:rgba(52,211,153,.35);color:#6ee7b7" title="Capitaliser les épargnes et investissements du mois dans le patrimoine">
+        ⏭️ Clôturer mois (+1m)
       </button>
     </div>
   </div>
@@ -567,6 +846,33 @@ ul.dotted li::before{content:'▸';position:absolute;left:0;color:var(--blue)}
     </div>
   </div>
 
+  <!-- SOUS-PARTIES DÉTAILLÉES : SCORE DE SANTÉ & STRATES N1-N4 -->
+  <div class="grid g2" style="margin-bottom:12px">
+    <div class="card">
+      <div class="row-flex" style="margin-bottom:8px">
+        <h3 style="margin:0">Décomposition du Score de Santé (6 Piliers)</h3>
+        <span class="mini" id="healthPillarScoreTotal">0 / 100</span>
+      </div>
+      <p class="mini" style="margin-bottom:12px">Évaluation granulaire de votre résilience financière pondérée sur 6 piliers clés.</p>
+      <div id="healthPillarsDetail"></div>
+    </div>
+    <div class="card">
+      <div class="row-flex" style="margin-bottom:8px">
+        <h3 style="margin:0">Détail des Strates de Dépenses (N1 → N4)</h3>
+        <span class="mini">Priorités d'arbitrage</span>
+      </div>
+      <p class="mini" style="margin-bottom:12px">Du vital incompressible au luxe différable pour guider vos choix en cas de crise.</p>
+      <div style="overflow-x:auto">
+        <table class="table-detail" style="width:100%" id="strataDetailTable">
+          <thead>
+            <tr><th>Strate</th><th>Rôle</th><th>Montant</th><th>Part</th><th>Cible</th><th>Statut</th></tr>
+          </thead>
+          <tbody id="strataDetailBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
   <div class="card" style="margin-bottom:12px">
     <h3>Analyses & Recommandations <span class="count" id="insightCount">0</span></h3>
     <div id="insightsBox"></div>
@@ -591,17 +897,65 @@ ul.dotted li::before{content:'▸';position:absolute;left:0;color:var(--blue)}
       <div id="revPrincipauxSliders"></div>
     </div>
     <div class="card">
-      <h3>Revenus secondaires</h3>
+      <div class="row-flex" style="margin-bottom:8px">
+        <h3 style="margin:0">Revenus secondaires</h3>
+        <button class="btn-add-line" id="addCustomRevenueBtn">+ Ajouter un revenu</button>
+      </div>
       <div id="revSecondairesSliders"></div>
+      <div id="customRevenusList" style="margin-top:8px"></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:12px">
+    <h3>Analyse approfondie de la structure & Vulnérabilité</h3>
+    <p class="mini" style="margin-bottom:12px">Mesurez votre dépendance à une source unique et l'équilibre entre travail actif et rentes passives.</p>
+    <div class="grid g2" style="gap:12px;margin-bottom:12px">
+      <div class="ratio-box">
+        <div class="row-flex" style="margin-bottom:4px">
+          <span style="font-size:11.5px;color:var(--muted)">Indice de dépendance au revenu principal</span>
+          <b id="depScoreTxt" style="font-size:13px">100%</b>
+        </div>
+        <div class="bar-track"><div class="bar-fill" id="depScoreBar" style="width:100%;background:var(--amber)"></div></div>
+        <div class="mini" style="margin-top:6px" id="depScoreAdvice">Objectif : descendre sous 75 % via des sources annexes.</div>
+      </div>
+      <div class="ratio-box">
+        <div class="row-flex" style="margin-bottom:4px">
+          <span style="font-size:11.5px;color:var(--muted)">Revenus Actifs vs Passifs</span>
+          <b id="ratioActifPassifTxt" style="font-size:13px">100% Actif</b>
+        </div>
+        <div class="bar-track"><div class="bar-fill" id="ratioActifPassifBar" style="width:0%;background:var(--green)"></div></div>
+        <div class="mini" style="margin-top:6px">Actif (temps échangé) vs Passif (dividendes, loyers, SCPI).</div>
+      </div>
+    </div>
+    
+    <div class="row-flex" style="margin-bottom:6px"><span style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">Équivalents temporels du revenu</span></div>
+    <div class="grid g4" style="gap:9px">
+      <div style="background:rgba(255,255,255,.02);border:1px solid var(--brd);border-radius:9px;padding:9px 11px">
+        <div class="mini">Revenu annuel lissé</div>
+        <b id="revAnnuel" style="font-size:14px;color:var(--txt)">0 €</b>
+      </div>
+      <div style="background:rgba(255,255,255,.02);border:1px solid var(--brd);border-radius:9px;padding:9px 11px">
+        <div class="mini">Revenu hebdomadaire</div>
+        <b id="revHebdo" style="font-size:14px;color:var(--cyan)">0 €</b>
+      </div>
+      <div style="background:rgba(255,255,255,.02);border:1px solid var(--brd);border-radius:9px;padding:9px 11px">
+        <div class="mini">Revenu jour ouvré (21j)</div>
+        <b id="revJour" style="font-size:14px;color:var(--green)">0 €</b>
+      </div>
+      <div style="background:rgba(255,255,255,.02);border:1px solid var(--brd);border-radius:9px;padding:9px 11px">
+        <div class="mini">Taux horaire net (~151h)</div>
+        <b id="tauxHoraire" style="font-size:14px;color:var(--purple)">0 €/h</b>
+      </div>
     </div>
   </div>
 
   <div class="card">
-    <h3>Outils de tracking</h3>
+    <h3>Outils de tracking & Méthode de consolidation</h3>
     <ul class="dotted">
-      <li><b>Exportez vos relevés bancaires en CSV</b> — pour analyse granulaire</li>
-      <li><b>Catégories à utiliser</b> : Fixe/Variable, Garanti/Aléatoire</li>
-      <li><b>Calculez votre revenu mensuel moyen sur 12 mois</b> — lissez les irrégularités</li>
+      <li><b>Exportez vos relevés bancaires en CSV</b> — pour une analyse granulaire ligne par ligne.</li>
+      <li><b>Catégorisez systématiquement</b> : Fixe vs Variable, Garanti vs Aléatoire, Déductible vs Net.</li>
+      <li><b>Calculez votre revenu mensuel moyen sur 12 à 24 mois</b> — lissez les primes de fin d'année et dividendes.</li>
+      <li><b>Règle de résilience des 3 flux</b> : 1 flux cœur (salaire/activité principale), 1 flux projet (freelance/missions), 1 flux patrimonial (loyers/dividendes).</li>
     </ul>
   </div>
 </section>
@@ -610,7 +964,10 @@ ul.dotted li::before{content:'▸';position:absolute;left:0;color:var(--blue)}
 <section class="panel" id="panel-budget" data-title="Budget">
   <div class="grid g2" style="margin-bottom:12px">
     <div class="card">
-      <h3>Dépenses détaillées — N1 → N4</h3>
+      <div class="row-flex" style="margin-bottom:8px">
+        <h3 style="margin:0">Dépenses détaillées — N1 → N4</h3>
+        <button class="btn-add-line" id="openAddExpenseModalBtn">+ Ajouter une dépense</button>
+      </div>
       <p class="mini" style="margin-bottom:12px">Clique sur chaque catégorie pour décomposer.</p>
       <div id="detailedExpenses"></div>
       <div class="divider"></div>
@@ -631,6 +988,70 @@ ul.dotted li::before{content:'▸';position:absolute;left:0;color:var(--blue)}
     <div class="row-flex"><span class="mini">Somme allouée</span><b id="allocSummary" style="font-size:12.5px">0 € / 0 €</b></div>
     <div class="bar-track" style="margin-top:7px;height:11px"><div class="bar-fill" id="allocBar" style="background:linear-gradient(90deg,var(--blue),var(--purple));width:0%"></div></div>
     <p class="mini" style="margin-top:10px"><b>Zero-Based Budgeting :</b> Revenus − (Dépenses + Épargne + Investissements) = 0. Chaque euro a une affectation préalable.</p>
+  </div>
+
+  <!-- ESTIMATEUR D'IMPÔT SUR LE REVENU & TMI -->
+  <div class="card" style="margin-bottom:12px">
+    <div class="row-flex" style="margin-bottom:6px">
+      <h3 style="margin:0">Estimateur Réaliste d'Impôt sur le Revenu & TMI (France)</h3>
+      <span class="mini">Barème officiel 2025/2026</span>
+    </div>
+    <p class="mini" style="margin-bottom:12px">Calcul automatique de votre impôt net, du taux effectif de prélèvement à la source et du levier de réduction fiscale PER.</p>
+    <div class="grid g4" style="gap:9px;margin-bottom:12px">
+      <div class="ratio-box">
+        <div class="mini">Taux Marginal (TMI)</div>
+        <b id="taxTmi" style="font-size:15px;color:var(--blue)">11 %</b>
+        <div class="mini" id="taxTmiSub" style="margin-top:4px">Tranche marginale</div>
+      </div>
+      <div class="ratio-box">
+        <div class="mini">Impôt net annuel estimé</div>
+        <b id="taxAnnual" style="font-size:15px;color:var(--txt)">0 €</b>
+        <div class="mini" id="taxMonthly" style="margin-top:4px">0 € / mois</div>
+      </div>
+      <div class="ratio-box">
+        <div class="mini">Taux effectif moyen</div>
+        <b id="taxEffectiveRate" style="font-size:15px;color:var(--purple)">0 %</b>
+        <div class="mini" style="margin-top:4px">Prélèvement à la source</div>
+      </div>
+      <div class="ratio-box" style="border-color:rgba(52,211,153,.3)">
+        <div class="mini" style="color:var(--green)">Gain fiscal via P.E.R.</div>
+        <b id="taxPerSaving" style="font-size:15px;color:var(--green)">0 € d'économie</b>
+        <div class="mini" id="taxPerDesc" style="margin-top:4px">Déduction TMI immédiate</div>
+      </div>
+    </div>
+    <div class="tax-bracket-bar" id="taxBracketBar"></div>
+    <div class="row-flex" style="font-size:10.5px;color:var(--muted)">
+      <span>0 % (&le; 11 294 €)</span>
+      <span>11 % (11 295 à 28 797 €)</span>
+      <span>30 % (28 798 à 82 341 €)</span>
+      <span>41 % (&ge; 82 342 €)</span>
+    </div>
+  </div>
+
+  <!-- PROTOCOLE D'ARBITRAGE BUDGÉTAIRE -->
+  <div class="card" style="margin-bottom:12px">
+    <h3>Protocole d'arbitrage budgétaire en cas de choc financier</h3>
+    <p class="mini" style="margin-bottom:12px">Plan d'action graduel pour préserver votre trésorerie selon la gravité de l'imprévu.</p>
+    <div class="grid g3" style="gap:10px">
+      <div style="background:rgba(52,211,153,.04);border:1px solid rgba(52,211,153,.2);border-radius:10px;padding:11px 13px">
+        <div style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:800;color:var(--green);margin-bottom:6px">
+          <span class="dot" style="background:var(--green)"></span>Niveau Vert · Régime Normal
+        </div>
+        <p class="mini" style="line-height:1.6">Application stricte de la règle 50/30/20. Alimentation continue du PEA et de l'épargne projet. Aucun arbitrage nécessaire.</p>
+      </div>
+      <div style="background:rgba(251,191,36,.04);border:1px solid rgba(251,191,36,.2);border-radius:10px;padding:11px 13px">
+        <div style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:800;color:var(--amber);margin-bottom:6px">
+          <span class="dot" style="background:var(--amber)"></span>Niveau Orange · Tension modérée
+        </div>
+        <p class="mini" style="line-height:1.6">Gel immédiat de la strate <b>N4 (Luxe/Restos/Vacances = 0 €)</b>. Réduction de 50 % sur <b>N3 (Confort)</b>. Maintien temporaire de l'épargne d'urgence.</p>
+      </div>
+      <div style="background:rgba(248,113,113,.04);border:1px solid rgba(248,113,113,.2);border-radius:10px;padding:11px 13px">
+        <div style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:800;color:var(--red);margin-bottom:6px">
+          <span class="dot" style="background:var(--red)"></span>Niveau Rouge · Crise majeure
+        </div>
+        <p class="mini" style="line-height:1.6">Repli strict sur les strates <b>N1 (Survie) & N2 (Nécessaire)</b>. Suspension des investissements. Déblocage contrôlé du Palier 1 ou 2 du fonds d'urgence.</p>
+      </div>
+    </div>
   </div>
 
   <div class="grid g2" style="margin-bottom:12px">
@@ -732,8 +1153,57 @@ ul.dotted li::before{content:'▸';position:absolute;left:0;color:var(--blue)}
       </div>
     </div>
   </div>
+
+  <!-- RATIOS FINANCIERS DU PATRIMOINE -->
+  <div class="card" style="margin-bottom:12px">
+    <h3>Ratios d'Analyse Financière & Solvabilité du Patrimoine</h3>
+    <p class="mini" style="margin-bottom:12px">Indicateurs institutionnels utilisés en banque privée pour jauger la solidité de votre bilan.</p>
+    <div class="grid g4" style="gap:9px">
+      <div class="ratio-box">
+        <div class="mini">Taux de solvabilité nette</div>
+        <b id="ratioSolvabilite" style="font-size:15px;color:var(--green)">100%</b>
+        <div class="bar-track" style="margin:6px 0"><div class="bar-fill" id="barSolvabilite" style="width:100%;background:var(--green)"></div></div>
+        <div class="mini">Cible &gt; 70 % · Net / Brut</div>
+      </div>
+      <div class="ratio-box">
+        <div class="mini">Taux de levier d'endettement</div>
+        <b id="ratioLevier" style="font-size:15px;color:var(--txt)">0%</b>
+        <div class="bar-track" style="margin:6px 0"><div class="bar-fill" id="barLevier" style="width:0%;background:var(--red)"></div></div>
+        <div class="mini">Cible &lt; 35 % · Dettes / Brut</div>
+      </div>
+      <div class="ratio-box">
+        <div class="mini">Autonomie liquidités pures</div>
+        <b id="moisLiquidites" style="font-size:15px;color:var(--cyan)">0 mois</b>
+        <div class="bar-track" style="margin:6px 0"><div class="bar-fill" id="barLiquidites" style="width:0%;background:var(--cyan)"></div></div>
+        <div class="mini">Cible 3 à 6 mois de charges</div>
+      </div>
+      <div class="ratio-box">
+        <div class="mini">Multiplicateur patrimonial</div>
+        <b id="anneesRevenusAccumulees" style="font-size:15px;color:var(--purple)">0.0 ans</b>
+        <div class="bar-track" style="margin:6px 0"><div class="bar-fill" id="barAnneesRev" style="width:0%;background:var(--purple)"></div></div>
+        <div class="mini">Années de revenus nets accumulées</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIMULATEUR DÉTAILLÉ DE DÉSENDETTEMENT ACCÉLÉRÉ -->
+  <div class="card" style="margin-bottom:12px" id="debtPayoffCard">
+    <div class="row-flex" style="margin-bottom:6px">
+      <h3 style="margin:0">Simulateur Réaliste de Désendettement Accéléré</h3>
+      <span class="mini">Avalanche vs Boule de Neige</span>
+    </div>
+    <p class="mini" style="margin-bottom:12px">Plan stratégique d'optimisation financière pour éliminer vos crédits et dettes en minimisant le coût des intérêts.</p>
+    <div id="debtPayoffContent"></div>
+  </div>
+
   <div class="card">
-    <h3>Détail des actifs et passifs</h3>
+    <div class="row-flex" style="margin-bottom:8px">
+      <h3 style="margin:0">Détail des actifs et passifs</h3>
+      <div style="display:flex;gap:6px">
+        <button class="btn-add-line" id="addCustomAssetBtn">+ Ajouter un actif</button>
+        <button class="btn-add-line" id="addCustomDebtBtn" style="border-color:rgba(248,113,113,.35);color:var(--red);background:rgba(248,113,113,.08)">+ Ajouter une dette</button>
+      </div>
+    </div>
     <div id="patTree"></div>
   </div>
 </section>
@@ -751,17 +1221,65 @@ ul.dotted li::before{content:'▸';position:absolute;left:0;color:var(--blue)}
       </div>
     </div>
     <div class="card">
-      <h3>Calculateur d'Indépendance Financière (FIRE)</h3>
-      <div class="grid g2" style="gap:9px;margin-bottom:11px">
-        <div class="kpi k-green" style="padding:11px 13px"><div class="kpi-label">Dépenses annuelles</div><div class="kpi-val" id="fireAnnual" style="font-size:16px">—</div></div>
-        <div class="kpi k-purple" style="padding:11px 13px"><div class="kpi-label">Capital FIRE (×25)</div><div class="kpi-val" id="fireNumber" style="font-size:16px">—</div></div>
+      <div class="row-flex" style="margin-bottom:6px">
+        <h3 style="margin:0">Calculateur d'Indépendance Financière (FIRE)</h3>
+        <span class="mini">Règle des 4 % (×25)</span>
       </div>
-      <div class="bar-row"><div class="bar-top"><span>Progression</span><b id="fireProgressTxt">0 %</b></div><div class="bar-track"><div class="bar-fill" id="fireProgressBar" style="width:0%"></div></div></div>
-      <div class="grid g2" style="gap:9px;margin-top:11px">
-        <div style="background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:9px;padding:10px 12px"><div class="mini">Patrimoine net</div><b id="fireCurrentNet" style="font-size:14px">—</b></div>
-        <div style="background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:9px;padding:10px 12px"><div class="mini">Temps estimé</div><b id="fireYears" style="font-size:14px;color:var(--amber)">—</b></div>
+      <p class="mini" style="margin-bottom:12px">Capital requis pour générer une rente perpétuelle avec 7 % de rendement brut moyen.</p>
+      
+      <!-- 3 PALIERS FIRE DÉTAILLÉS -->
+      <div class="grid g3" style="gap:8px;margin-bottom:12px">
+        <div class="fire-tier-card">
+          <div class="row-flex"><b style="font-size:11px;color:var(--green)">1 · Lean FIRE</b><span class="metric-pill" style="background:rgba(52,211,153,.15);color:var(--green)" id="leanFirePct">0%</span></div>
+          <div class="mini">Couverture Strate N1 vitale</div>
+          <b id="leanFireNumber" style="font-size:14px;color:var(--txt)">0 €</b>
+          <div class="mini" id="leanFireYears" style="color:var(--muted)">—</div>
+        </div>
+        <div class="fire-tier-card" style="border-color:rgba(56,189,248,.3)">
+          <div class="row-flex"><b style="font-size:11px;color:var(--blue)">2 · Standard FIRE</b><span class="metric-pill" style="background:rgba(56,189,248,.15);color:var(--blue)" id="fireProgressTxt">0%</span></div>
+          <div class="mini">100 % des charges actuelles</div>
+          <b id="fireNumber" style="font-size:14px;color:var(--blue)">0 €</b>
+          <div class="mini" id="fireYears" style="color:var(--amber)">—</div>
+        </div>
+        <div class="fire-tier-card">
+          <div class="row-flex"><b style="font-size:11px;color:var(--purple)">3 · Fat FIRE</b><span class="metric-pill" style="background:rgba(167,139,250,.15);color:var(--purple)" id="fatFirePct">0%</span></div>
+          <div class="mini">Charges + 50 % confort</div>
+          <b id="fatFireNumber" style="font-size:14px;color:var(--txt)">0 €</b>
+          <div class="mini" id="fatFireYears" style="color:var(--muted)">—</div>
+        </div>
       </div>
-      <p class="mini" style="margin-top:10px">Règle des 4 % : capital = dépenses annuelles × 25. Rendement 7 %/an.</p>
+
+      <div class="bar-row"><div class="bar-top"><span>Progression Standard FIRE</span><b id="fireProgressTxt2">0 %</b></div><div class="bar-track"><div class="bar-fill" id="fireProgressBar" style="width:0%"></div></div></div>
+      <div class="grid g2" style="gap:9px;margin-top:10px">
+        <div style="background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:9px;padding:9px 11px"><div class="mini">Patrimoine net actuel</div><b id="fireCurrentNet" style="font-size:13px">—</b></div>
+        <div style="background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:9px;padding:9px 11px"><div class="mini">Dépenses annuelles</div><b id="fireAnnual" style="font-size:13px">—</b></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIMULATEUR D'EFFORT D'ÉPARGNE MENSUEL PAR OBJECTIF -->
+  <div class="card" style="margin-bottom:12px">
+    <h3>Simulateur d'effort d'épargne mensuel par objectif</h3>
+    <p class="mini" style="margin-bottom:12px">Calculez instantanément la mensualité requise pour financer un projet sans déséquilibrer votre budget.</p>
+    <div class="grid g3" style="gap:11px;align-items:flex-end">
+      <div>
+        <label style="font-size:11px;font-weight:700;color:var(--muted);display:block;margin-bottom:5px">Cible du projet :</label>
+        <div class="sr-input-group" style="width:100%"><input type="number" id="calcGoalAmount" value="3000" min="100" step="100" style="width:100%;background:rgba(255,255,255,.05);border:1px solid var(--brd);color:var(--txt);padding:7px 10px;border-radius:8px;font-size:12px;outline:none"><span class="unit curr-unit">€</span></div>
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:700;color:var(--muted);display:block;margin-bottom:5px">Horizon temporel :</label>
+        <select id="calcGoalMonths" style="width:100%;background:rgba(255,255,255,.05);border:1px solid var(--brd);color:var(--txt);padding:7px 10px;border-radius:8px;font-size:12px;outline:none;cursor:pointer">
+          <option value="6">6 mois (court terme)</option>
+          <option value="12" selected>12 mois (1 an)</option>
+          <option value="24">24 mois (2 ans)</option>
+          <option value="36">36 mois (3 ans)</option>
+          <option value="60">60 mois (5 ans)</option>
+        </select>
+      </div>
+      <div style="background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);border-radius:10px;padding:9px 12px">
+        <div class="mini" style="color:var(--blue)">Effort mensuel requis</div>
+        <b id="calcGoalMonthlyEffort" style="font-size:16px;color:#7dd3fc">250 € / mois</b>
+      </div>
     </div>
   </div>
 
@@ -1071,6 +1589,275 @@ ul.dotted li::before{content:'▸';position:absolute;left:0;color:var(--blue)}
       </div>
       <div class="divider"></div>
       <p class="mini"><b style="color:var(--txt)">Méthode DCA :</b> investissement fixe mensuel, dates fixes (ex. le 5 du mois), indépendant des conditions de marché — réduit le risque de timing.</p>
+    </div>
+  </div>
+
+  <!-- GUIDE COMPARATIF DES ENVELOPPES FISCALES & ETF -->
+  <div class="card" style="margin-top:12px">
+    <h3>Guide Comparatif des Enveloppes Fiscales & Sélection ETF</h3>
+    <p class="mini" style="margin-bottom:12px">Structurez vos placements selon les spécificités de chaque support pour optimiser le rendement net d'impôt.</p>
+    <div style="overflow-x:auto;margin-bottom:14px">
+      <table class="table-detail" style="width:100%">
+        <thead>
+          <tr><th>Enveloppe</th><th>Plafond</th><th>Fiscalité</th><th>Retraits</th><th>Rôle stratégique</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b style="color:var(--green)">P.E.A.</b></td>
+            <td>150 000 €</td>
+            <td>17,2 % (PS) après 5 ans · Exonération IR</td>
+            <td>Pas de clôture après 5 ans</td>
+            <td><b>Cœur long terme</b> : ETF indiciels actions monde (CW8 / WPEA)</td>
+          </tr>
+          <tr>
+            <td><b style="color:var(--blue)">Assurance-Vie</b></td>
+            <td>Illimité</td>
+            <td>Abattement 4 600 € / 9 200 € après 8 ans</td>
+            <td>Rachats libres à tout moment</td>
+            <td><b>Diversification</b> : Fonds euros garanti + SCPI + Transmission</td>
+          </tr>
+          <tr>
+            <td><b style="color:var(--amber)">P.E.R.</b></td>
+            <td>10 % des revenus pro</td>
+            <td>Déduction fiscale à l'entrée selon TMI</td>
+            <td>Bloqué jusqu'à la retraite (ou RP)</td>
+            <td><b>Défiscalisation</b> : Idéal si TMI &ge; 30 % pour préparer la retraite</td>
+          </tr>
+          <tr>
+            <td><b style="color:var(--purple)">C.T.O.</b></td>
+            <td>Illimité</td>
+            <td>Flat Tax 30 % (PFU) sans abattement</td>
+            <td>Liquidité totale immédiate</td>
+            <td><b>Marchés mondiaux</b> : Actions US directes, Bourse Afrique / BRVM</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="row-flex" style="margin-bottom:8px"><span style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em">Sélection d'ETF indiciels de référence (DCA)</span></div>
+    <div class="grid g4" style="gap:9px">
+      <div style="background:rgba(255,255,255,.02);border:1px solid var(--brd);border-radius:9px;padding:9px 11px">
+        <div style="font-size:12px;font-weight:800;color:var(--green)">MSCI World (CW8 / WPEA)</div>
+        <div class="mini">~1 500 entreprises de 23 pays développés. Frais ~0,25 %/an. Cœur 70–80 %.</div>
+      </div>
+      <div style="background:rgba(255,255,255,.02);border:1px solid var(--brd);border-radius:9px;padding:9px 11px">
+        <div style="font-size:12px;font-weight:800;color:var(--blue)">S&P 500 (ESE / PE500)</div>
+        <div class="mini">500 leaders américains. Frais ~0,15 %/an. Moteur historique de croissance.</div>
+      </div>
+      <div style="background:rgba(255,255,255,.02);border:1px solid var(--brd);border-radius:9px;padding:9px 11px">
+        <div style="font-size:12px;font-weight:800;color:var(--amber)">Émergents (PAEEM)</div>
+        <div class="mini">Asie, Amérique Latine. Potentiel démographique et économique fort. 10–15 %.</div>
+      </div>
+      <div style="background:rgba(255,255,255,.02);border:1px solid var(--brd);border-radius:9px;padding:9px 11px">
+        <div style="font-size:12px;font-weight:800;color:var(--purple)">Stoxx Europe 600 (ETZ)</div>
+        <div class="mini">600 grandes et moyennes capitalisations européennes. Équilibre géographique.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       SIMULATEUR BOURSIER MULTI-MARCHÉS & CONSEILS STRATÉGIQUES
+  ============================================================ -->
+  <div class="card" style="margin-top:14px;border-color:rgba(56,189,248,.35)">
+    <div class="row-flex" style="margin-bottom:8px;flex-wrap:wrap;gap:8px">
+      <div>
+        <h3 style="margin:0;display:flex;align-items:center;gap:8px">
+          <span>🌍</span> Simulateur Boursier Panafricain & International
+        </h3>
+        <p class="mini" style="margin-top:3px">Modélisez vos placements sur la BRVM, BVMAC, Nigéria (NGX), Europe, USA et Asie avec réinvestissement des dividendes.</p>
+      </div>
+      <div style="display:flex;gap:5px;flex-wrap:wrap" id="marketSelectorWrap">
+        <button class="market-btn active" data-market="brvm">🇨🇮 🇸🇳 BRVM (UEMOA)</button>
+        <button class="market-btn" data-market="bvmac">🇨🇲 🇬🇦 BVMAC (CEMAC)</button>
+        <button class="market-btn" data-market="ngx">🇳🇬 NGX (Nigéria)</button>
+        <button class="market-btn" data-market="europe">🇪🇺 Europe (Euronext)</button>
+        <button class="market-btn" data-market="usa">🇺🇸 USA (S&P 500)</button>
+        <button class="market-btn" data-market="asie">🇯🇵 🇭🇰 Asie (Nikkei/SSE)</button>
+        <button class="market-btn" data-market="mixte" style="background:rgba(167,139,250,.18);border-color:rgba(167,139,250,.35);color:#c4b5fd">🌐 Portefeuille Mixte</button>
+        <button class="btn btn-mini" id="syncSimWithRealPortfolioBtn" style="background:rgba(52,211,153,.18);border-color:rgba(52,211,153,.35);color:#34d399;font-weight:700" title="Charger mes avoirs réels et mon épargne mensuelle dans la simulation">⚡ Simuler avec mon Portefeuille Réel</button>
+      </div>
+    </div>
+
+    <!-- CARTE D'IDENTITÉ DU MARCHÉ SÉLECTIONNÉ -->
+    <div id="marketProfileCard" style="background:rgba(255,255,255,.025);border:1px solid var(--brd);border-radius:11px;padding:12px 14px;margin-bottom:14px">
+      <!-- Rendu dynamique par JS -->
+    </div>
+
+    <!-- PARAMÈTRES DU SIMULATEUR -->
+    <div class="grid g4" style="gap:10px;margin-bottom:14px">
+      <div class="slider-row" style="margin:0">
+        <div class="sr-head"><span class="sr-label">Capital initial</span>
+          <div class="sr-input-group"><input type="number" class="num-input" id="simMktInit" value="1000" min="0" step="100"><span class="unit curr-unit">€</span></div>
+        </div>
+        <input type="range" min="0" max="50000" step="250" value="1000" id="simMktInitRange">
+      </div>
+      <div class="slider-row" style="margin:0">
+        <div class="sr-head"><span class="sr-label">Versement / mois (DCA)</span>
+          <div class="sr-input-group"><input type="number" class="num-input" id="simMktMonthly" value="150" min="0" step="10"><span class="unit curr-unit">€</span></div>
+        </div>
+        <input type="range" min="0" max="3000" step="25" value="150" id="simMktMonthlyRange">
+      </div>
+      <div class="slider-row" style="margin:0">
+        <div class="sr-head"><span class="sr-label">Horizon d'investissement</span>
+          <div class="sr-input-group"><input type="number" class="num-input" id="simMktYears" value="15" min="1" max="30" step="1"><span class="unit">ans</span></div>
+        </div>
+        <input type="range" min="1" max="30" step="1" value="15" id="simMktYearsRange">
+      </div>
+      <div style="display:flex;flex-direction:column;justify-content:center;background:rgba(255,255,255,.02);border:1px solid var(--brd);border-radius:8px;padding:9px 12px">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:11.5px;font-weight:700;color:var(--txt)">
+          <input type="checkbox" id="simMktReinvest" checked style="accent-color:var(--green)">
+          <span>Réinvestir les dividendes</span>
+        </label>
+        <span class="mini" style="margin-top:4px;color:var(--muted)">Effet boule de neige d'intérêts composés</span>
+      </div>
+    </div>
+
+    <!-- RÉSULTATS KPIS DE LA PROJECTION BOURSIÈRE -->
+    <div class="grid g4" style="gap:9px;margin-bottom:14px">
+      <div class="kpi k-purple" style="padding:10px 12px">
+        <div class="kpi-label">Capital total final</div>
+        <div class="kpi-val" id="simMktResultTotal" style="font-size:16px;color:#a78bfa">0 €</div>
+        <div class="mini" id="simMktMultiplier" style="margin-top:2px">×0 de mise</div>
+      </div>
+      <div class="kpi k-blue" style="padding:10px 12px">
+        <div class="kpi-label">Versements cumulés</div>
+        <div class="kpi-val" id="simMktInvested" style="font-size:16px;color:var(--blue)">0 €</div>
+        <div class="mini">Votre effort d'épargne</div>
+      </div>
+      <div class="kpi k-green" style="padding:10px 12px">
+        <div class="kpi-label">Dividendes & Plus-values</div>
+        <div class="kpi-val" id="simMktGains" style="font-size:16px;color:var(--green)">0 €</div>
+        <div class="mini" id="simMktGainsPct">+0 % de gains</div>
+      </div>
+      <div class="kpi k-cyan" style="padding:10px 12px">
+        <div class="kpi-label">Rente mensuelle à terme</div>
+        <div class="kpi-val" id="simMktRente" style="font-size:16px;color:#22d3ee">0 € / m</div>
+        <div class="mini">Dividendes futurs perçus</div>
+      </div>
+    </div>
+
+    <!-- GRAPHIQUE SVG DE PROJECTION DU MARCHÉ -->
+    <div style="background:rgba(0,0,0,.2);border:1px solid var(--brd);border-radius:10px;padding:14px;margin-bottom:14px">
+      <div class="row-flex" style="margin-bottom:8px">
+        <b style="font-size:12px;color:var(--txt)">Courbe de projection comparative</b>
+        <div style="display:flex;gap:12px;font-size:10.5px">
+          <span style="display:flex;align-items:center;gap:5px"><span class="dot" style="background:#34d399"></span>Avec dividendes réinvestis</span>
+          <span style="display:flex;align-items:center;gap:5px"><span class="dot" style="background:#38bdf8"></span>Plus-value seule</span>
+          <span style="display:flex;align-items:center;gap:5px"><span class="dot" style="background:#a78bfa"></span>Total investi</span>
+        </div>
+      </div>
+      <div id="simMktChart"></div>
+    </div>
+
+    <!-- ANALYSE DE MON HISTORIQUE RÉEL & PORTEFEUILLE ACTUEL -->
+    <div class="grid g2" style="gap:12px;margin-bottom:14px">
+      <div style="background:rgba(255,255,255,.02);border:1px solid var(--brd);border-radius:10px;padding:12px">
+        <div class="row-flex" style="margin-bottom:8px">
+          <b style="font-size:12px;color:var(--txt)">Mon Exposition Boursière Actuelle</b>
+          <span class="mini" id="myPortTotalBadge" style="font-weight:700;color:var(--green)">0 € au total</span>
+        </div>
+        <div id="myPortfolioBreakdown"></div>
+      </div>
+      <div style="background:rgba(255,255,255,.02);border:1px solid var(--brd);border-radius:10px;padding:12px">
+        <div class="row-flex" style="margin-bottom:8px">
+          <b style="font-size:12px;color:var(--txt)">Revenus Passifs & Dividendes Actuels</b>
+          <span class="mini" style="color:var(--blue)">Projection annuelle</span>
+        </div>
+        <div id="myDividendsForecast"></div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         GESTIONNAIRE & SIMULATEUR DÉTAILLÉ DE MON PORTEFEUILLE EN ACTIONS
+    ============================================================ -->
+    <div style="background:rgba(255,255,255,.02);border:1px solid var(--brd);border-radius:11px;padding:14px;margin-bottom:14px">
+      <div class="row-flex" style="margin-bottom:10px;flex-wrap:wrap;gap:8px">
+        <div>
+          <b style="font-size:13px;color:var(--txt);display:flex;align-items:center;gap:7px">
+            <span>📊</span> Mon Portefeuille d'Actions & Titres Individuels
+          </b>
+          <p class="mini" style="margin-top:2px">Suivez vos actions (BRVM, BVMAC, Europe, US), vos plus-values latentes et testez la résistance de votre portefeuille aux chocs boursiers.</p>
+        </div>
+        <div style="display:flex;gap:7px;align-items:center;flex-wrap:wrap">
+          <button class="btn btn-mini" id="openAddStockModalBtn" style="background:var(--blue);color:#06101f;border:none;font-weight:700">+ Ajouter une action</button>
+        </div>
+      </div>
+
+      <!-- RÉSUMÉ VALORISATION & PLUS-VALUES ACTIONS -->
+      <div class="grid g4" style="gap:8px;margin-bottom:12px">
+        <div class="ratio-box">
+          <div class="mini">Valeur totale des actions</div>
+          <b id="stocksTotalVal" style="font-size:15px;color:var(--txt)">0 €</b>
+          <div class="mini" id="stocksCountBadge" style="margin-top:2px">0 lignes</div>
+        </div>
+        <div class="ratio-box">
+          <div class="mini">Plus/Moins-value latente</div>
+          <b id="stocksTotalGain" style="font-size:15px;color:var(--green)">+0 €</b>
+          <div class="mini" id="stocksTotalGainPct">+0.0 %</div>
+        </div>
+        <div class="ratio-box">
+          <div class="mini">Dividendes annuels perçus</div>
+          <b id="stocksTotalDividends" style="font-size:15px;color:#22d3ee">0 € / an</b>
+          <div class="mini" id="stocksAvgYield">Rendement moyen ~0%</div>
+        </div>
+        <div class="ratio-box">
+          <div class="mini">Rente passive mensuelle</div>
+          <b id="stocksMonthlyRente" style="font-size:15px;color:var(--purple)">0 € / m</b>
+          <div class="mini">Cash-flow passif direct</div>
+        </div>
+      </div>
+
+      <!-- TABLEAU DES ACTIONS DÉTENUES -->
+      <div style="overflow-x:auto;margin-bottom:12px">
+        <table class="table-detail" style="width:100%" id="stocksTable">
+          <thead>
+            <tr>
+              <th>Titre / Société</th>
+              <th>Marché</th>
+              <th>Titres</th>
+              <th>PRU</th>
+              <th>Cours</th>
+              <th>Valorisation</th>
+              <th>Plus-value</th>
+              <th>Dividende / an</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="stocksTableBody">
+            <!-- Rendu dynamique par JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- STRESS TEST & PROJECTION DU PORTEFEUILLE D'ACTIONS -->
+      <div style="background:rgba(0,0,0,.25);border:1px solid var(--brd);border-radius:10px;padding:12px">
+        <div class="row-flex" style="margin-bottom:8px;flex-wrap:wrap;gap:8px">
+          <div>
+            <b style="font-size:12px;color:var(--txt)">⚡ Simulateur de Stress Test & Chocs Boursiers</b>
+            <span class="mini" style="display:block;margin-top:2px">Mesurez l'impact d'un krach, d'une correction ou d'un bull market sur vos actions réelles</span>
+          </div>
+          <div style="display:flex;gap:5px;flex-wrap:wrap" id="stressScenarioWrap">
+            <button class="stress-btn" data-scenario="-30" style="color:#f87171">📉 Krach (-30%)</button>
+            <button class="stress-btn" data-scenario="-15" style="color:#fbbf24">🌧️ Correction (-15%)</button>
+            <button class="stress-btn active" data-scenario="0" style="color:var(--blue)">📈 Croisière (+8.5%)</button>
+            <button class="stress-btn" data-scenario="18" style="color:var(--green)">🚀 Bull Run (+18%)</button>
+          </div>
+        </div>
+        <div id="stressResultBanner" style="font-size:11.5px;padding:8px 12px;background:rgba(255,255,255,.03);border-radius:8px;line-height:1.6">
+          <!-- Dynamique -->
+        </div>
+      </div>
+    </div>
+
+    <!-- CONSEILS STRATÉGIQUES D'ALLOCATION MULTI-MARCHÉS -->
+    <div>
+      <div class="row-flex" style="margin-bottom:8px">
+        <b style="font-size:12.5px;color:var(--txt)">💡 Conseils Stratégiques d'Allocation Personnalisés</b>
+        <span class="mini">Analyse automatique selon vos actifs réels</span>
+      </div>
+      <div class="grid g3" style="gap:10px" id="investmentAdviceCards">
+        <!-- Rendu dynamique par JS -->
+      </div>
     </div>
   </div>
 </section>
@@ -1410,6 +2197,97 @@ ul.dotted li::before{content:'▸';position:absolute;left:0;color:var(--blue)}
   </div>
 </section>
 
+<!-- MODAL CONFIGURATION DE SÉCURITÉ & BIOMÉTRIE -->
+<div class="modal-overlay" id="securityConfigModal">
+  <div class="modal" style="max-width:540px">
+    <div class="row-flex" style="margin-bottom:12px">
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:20px">🔒</span>
+        <h3 style="margin:0">Sécurité & Verrouillage Biométrique</h3>
+      </div>
+      <button class="btn-mini" id="closeSecurityModal" style="font-size:12px;padding:3px 8px;font-weight:700">Fermer</button>
+    </div>
+
+    <p style="font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:16px">
+      Protégez vos données patrimoniales et budgétaires avec le capteur d'empreinte digitale de votre PC ou smartphone (Windows Hello, Touch ID, Face ID) et un code PIN de secours.
+    </p>
+
+    <!-- Statut de support de l'appareil -->
+    <div id="deviceBiometricStatusBanner" style="padding:10px 14px;border-radius:10px;background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.25);margin-bottom:16px;display:flex;align-items:center;gap:10px">
+      <span style="font-size:22px">👆</span>
+      <div style="font-size:11.5px;line-height:1.4">
+        <b style="color:var(--blue)">Capteur détecté sur cet appareil :</b>
+        <div id="deviceBiometricDetails" style="color:var(--txt);margin-top:2px">Vérification de la compatibilité biométrique...</div>
+      </div>
+    </div>
+
+    <!-- Activation toggle -->
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:rgba(255,255,255,.03);border:1px solid var(--brd);border-radius:11px;margin-bottom:14px">
+      <div>
+        <div style="font-size:12.5px;font-weight:700">Activer le verrouillage à l'ouverture</div>
+        <div style="font-size:11px;color:var(--muted)">Exiger une empreinte digitale ou le code PIN pour afficher l'espace</div>
+      </div>
+      <input type="checkbox" id="securityEnableToggle" style="width:18px;height:18px;accent-color:var(--blue);cursor:pointer">
+    </div>
+
+    <!-- Section Clé Biométrique / Passkey -->
+    <div style="background:rgba(255,255,255,.02);border:1px solid var(--brd);border-radius:11px;padding:14px;margin-bottom:14px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <span style="font-size:12px;font-weight:700;color:var(--txt)">Empreinte digitale / Clé d'accès (WebAuthn)</span>
+        <span id="biometricRegisteredBadge" class="custom-badge" style="background:rgba(248,113,113,.15);color:var(--red)">Non configurée</span>
+      </div>
+      <p style="font-size:11px;color:var(--muted);line-height:1.5;margin-bottom:10px">
+        Associez l'empreinte de ce PC ou téléphone. L'authentification s'effectue localement sur la puce de sécurité de votre appareil.
+      </p>
+      <div style="display:flex;gap:8px">
+        <button type="button" class="btn btn-sm" id="registerBiometricBtn" style="background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;border:none">
+          👆 Enregistrer / Associer l'empreinte de cet appareil
+        </button>
+      </div>
+    </div>
+
+    <!-- Section Code PIN de Secours -->
+    <div style="background:rgba(255,255,255,.02);border:1px solid var(--brd);border-radius:11px;padding:14px;margin-bottom:14px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <span style="font-size:12px;font-weight:700;color:var(--txt)">Code PIN de secours (4 à 6 chiffres)</span>
+        <span id="pinConfiguredBadge" class="custom-badge" style="background:rgba(248,113,113,.15);color:var(--red)">Non défini</span>
+      </div>
+      <p style="font-size:11px;color:var(--muted);line-height:1.5;margin-bottom:10px">
+        Permet de déverrouiller si le capteur biométrique est inaccessible ou si vous utilisez un navigateur non compatible.
+      </p>
+      <div style="display:flex;gap:8px;align-items:center">
+        <input type="password" id="newPinInput" maxlength="6" pattern="[0-9]*" inputmode="numeric" placeholder="Nouveau code PIN (ex: 1234)" style="flex:1;background:rgba(255,255,255,.05);border:1px solid var(--brd);color:var(--txt);padding:7px 10px;border-radius:8px;font-size:12px;letter-spacing:.2em;text-align:center;outline:none">
+        <button type="button" class="btn btn-sm" id="savePinBtn">Enregistrer le PIN</button>
+      </div>
+    </div>
+
+    <!-- Options de Verrouillage Automatique -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+      <div>
+        <label style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:4px">Auto-verrouillage :</label>
+        <select id="autoLockTimeoutSelect" style="width:100%;background:rgba(255,255,255,.05);border:1px solid var(--brd);color:var(--txt);padding:6px 8px;border-radius:8px;font-size:11.5px;outline:none">
+          <option value="0">Immédiat (à chaque ouverture)</option>
+          <option value="1">Après 1 minute d'inactivité</option>
+          <option value="5" selected>Après 5 minutes d'inactivité</option>
+          <option value="15">Après 15 minutes d'inactivité</option>
+          <option value="30">Après 30 minutes d'inactivité</option>
+          <option value="-1">Manuel uniquement</option>
+        </select>
+      </div>
+      <div>
+        <label style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:4px">Changement d'onglet :</label>
+        <label style="display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--txt);margin-top:7px;cursor:pointer">
+          <input type="checkbox" id="lockOnTabLeaveToggle" style="accent-color:var(--blue)">
+          Verrouiller si onglet masqué
+        </label>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:8px;justify-content:flex-end;border-top:1px solid var(--brd);padding-top:12px">
+      <button type="button" class="btn btn-sm btn-danger" id="disableSecurityBtn" style="display:none">Désactiver la sécurité</button>
+      <button type="button" class="btn btn-sm" id="lockNowTestBtn" style="background:var(--blue);color:#06101f;border:none">🔒 Verrouiller maintenant</button>
+    </div>
+  </div>
 </div>
 
 <div class="modal-overlay" id="resetModal">
@@ -1487,6 +2365,268 @@ ul.dotted li::before{content:'▸';position:absolute;left:0;color:var(--blue)}
   </div>
 </div>
 
+<!-- MODAL DÉPENSE PERSONNALISÉE -->
+<div class="modal-overlay" id="customExpenseModal">
+  <div class="modal" style="max-width:480px">
+    <div class="row-flex" style="margin-bottom:12px">
+      <h3 style="margin:0">Ajouter une dépense personnalisée</h3>
+      <button class="btn-mini" id="closeCustomExpenseModal" style="font-size:12px;padding:3px 8px;font-weight:700">Fermer</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:11px">
+      <div>
+        <label style="font-size:11px;font-weight:700;color:var(--muted);display:block;margin-bottom:4px">Nom de la dépense :</label>
+        <input type="text" id="custExpName" placeholder="Ex: Abonnement Salle Basic-Fit, Navigo..." style="width:100%;background:rgba(255,255,255,.05);border:1px solid var(--brd);color:var(--txt);padding:8px 10px;border-radius:8px;font-size:12px;outline:none">
+      </div>
+      <div class="grid g2" style="gap:9px">
+        <div>
+          <label style="font-size:11px;font-weight:700;color:var(--muted);display:block;margin-bottom:4px">Catégorie :</label>
+          <select id="custExpCat" style="width:100%;background:rgba(255,255,255,.05);border:1px solid var(--brd);color:var(--txt);padding:8px 10px;border-radius:8px;font-size:12px;outline:none">
+            <option value="logement">Logement (N1)</option>
+            <option value="nourriture">Nourriture (N1)</option>
+            <option value="sante">Santé (N1)</option>
+            <option value="transport">Transports (N2)</option>
+            <option value="communication">Communication (N3)</option>
+            <option value="habillement">Habillement (N3)</option>
+            <option value="loisirs">Loisirs & Culture (N3)</option>
+            <option value="restaurants">Restaurants & Sorties (N4)</option>
+            <option value="vacances">Vacances (N4)</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:11px;font-weight:700;color:var(--muted);display:block;margin-bottom:4px">Montant en devise :</label>
+          <input type="number" id="custExpAmount" placeholder="30" min="0" step="1" style="width:100%;background:rgba(255,255,255,.05);border:1px solid var(--brd);color:var(--txt);padding:8px 10px;border-radius:8px;font-size:12px;outline:none">
+        </div>
+      </div>
+      <div class="grid g2" style="gap:9px">
+        <div>
+          <label style="font-size:11px;font-weight:700;color:var(--muted);display:block;margin-bottom:4px">Fréquence :</label>
+          <select id="custExpFreq" style="width:100%;background:rgba(255,255,255,.05);border:1px solid var(--brd);color:var(--txt);padding:8px 10px;border-radius:8px;font-size:12px;outline:none">
+            <option value="mensuel">Mensuel (1×/mois)</option>
+            <option value="annuel">Annuel (divisé par 12)</option>
+            <option value="trimestriel">Trimestriel (divisé par 3)</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:11px;font-weight:700;color:var(--muted);display:block;margin-bottom:4px">Mode de paiement :</label>
+          <select id="custExpPayment" style="width:100%;background:rgba(255,255,255,.05);border:1px solid var(--brd);color:var(--txt);padding:8px 10px;border-radius:8px;font-size:12px;outline:none">
+            <option value="sepa">Prélèvement SEPA</option>
+            <option value="cb">Carte bancaire</option>
+            <option value="virement">Virement auto</option>
+            <option value="cash">Espèces</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-actions" style="margin-top:8px">
+        <button class="btn" id="cancelCustomExpenseBtn">Annuler</button>
+        <button class="btn" id="saveCustomExpenseBtn" style="background:var(--blue);color:#06101f;border:none">Ajouter la dépense</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL ACTIF / PASSIF PERSONNALISÉ -->
+<div class="modal-overlay" id="customAssetModal">
+  <div class="modal" style="max-width:500px">
+    <div class="row-flex" style="margin-bottom:12px">
+      <h3 style="margin:0" id="customAssetModalTitle">Ajouter un actif ou une dette</h3>
+      <button class="btn-mini" id="closeCustomAssetModal" style="font-size:12px;padding:3px 8px;font-weight:700">Fermer</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:11px">
+      <div>
+        <label style="font-size:11px;font-weight:700;color:var(--muted);display:block;margin-bottom:4px">Intitulé :</label>
+        <input type="text" id="custAssetName" placeholder="Ex: Studio locatif Lyon, Ledger Crypto, Prêt étudiant..." style="width:100%;background:rgba(255,255,255,.05);border:1px solid var(--brd);color:var(--txt);padding:8px 10px;border-radius:8px;font-size:12px;outline:none">
+      </div>
+      <div class="grid g2" style="gap:9px">
+        <div>
+          <label style="font-size:11px;font-weight:700;color:var(--muted);display:block;margin-bottom:4px">Classe de patrimoine :</label>
+          <select id="custAssetCategory" style="width:100%;background:rgba(255,255,255,.05);border:1px solid var(--brd);color:var(--txt);padding:8px 10px;border-radius:8px;font-size:12px;outline:none">
+            <option value="liquide">Actifs liquides (Disponibilité immédiate)</option>
+            <option value="investis">Actifs investis (Marchés, PEA, Crypto)</option>
+            <option value="immobilier">Actifs immobiliers & Fonciers</option>
+            <option value="pro">Actifs professionnels & Droits</option>
+            <option value="passifs">Passifs & Dettes (Crédits, découverts)</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:11px;font-weight:700;color:var(--muted);display:block;margin-bottom:4px">Montant / Valeur :</label>
+          <input type="number" id="custAssetVal" placeholder="5000" min="0" step="50" style="width:100%;background:rgba(255,255,255,.05);border:1px solid var(--brd);color:var(--txt);padding:8px 10px;border-radius:8px;font-size:12px;outline:none">
+        </div>
+      </div>
+      <div class="grid g2" style="gap:9px">
+        <div>
+          <label style="font-size:11px;font-weight:700;color:var(--muted);display:block;margin-bottom:4px">Établissement / Plateforme :</label>
+          <input type="text" id="custAssetInstitution" placeholder="Boursorama, Kraken, Société Générale..." style="width:100%;background:rgba(255,255,255,.05);border:1px solid var(--brd);color:var(--txt);padding:8px 10px;border-radius:8px;font-size:12px;outline:none">
+        </div>
+        <div>
+          <label style="font-size:11px;font-weight:700;color:var(--muted);display:block;margin-bottom:4px">Taux d'intérêt annuel (%) si dette :</label>
+          <input type="number" id="custAssetRate" placeholder="Ex: 3.5" min="0" max="30" step="0.1" value="0" style="width:100%;background:rgba(255,255,255,.05);border:1px solid var(--brd);color:var(--txt);padding:8px 10px;border-radius:8px;font-size:12px;outline:none">
+        </div>
+      </div>
+      <div class="modal-actions" style="margin-top:8px">
+        <button class="btn" id="cancelCustomAssetBtn">Annuler</button>
+        <button class="btn" id="saveCustomAssetBtn" style="background:var(--blue);color:#06101f;border:none">Enregistrer l'élément</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL REVENU COMPLÉMENTAIRE -->
+<div class="modal-overlay" id="customRevenueModal">
+  <div class="modal" style="max-width:450px">
+    <div class="row-flex" style="margin-bottom:12px">
+      <h3 style="margin:0">Ajouter un revenu personnalisé</h3>
+      <button class="btn-mini" id="closeCustomRevenueModal" style="font-size:12px;padding:3px 8px;font-weight:700">Fermer</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:11px">
+      <div>
+        <label style="font-size:11px;font-weight:700;color:var(--muted);display:block;margin-bottom:4px">Intitulé du revenu :</label>
+        <input type="text" id="custRevName" placeholder="Ex: Mission Freelance UX, Dividendes trimestriels..." style="width:100%;background:rgba(255,255,255,.05);border:1px solid var(--brd);color:var(--txt);padding:8px 10px;border-radius:8px;font-size:12px;outline:none">
+      </div>
+      <div class="grid g2" style="gap:9px">
+        <div>
+          <label style="font-size:11px;font-weight:700;color:var(--muted);display:block;margin-bottom:4px">Montant mensuel :</label>
+          <input type="number" id="custRevVal" placeholder="300" min="0" step="10" style="width:100%;background:rgba(255,255,255,.05);border:1px solid var(--brd);color:var(--txt);padding:8px 10px;border-radius:8px;font-size:12px;outline:none">
+        </div>
+        <div>
+          <label style="font-size:11px;font-weight:700;color:var(--muted);display:block;margin-bottom:4px">Nature du flux :</label>
+          <select id="custRevType" style="width:100%;background:rgba(255,255,255,.05);border:1px solid var(--brd);color:var(--txt);padding:8px 10px;border-radius:8px;font-size:12px;outline:none">
+            <option value="actif">Revenu Actif (Travail, missions)</option>
+            <option value="passif">Revenu Passif (Loyers, rentes, dividendes)</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-actions" style="margin-top:8px">
+        <button class="btn" id="cancelCustomRevBtn">Annuler</button>
+        <button class="btn" id="saveCustomRevBtn" style="background:var(--blue);color:#06101f;border:none">Ajouter le revenu</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PROFILS RÉALISTES -->
+<div class="modal-overlay" id="profileModal">
+  <div class="modal" style="max-width:620px">
+    <div class="row-flex" style="margin-bottom:12px">
+      <div>
+        <h3 style="margin:0">Choisir un Profil Réaliste Type</h3>
+        <p class="mini" style="margin-top:2px">Configure l'ensemble du budget, patrimoine et flux avec des données cohérentes en 1 clic.</p>
+      </div>
+      <button class="btn-mini" id="closeProfileModal" style="font-size:12px;padding:3px 8px;font-weight:700">Fermer</button>
+    </div>
+    <div class="grid g2" style="gap:11px;margin-bottom:12px">
+      <div class="profile-card" data-apply-profile="etudiant">
+        <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
+          <span style="font-size:16px">🎓</span>
+          <b style="font-size:12.5px;color:var(--txt)">Étudiant / Alternant</b>
+        </div>
+        <div class="mini" style="line-height:1.5">Revenu : 975 € · Loyer : 430 € · Restos modérés · Épargne sécurité progressive (83 €/m) · DCA débutant (125 €).</div>
+      </div>
+      <div class="profile-card" data-apply-profile="actif">
+        <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
+          <span style="font-size:16px">💼</span>
+          <b style="font-size:12.5px;color:var(--green)">Jeune Actif Célibataire</b>
+        </div>
+        <div class="mini" style="line-height:1.5">Revenu : 2 200 € · Loyer : 720 € · Loisirs 150 € · PEA World 350 € · Épargne 250 € · Équilibre 50/30/20.</div>
+      </div>
+      <div class="profile-card" data-apply-profile="famille">
+        <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
+          <span style="font-size:16px">🏡</span>
+          <b style="font-size:12.5px;color:var(--purple)">Cadre / Famille Propriétaire</b>
+        </div>
+        <div class="mini" style="line-height:1.5">Revenu : 4 200 € · Prêt immo : 1 350 € · 2 Voitures · Courses 650 € · Assurance-Vie + PEA 600 € · SCPI.</div>
+      </div>
+      <div class="profile-card" data-apply-profile="freelance">
+        <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
+          <span style="font-size:16px">🚀</span>
+          <b style="font-size:12.5px;color:var(--amber)">Indépendant / Freelance</b>
+        </div>
+        <div class="mini" style="line-height:1.5">Revenu : 3 200 € variable · Minimum garanti : 1 800 € · Forteresse urgence 6 mois · PER déductible 400 €.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL AJOUTER UNE ACTION / TITRE BOURSIER -->
+<div class="modal-overlay" id="stockModal" role="dialog" aria-modal="true" aria-labelledby="stockModalTitle">
+  <div class="modal-box" style="max-width:520px">
+    <div class="row-flex" style="margin-bottom:12px">
+      <div>
+        <b style="font-size:14px;color:var(--txt)" id="stockModalTitle">📈 Ajouter une action à mon portefeuille</b>
+        <p class="mini" style="margin-top:2px">Saisissez vos titres réels pour calculer vos plus-values, dividendes et stress-tests.</p>
+      </div>
+      <button class="btn-mini" id="closeStockModal" style="font-size:12px;padding:3px 8px;font-weight:700">Fermer</button>
+    </div>
+
+    <!-- Quick Presets -->
+    <div style="margin-bottom:12px">
+      <div class="mini" style="margin-bottom:6px;font-weight:600">⚡ Actions & ETF Populaires (1 clic) :</div>
+      <div style="display:flex;flex-wrap:wrap;gap:5px">
+        <button type="button" class="stock-preset-btn" data-stk-name="Sonatel" data-stk-ticker="SNTS" data-stk-market="brvm" data-stk-pru="17500" data-stk-price="21500" data-stk-yield="7.9">🇸🇳 Sonatel (BRVM)</button>
+        <button type="button" class="stock-preset-btn" data-stk-name="SGBCI" data-stk-ticker="SGBB" data-stk-market="brvm" data-stk-pru="15000" data-stk-price="19400" data-stk-yield="8.4">🇨🇮 SGBCI (BRVM)</button>
+        <button type="button" class="stock-preset-btn" data-stk-name="Ecobank CI" data-stk-ticker="ECOC" data-stk-market="brvm" data-stk-pru="5500" data-stk-price="7800" data-stk-yield="9.1">🇨🇮 Ecobank CI</button>
+        <button type="button" class="stock-preset-btn" data-stk-name="SOCAPALM" data-stk-ticker="PALM" data-stk-market="bvmac" data-stk-pru="42000" data-stk-price="48000" data-stk-yield="8.2">🇨🇲 SOCAPALM (BVMAC)</button>
+        <button type="button" class="stock-preset-btn" data-stk-name="Dangote Cement" data-stk-ticker="DANGCEM" data-stk-market="ngx" data-stk-pru="350" data-stk-price="480" data-stk-yield="6.5">🇳🇬 Dangote (NGX)</button>
+        <button type="button" class="stock-preset-btn" data-stk-name="iShares MSCI World" data-stk-ticker="IWDA / CW8" data-stk-market="europe" data-stk-pru="410" data-stk-price="495" data-stk-yield="1.8">🌍 ETF MSCI World</button>
+        <button type="button" class="stock-preset-btn" data-stk-name="TotalEnergies" data-stk-ticker="TTE" data-stk-market="europe" data-stk-pru="52" data-stk-price="62" data-stk-yield="5.2">🇫🇷 TotalEnergies</button>
+        <button type="button" class="stock-preset-btn" data-stk-name="Air Liquide" data-stk-ticker="AI" data-stk-market="europe" data-stk-pru="150" data-stk-price="182" data-stk-yield="2.1">🇫🇷 Air Liquide</button>
+        <button type="button" class="stock-preset-btn" data-stk-name="Apple Inc." data-stk-ticker="AAPL" data-stk-market="usa" data-stk-pru="165" data-stk-price="228" data-stk-yield="0.6">🇺🇸 Apple</button>
+        <button type="button" class="stock-preset-btn" data-stk-name="Nvidia Corp." data-stk-ticker="NVDA" data-stk-market="usa" data-stk-pru="95" data-stk-price="138" data-stk-yield="0.3">🇺🇸 Nvidia</button>
+      </div>
+    </div>
+
+    <form id="stockForm" onsubmit="event.preventDefault();">
+      <div class="grid g2" style="gap:10px;margin-bottom:10px">
+        <div>
+          <label class="mini" style="display:block;margin-bottom:4px;color:var(--txt)">Nom de la société / ETF *</label>
+          <input type="text" id="stockNameInp" class="input-detail" placeholder="ex: Sonatel, Apple, CW8" required style="width:100%">
+        </div>
+        <div>
+          <label class="mini" style="display:block;margin-bottom:4px;color:var(--txt)">Ticker / Symbole</label>
+          <input type="text" id="stockTickerInp" class="input-detail" placeholder="ex: SNTS, AAPL" style="width:100%">
+        </div>
+      </div>
+
+      <div class="grid g2" style="gap:10px;margin-bottom:10px">
+        <div>
+          <label class="mini" style="display:block;margin-bottom:4px;color:var(--txt)">Place boursière *</label>
+          <select id="stockMarketInp" class="input-detail" style="width:100%">
+            <option value="brvm">🇧🇯🇨🇮🇸🇳 BRVM (UEMOA)</option>
+            <option value="bvmac">🇨🇲🇬🇦🇨🇬 BVMAC (CEMAC)</option>
+            <option value="ngx">🇳🇬 NGX (Nigeria)</option>
+            <option value="europe">🇪🇺 Europe (PEA / Euronext)</option>
+            <option value="usa">🇺🇸 USA (S&P 500 / Nasdaq)</option>
+            <option value="asie">🌏 Asie-Pacifique / Émergents</option>
+          </select>
+        </div>
+        <div>
+          <label class="mini" style="display:block;margin-bottom:4px;color:var(--txt)">Nombre de titres détenus *</label>
+          <input type="number" id="stockSharesInp" class="input-detail" step="any" min="0.001" placeholder="ex: 50" required style="width:100%">
+        </div>
+      </div>
+
+      <div class="grid g3" style="gap:9px;margin-bottom:14px">
+        <div>
+          <label class="mini" style="display:block;margin-bottom:4px;color:var(--txt)">PRU (Prix d'achat unitaire) *</label>
+          <input type="number" id="stockPruInp" class="input-detail" step="any" min="0" placeholder="ex: 17500" required style="width:100%">
+        </div>
+        <div>
+          <label class="mini" style="display:block;margin-bottom:4px;color:var(--txt)">Cours actuel du titre *</label>
+          <input type="number" id="stockPriceInp" class="input-detail" step="any" min="0" placeholder="ex: 21500" required style="width:100%">
+        </div>
+        <div>
+          <label class="mini" style="display:block;margin-bottom:4px;color:var(--txt)">Rendement dividende (%)</label>
+          <input type="number" id="stockDivYieldInp" class="input-detail" step="0.1" min="0" max="100" placeholder="ex: 7.5" style="width:100%">
+        </div>
+      </div>
+
+      <div class="row-flex" style="justify-content:flex-end;gap:8px">
+        <button type="button" class="btn btn-mini" id="cancelStockBtn" style="background:rgba(255,255,255,.05);color:var(--txt);border:1px solid var(--brd)">Annuler</button>
+        <button type="button" class="btn btn-mini" id="saveStockBtn" style="background:var(--blue);color:#06101f;border:none;font-weight:700">Enregistrer l'action</button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
@@ -1514,11 +2654,12 @@ const DEFAULT_STATE = {
     nourriture_courses: 70, nourriture_repas: 0, nourriture_reserves: 10,
     transport_carburant: 1.7, transport_entretien: 0, transport_assurance: 0,
     sante_sport: 35, sante_mutuelle: 0, sante_franchises: 0, sante_prevention: 10,
-    communication: 10,
-    habillement: 0,
-    loisirs: 0,
-    restaurants: 0,
-    vacances: 0
+    communication_mobile: 10, communication_internet: 0, communication_cloud: 0,
+    habillement_essentiel: 0, habillement_renouvellement: 0,
+    loisirs_streaming: 0, loisirs_sorties: 0, loisirs_passions: 0,
+    restaurants_repas: 0, restaurants_livraisons: 0,
+    vacances_transport: 0, vacances_hebergement: 0,
+    communication: 0, habillement: 0, loisirs: 0, restaurants: 0, vacances: 0
   },
 
   futur: { epargneSecurite: 83.33, investissements: 125, projets: 166.67, dons: 41.67 },
@@ -1559,18 +2700,45 @@ const DEFAULT_STATE = {
     creditsConso:0, creditsImmo:0, decouverts:0, dettesPerso:0
   },
 
+  customExpenses: [],
+  customRevenus: [],
+  customPatrimoine: [],
+
+  stocks: [
+    { id:'stk_1', name:'Sonatel', ticker:'SNTS', market:'brvm', shares:50, pru:17500, price:21500, divYield:7.9 },
+    { id:'stk_2', name:'iShares Core MSCI World', ticker:'IWDA / CW8', market:'europe', shares:10, pru:410, price:495, divYield:1.8 },
+    { id:'stk_3', name:'Apple Inc.', ticker:'AAPL', market:'usa', shares:8, pru:165, price:228, divYield:0.6 }
+  ],
+  stockStressScenario: 0,
+
+  marketSim: {
+    activeMarket: 'brvm',
+    initCapital: 1000,
+    monthly: 150,
+    years: 15,
+    reinvest: true
+  },
+
   contacts: [
-    { id:'c1', label:'Clarisse (famille)', val:'+33 758970758', isTel:true },
-    { id:'c2', label:'Papa (famille)', val:'+228 90017392', isTel:true },
+    { id:'c1', label:'Contact d\'urgence 1 (famille)', val:'', isTel:true },
+    { id:'c2', label:'Contact d\'urgence 2 (proche)', val:'', isTel:true },
     { id:'c3', label:'Assureur', val:'', isTel:false },
     { id:'c4', label:'Banque', val:'', isTel:false },
-    { id:'c5', label:'Médecin', val:'', isTel:false },
+    { id:'c5', label:'Médecin traitant', val:'', isTel:false },
     { id:'c6', label:'Avocat / Notaire', val:'', isTel:false },
     { id:'c7', label:'Ambassade / Consulat', val:'', isTel:false },
-    { id:'c8', label:'Université (étudiants étrangers)', val:'', isTel:false }
+    { id:'c8', label:'Assistance juridique / Urgence', val:'', isTel:false }
   ],
 
-  sheetsUrl: 'https://script.google.com/macros/s/AKfycbwvfmtAd7nrtiZGIlX-KRGxV23YKrjR9fD2117_zUuF144wyUepwwY6_VjYA-LITUIIdg/exec',
+  security: {
+    enabled: false,
+    credentialId: '',
+    pinHash: '',
+    autoLockMinutes: 5,
+    lockOnTabLeave: false
+  },
+
+  sheetsUrl: '',
   currency: '€',
   theme: 'dark'
 };
@@ -1593,7 +2761,44 @@ let state = (() => {
     const saved = localStorage.getItem(STORAGE_KEY);
     if(saved){
       const merged = deepMerge(DEFAULT_STATE, JSON.parse(saved));
+      if(!merged.security) {
+        merged.security = {
+          enabled: false,
+          credentialId: '',
+          pinHash: '',
+          autoLockMinutes: 5,
+          lockOnTabLeave: false
+        };
+      }
       if(!merged.sheetsUrl) merged.sheetsUrl = DEFAULT_STATE.sheetsUrl;
+      if(!merged.customExpenses) merged.customExpenses = [];
+      if(!merged.customRevenus) merged.customRevenus = [];
+      if(!merged.customPatrimoine) merged.customPatrimoine = [];
+      if(!merged.stocks || !Array.isArray(merged.stocks)) merged.stocks = JSON.parse(JSON.stringify(DEFAULT_STATE.stocks));
+      if(merged.stockStressScenario === undefined) merged.stockStressScenario = 0;
+      // Migration transparente des clés simples vers clés sous-catégories
+      if(merged.exp){
+        if(merged.exp.communication && !merged.exp.communication_mobile){
+          merged.exp.communication_mobile = merged.exp.communication;
+          merged.exp.communication = 0;
+        }
+        if(merged.exp.habillement && !merged.exp.habillement_essentiel){
+          merged.exp.habillement_essentiel = merged.exp.habillement;
+          merged.exp.habillement = 0;
+        }
+        if(merged.exp.loisirs && !merged.exp.loisirs_streaming){
+          merged.exp.loisirs_streaming = merged.exp.loisirs;
+          merged.exp.loisirs = 0;
+        }
+        if(merged.exp.restaurants && !merged.exp.restaurants_repas){
+          merged.exp.restaurants_repas = merged.exp.restaurants;
+          merged.exp.restaurants = 0;
+        }
+        if(merged.exp.vacances && !merged.exp.vacances_transport){
+          merged.exp.vacances_transport = merged.exp.vacances;
+          merged.exp.vacances = 0;
+        }
+      }
       return merged;
     }
   } catch(e){ console.warn(e); }
@@ -1690,19 +2895,26 @@ const DETAILED_EXPENSE_DEFS = [
     { id:'transport_assurance', label:'Assurance auto', max:200, step:1 }
   ]},
   { cat:'communication', label:'Communication', range:'2–4 %', strata:3, color:'#a78bfa', items:[
-    { id:'communication', label:'Abonnement tel / internet', max:150, step:1 }
+    { id:'communication_mobile', label:'Forfait mobile 4G/5G', max:100, step:1 },
+    { id:'communication_internet', label:'Box Internet / Fibre', max:100, step:1 },
+    { id:'communication_cloud', label:'Cloud & abonnements tech', max:50, step:1 }
   ]},
   { cat:'habillement', label:'Habillement', range:'3–5 %', strata:3, color:'#22d3ee', items:[
-    { id:'habillement', label:'Vêtements', max:300, step:1 }
+    { id:'habillement_essentiel', label:'Vêtements & chaussures essentiels', max:250, step:1 },
+    { id:'habillement_renouvellement', label:'Renouvellement saisonnier / pressing', max:150, step:1 }
   ]},
   { cat:'loisirs', label:'Loisirs / culture', range:'5–8 %', strata:3, color:'#f87171', items:[
-    { id:'loisirs', label:'Loisirs / culture', max:300, step:1 }
+    { id:'loisirs_streaming', label:'Streaming, musique & presse', max:100, step:1 },
+    { id:'loisirs_sorties', label:'Cinéma, musées, concerts', max:200, step:1 },
+    { id:'loisirs_passions', label:'Livres, jeux & activités perso', max:150, step:1 }
   ]},
   { cat:'restaurants', label:'Restaurants / sorties', range:'4–6 %', strata:4, color:'#c4b5fd', items:[
-    { id:'restaurants', label:'Restaurants / sorties', max:400, step:1 }
+    { id:'restaurants_repas', label:'Restaurants & bars', max:300, step:1 },
+    { id:'restaurants_livraisons', label:'Livraisons repas & snacking', max:150, step:1 }
   ]},
   { cat:'vacances', label:'Vacances (lissé)', range:'3–5 %', strata:4, color:'#7dd3fc', items:[
-    { id:'vacances', label:'Vacances', max:500, step:1 }
+    { id:'vacances_transport', label:'Billets transport train/avion lissés', max:300, step:1 },
+    { id:'vacances_hebergement', label:'Hébergements, hôtels & séjours', max:400, step:1 }
   ]}
 ];
 
@@ -1801,43 +3013,74 @@ const SUIVI_MENSUEL = [
    AGRÉGATS
 ============================================================ */
 function totalIncome(){
-  return Object.values(state.income).reduce((s,v)=>s+(v||0),0);
+  const base = Object.values(state.income).reduce((s,v)=>s+(v||0),0);
+  const custom = (state.customRevenus || []).reduce((s,r)=>s+(parseFloat(r.val)||0), 0);
+  return base + custom;
 }
 function revPrincipaux(){
-  return state.income.salaireNet + state.income.primes + state.income.indemnites;
+  const base = state.income.salaireNet + state.income.primes + state.income.indemnites;
+  const custom = (state.customRevenus || []).filter(r => r.type === 'actif').reduce((s,r)=>s+(parseFloat(r.val)||0), 0);
+  return base + custom;
 }
 function revSecondaires(){
-  return state.income.freelance + state.income.revente + state.income.loyers +
+  const base = state.income.freelance + state.income.revente + state.income.loyers +
          state.income.revenusFinanciers + state.income.pensions;
+  const custom = (state.customRevenus || []).filter(r => r.type === 'passif').reduce((s,r)=>s+(parseFloat(r.val)||0), 0);
+  return base + custom;
 }
 function expTotal(){
-  return Object.values(state.exp).reduce((s,v)=>s+(v||0),0);
+  const base = Object.values(state.exp).reduce((s,v)=>s+(v||0),0);
+  const custom = (state.customExpenses || []).reduce((s,e) => {
+    const v = parseFloat(e.val) || 0;
+    if(e.freq === 'annuel') return s + (v / 12);
+    if(e.freq === 'trimestriel') return s + (v / 3);
+    return s + v;
+  }, 0);
+  return base + custom;
 }
 function futurTotal(){
   return Object.values(state.futur).reduce((s,v)=>s+(v||0),0);
 }
 function catTotal(cat){
-  return Object.keys(state.exp)
+  const base = Object.keys(state.exp)
     .filter(k => k === cat || k.startsWith(cat+'_'))
-    .reduce((s,k)=>s+state.exp[k], 0);
+    .reduce((s,k)=>s+(state.exp[k]||0), 0);
+  const custom = (state.customExpenses || [])
+    .filter(e => e.cat === cat)
+    .reduce((s,e) => {
+      const v = parseFloat(e.val) || 0;
+      if(e.freq === 'annuel') return s + (v / 12);
+      if(e.freq === 'trimestriel') return s + (v / 3);
+      return s + v;
+    }, 0);
+  return base + custom;
 }
 function strataTotal(strata){
   return DETAILED_EXPENSE_DEFS.filter(d=>d.strata===strata)
     .reduce((s,d)=>s+catTotal(d.cat), 0);
 }
 function patrimoineBrut(){
-  return PATRIMOINE_DEFS.filter(c=>c.key!=='passifs')
+  const base = PATRIMOINE_DEFS.filter(c=>c.key!=='passifs')
     .reduce((s,c)=>s+c.items.reduce((a,i)=>a+(state.patrimoine[i.id]||0), 0), 0);
+  const custom = (state.customPatrimoine || []).filter(p => p.category !== 'passifs')
+    .reduce((s,p)=>s+(parseFloat(p.val)||0), 0);
+  return base + custom;
 }
 function patrimoinePassifs(){
-  return PATRIMOINE_DEFS.find(c=>c.key==='passifs')
+  const base = PATRIMOINE_DEFS.find(c=>c.key==='passifs')
     .items.reduce((s,i)=>s+(state.patrimoine[i.id]||0), 0);
+  const custom = (state.customPatrimoine || []).filter(p => p.category === 'passifs')
+    .reduce((s,p)=>s+(parseFloat(p.val)||0), 0);
+  return base + custom;
 }
 function patrimoineNet(){ return patrimoineBrut() - patrimoinePassifs(); }
 function patrimoineByCat(){
   const r = {};
   PATRIMOINE_DEFS.forEach(cat => {
-    r[cat.key] = cat.items.reduce((s,i)=>s+(state.patrimoine[i.id]||0), 0);
+    const base = cat.items.reduce((s,i)=>s+(state.patrimoine[i.id]||0), 0);
+    const custom = (state.customPatrimoine || []).filter(p => p.category === cat.key)
+      .reduce((s,p)=>s+(parseFloat(p.val)||0), 0);
+    r[cat.key] = base + custom;
   });
   return r;
 }
@@ -2107,11 +3350,56 @@ function rebuildSliders(){
       cat.items.forEach(item => {
         wrap.insertAdjacentHTML('beforeend', sliderHTML('exp.'+item.id, item.label, state.exp[item.id], item.max, item.step));
       });
+      // Custom expenses pour cette catégorie
+      (state.customExpenses || []).filter(e => e.cat === cat.cat).forEach(ce => {
+        const ceDiv = document.createElement('div');
+        ceDiv.className = 'item-custom';
+        ceDiv.dataset.id = ce.id;
+        const freqLabel = ce.freq === 'annuel' ? 'Annuel (÷12)' : (ce.freq === 'trimestriel' ? 'Trimestriel (÷3)' : 'Mensuel');
+        ceDiv.innerHTML = `
+          <div class="item-custom-info">
+            <div class="item-custom-name">✦ ${ce.name}</div>
+            <div class="item-custom-meta">
+              <span class="custom-badge">${freqLabel}</span>
+              <span class="custom-badge" style="background:rgba(255,255,255,.05);color:var(--muted)">${(ce.payment||'sepa').toUpperCase()}</span>
+            </div>
+          </div>
+          <div class="sr-input-group">
+            <input type="number" class="num-input custom-exp-input" data-custom-exp="${ce.id}" value="${ce.val}" min="0" step="1">
+            <span class="unit curr-unit">${curr}</span>
+          </div>
+          <button class="custom-del-btn" data-del-custom-exp="${ce.id}" title="Supprimer cette dépense">×</button>`;
+        wrap.appendChild(ceDiv);
+      });
       sec.querySelector('.pat-header').addEventListener('click', () => {
         sec.classList.toggle('open');
       });
       de.appendChild(sec);
     });
+  }
+
+  // Revenus personnalisés
+  const crl = $('#customRevenusList');
+  if(crl){
+    if(!state.customRevenus || state.customRevenus.length === 0){
+      crl.innerHTML = '';
+    } else {
+      crl.innerHTML = state.customRevenus.map(cr => `
+        <div class="item-custom" style="margin-top:6px" data-id="${cr.id}">
+          <div class="item-custom-info">
+            <div class="item-custom-name">✦ ${cr.name}</div>
+            <div class="item-custom-meta">
+              <span class="custom-badge" style="background:${cr.type==='passif'?'rgba(52,211,153,.15)':'rgba(56,189,248,.15)'};color:${cr.type==='passif'?'var(--green)':'var(--blue)'}">${cr.type==='passif'?'Flux Passif':'Flux Actif'}</span>
+            </div>
+          </div>
+          <div class="sr-input-group">
+            <input type="number" class="num-input custom-rev-input" data-custom-rev="${cr.id}" value="${cr.val}" min="0" step="10">
+            <span class="unit curr-unit">${curr}</span>
+          </div>
+          <button class="custom-del-btn" data-del-custom-rev="${cr.id}" title="Supprimer ce revenu">×</button>
+        </div>
+      `).join('');
+    }
   }
 
   // Futur sliders
@@ -2149,6 +3437,27 @@ function rebuildSliders(){
       const wrap = det.querySelector('.pat-items');
       cat.items.forEach(item => {
         wrap.insertAdjacentHTML('beforeend', sliderHTML('patrimoine.'+item.id, item.label, state.patrimoine[item.id], item.max, 50));
+      });
+      // Custom assets / passifs
+      (state.customPatrimoine || []).filter(cp => cp.category === cat.key).forEach(cp => {
+        const cpDiv = document.createElement('div');
+        cpDiv.className = 'item-custom';
+        cpDiv.dataset.id = cp.id;
+        const rateInfo = (cat.key === 'passifs' && cp.rate) ? ` · ${cp.rate}%` : '';
+        cpDiv.innerHTML = `
+          <div class="item-custom-info">
+            <div class="item-custom-name">✦ ${cp.name}</div>
+            <div class="item-custom-meta">
+              <span class="custom-badge">${cp.institution || 'Perso'}</span>
+              ${rateInfo ? `<span class="custom-badge" style="background:rgba(248,113,113,.12);color:var(--red)">${cp.rate}% TAEG</span>` : ''}
+            </div>
+          </div>
+          <div class="sr-input-group">
+            <input type="number" class="num-input custom-asset-input" data-custom-asset="${cp.id}" value="${cp.val}" min="0" step="50">
+            <span class="unit curr-unit">${curr}</span>
+          </div>
+          <button class="custom-del-btn" data-del-custom-asset="${cp.id}" title="Supprimer cet élément">×</button>`;
+        wrap.appendChild(cpDiv);
       });
       pt.appendChild(det);
     });
@@ -2314,8 +3623,43 @@ function buildUI(){
   // Monthly table rows
   renderMonthlyTable();
 
+  // Goal effort simulator inputs
+  const cga = $('#calcGoalAmount');
+  if(cga) cga.addEventListener('input', updateGoalEffortSim);
+  const cgm = $('#calcGoalMonths');
+  if(cgm) cgm.addEventListener('change', updateGoalEffortSim);
+
   // Delegation avec interconnexion bidirectionnelle des données de même nature
   document.addEventListener('input', e => {
+    // Custom items inputs
+    if(e.target.dataset.customExp){
+      const ce = (state.customExpenses || []).find(x => x.id === e.target.dataset.customExp);
+      if(ce){
+        ce.val = parseFloat(e.target.value) || 0;
+        scheduleSave();
+        update();
+      }
+      return;
+    }
+    if(e.target.dataset.customRev){
+      const cr = (state.customRevenus || []).find(x => x.id === e.target.dataset.customRev);
+      if(cr){
+        cr.val = parseFloat(e.target.value) || 0;
+        scheduleSave();
+        update();
+      }
+      return;
+    }
+    if(e.target.dataset.customAsset){
+      const ca = (state.customPatrimoine || []).find(x => x.id === e.target.dataset.customAsset);
+      if(ca){
+        ca.val = parseFloat(e.target.value) || 0;
+        scheduleSave();
+        update();
+      }
+      return;
+    }
+
     const bind = e.target.dataset.bind;
     if(!bind) return;
     const v = parseFloat(e.target.value);
@@ -2330,6 +3674,40 @@ function buildUI(){
 
     scheduleSave();
     update();
+  });
+
+  // Suppression déléguée des éléments personnalisés
+  document.addEventListener('click', e => {
+    const btnExp = e.target.closest('[data-del-custom-exp]');
+    if(btnExp){
+      const id = btnExp.dataset.delCustomExp;
+      state.customExpenses = (state.customExpenses || []).filter(x => x.id !== id);
+      scheduleSave();
+      rebuildSliders();
+      update();
+      toast('Dépense personnalisée supprimée', 'info');
+      return;
+    }
+    const btnRev = e.target.closest('[data-del-custom-rev]');
+    if(btnRev){
+      const id = btnRev.dataset.delCustomRev;
+      state.customRevenus = (state.customRevenus || []).filter(x => x.id !== id);
+      scheduleSave();
+      rebuildSliders();
+      update();
+      toast('Revenu personnalisé supprimé', 'info');
+      return;
+    }
+    const btnAsset = e.target.closest('[data-del-custom-asset]');
+    if(btnAsset){
+      const id = btnAsset.dataset.delCustomAsset;
+      state.customPatrimoine = (state.customPatrimoine || []).filter(x => x.id !== id);
+      scheduleSave();
+      rebuildSliders();
+      update();
+      toast('Élément de patrimoine supprimé', 'info');
+      return;
+    }
   });
 
   // Checkboxes
@@ -2466,6 +3844,61 @@ function buildUI(){
     await pushToGoogleSheets();
     setTimeout(loadHistoryFromSheets, 1200);
   });
+  // Automatisations financières
+  $('#autoBalanceZbbBtn')?.addEventListener('click', autoBalanceBudget);
+  $('#simulateNextMonthBtn')?.addEventListener('click', simulateNextMonth);
+  $('#liveRatesFetchBtn')?.addEventListener('click', fetchLiveExchangeRates);
+  initMarketSimulatorEvents();
+
+  // Profils Réalistes Types
+  $('#openProfileModalBtn')?.addEventListener('click', () => $('#profileModal').classList.add('show'));
+  $('#closeProfileModal')?.addEventListener('click', () => $('#profileModal').classList.remove('show'));
+  $('#profileModal')?.addEventListener('click', e => {
+    if(e.target.id === 'profileModal') e.currentTarget.classList.remove('show');
+  });
+  $$('#profileModal [data-apply-profile]').forEach(card => {
+    card.addEventListener('click', () => {
+      applyProfile(card.dataset.applyProfile);
+      $('#profileModal').classList.remove('show');
+    });
+  });
+
+  // Modal Dépense Personnalisée
+  $('#openAddExpenseModalBtn')?.addEventListener('click', () => $('#customExpenseModal').classList.add('show'));
+  $('#closeCustomExpenseModal')?.addEventListener('click', () => $('#customExpenseModal').classList.remove('show'));
+  $('#cancelCustomExpenseBtn')?.addEventListener('click', () => $('#customExpenseModal').classList.remove('show'));
+  $('#customExpenseModal')?.addEventListener('click', e => {
+    if(e.target.id === 'customExpenseModal') e.currentTarget.classList.remove('show');
+  });
+  $('#saveCustomExpenseBtn')?.addEventListener('click', saveCustomExpense);
+
+  // Modal Revenu Personnalisé
+  $('#addCustomRevenueBtn')?.addEventListener('click', () => $('#customRevenueModal').classList.add('show'));
+  $('#closeCustomRevenueModal')?.addEventListener('click', () => $('#customRevenueModal').classList.remove('show'));
+  $('#cancelCustomRevBtn')?.addEventListener('click', () => $('#customRevenueModal').classList.remove('show'));
+  $('#customRevenueModal')?.addEventListener('click', e => {
+    if(e.target.id === 'customRevenueModal') e.currentTarget.classList.remove('show');
+  });
+  $('#saveCustomRevBtn')?.addEventListener('click', saveCustomRevenue);
+
+  // Modal Actif / Dette Personnalisé
+  $('#addCustomAssetBtn')?.addEventListener('click', () => {
+    const t = $('#customAssetModalTitle'); if(t) t.textContent = 'Ajouter un actif (Épargne, Bourse, Immo)';
+    const c = $('#custAssetCategory'); if(c) c.value = 'liquide';
+    $('#customAssetModal').classList.add('show');
+  });
+  $('#addCustomDebtBtn')?.addEventListener('click', () => {
+    const t = $('#customAssetModalTitle'); if(t) t.textContent = 'Ajouter une dette ou un crédit';
+    const c = $('#custAssetCategory'); if(c) c.value = 'passifs';
+    $('#customAssetModal').classList.add('show');
+  });
+  $('#closeCustomAssetModal')?.addEventListener('click', () => $('#customAssetModal').classList.remove('show'));
+  $('#cancelCustomAssetBtn')?.addEventListener('click', () => $('#customAssetModal').classList.remove('show'));
+  $('#customAssetModal')?.addEventListener('click', e => {
+    if(e.target.id === 'customAssetModal') e.currentTarget.classList.remove('show');
+  });
+  $('#saveCustomAssetBtn')?.addEventListener('click', saveCustomAsset);
+
   // Theme & Currency
   const themeBtn = $('#themeToggleBtn');
   if(themeBtn){
@@ -2496,6 +3929,10 @@ function buildUI(){
       $('#resetModal').classList.remove('show');
       $('#sheetsModal')?.classList.remove('show');
       $('#historyModal')?.classList.remove('show');
+      $('#customExpenseModal')?.classList.remove('show');
+      $('#customAssetModal')?.classList.remove('show');
+      $('#customRevenueModal')?.classList.remove('show');
+      $('#profileModal')?.classList.remove('show');
     }
     if(isInput) return;
     const tabs = ['overview','revenus','budget','patrimoine','goals','security','auto','invest','suivi','practices','checklist'];
@@ -2564,6 +4001,31 @@ function setCurrency(newCurr){
     });
   }
 
+  if(state.customExpenses && Array.isArray(state.customExpenses)){
+    state.customExpenses.forEach(e => { e.val = cvt(e.val); });
+  }
+  if(state.customRevenus && Array.isArray(state.customRevenus)){
+    state.customRevenus.forEach(r => { r.val = cvt(r.val); });
+  }
+  if(state.customPatrimoine && Array.isArray(state.customPatrimoine)){
+    state.customPatrimoine.forEach(p => { p.val = cvt(p.val); });
+  }
+
+  const simInitEl = $('#simMktInit');
+  const simInitRng = $('#simMktInitRange');
+  const simMoEl = $('#simMktMonthly');
+  const simMoRng = $('#simMktMonthlyRange');
+  if(simInitEl){
+    const v = cvt(parseFloat(simInitEl.value) || 1000);
+    simInitEl.value = v;
+    if(simInitRng){ simInitRng.max = Math.round(50000 * (newRate || 1)); simInitRng.value = v; }
+  }
+  if(simMoEl){
+    const v = cvt(parseFloat(simMoEl.value) || 150);
+    simMoEl.value = v;
+    if(simMoRng){ simMoRng.max = Math.round(3000 * (newRate || 1)); simMoRng.value = v; }
+  }
+
   state.currency = newCurr;
   scheduleSave();
 
@@ -2572,6 +4034,297 @@ function setCurrency(newCurr){
   update();
   toast(`Devise convertie : ${oldCurr} -> ${newCurr} (${factor >= 1 ? '×' + factor.toFixed(2) : '÷' + (1/factor).toFixed(2)})`, 'success', 3500);
   announce(`Devise convertie en ${newCurr}`);
+}
+
+/* ============================================================
+   GESTION DES ÉLÉMENTS PERSONNALISÉS (DÉPENSES, REVENUS, ACTIFS)
+============================================================ */
+function saveCustomExpense(){
+  const name = ($('#custExpName')?.value || '').trim();
+  const cat = $('#custExpCat')?.value || 'logement';
+  const val = parseFloat($('#custExpAmount')?.value) || 0;
+  const freq = $('#custExpFreq')?.value || 'mensuel';
+  const payment = $('#custExpPayment')?.value || 'sepa';
+  if(!name){ toast('Veuillez entrer un nom pour la dépense', 'warn'); return; }
+  if(!state.customExpenses) state.customExpenses = [];
+  state.customExpenses.push({ id: 'ce_' + Date.now(), name, cat, val, freq, payment });
+  if($('#custExpName')) $('#custExpName').value = '';
+  if($('#custExpAmount')) $('#custExpAmount').value = '';
+  $('#customExpenseModal')?.classList.remove('show');
+  scheduleSave();
+  rebuildSliders();
+  update();
+  toast(`Dépense "${name}" ajoutée !`, 'success');
+}
+
+function saveCustomRevenue(){
+  const name = ($('#custRevName')?.value || '').trim();
+  const val = parseFloat($('#custRevVal')?.value) || 0;
+  const type = $('#custRevType')?.value || 'actif';
+  if(!name){ toast('Veuillez entrer un nom pour le revenu', 'warn'); return; }
+  if(!state.customRevenus) state.customRevenus = [];
+  state.customRevenus.push({ id: 'cr_' + Date.now(), name, val, type });
+  if($('#custRevName')) $('#custRevName').value = '';
+  if($('#custRevVal')) $('#custRevVal').value = '';
+  $('#customRevenueModal')?.classList.remove('show');
+  scheduleSave();
+  rebuildSliders();
+  update();
+  toast(`Revenu "${name}" ajouté !`, 'success');
+}
+
+function saveCustomAsset(){
+  const name = ($('#custAssetName')?.value || '').trim();
+  const category = $('#custAssetCategory')?.value || 'liquide';
+  const val = parseFloat($('#custAssetVal')?.value) || 0;
+  const institution = ($('#custAssetInstitution')?.value || '').trim() || 'Perso';
+  const rate = parseFloat($('#custAssetRate')?.value) || 0;
+  if(!name){ toast('Veuillez entrer un intitulé', 'warn'); return; }
+  if(!state.customPatrimoine) state.customPatrimoine = [];
+  state.customPatrimoine.push({ id: 'cp_' + Date.now(), name, category, val, institution, rate });
+  if($('#custAssetName')) $('#custAssetName').value = '';
+  if($('#custAssetVal')) $('#custAssetVal').value = '';
+  if($('#custAssetInstitution')) $('#custAssetInstitution').value = '';
+  $('#customAssetModal')?.classList.remove('show');
+  scheduleSave();
+  rebuildSliders();
+  update();
+  toast(`Élément "${name}" enregistré !`, 'success');
+}
+
+/* ============================================================
+   AUTOMATISATIONS & PROFILS RÉALISTES
+============================================================ */
+const REALISTIC_PROFILES = {
+  etudiant: {
+    label: 'Étudiant / Alternant',
+    income: { salaireNet: 975, primes: 0, indemnites: 0, freelance: 0, revente: 0, loyers: 0, revenusFinanciers: 0, pensions: 0 },
+    incomeMinGuaranteed: 975,
+    exp: {
+      logement_loyer: 430, logement_charges: 30, logement_taxe: 0, logement_pno: 0,
+      nourriture_courses: 160, nourriture_repas: 30, nourriture_reserves: 10,
+      transport_carburant: 0, transport_entretien: 0, transport_assurance: 0,
+      sante_sport: 25, sante_mutuelle: 0, sante_franchises: 0, sante_prevention: 10,
+      communication_mobile: 10, communication_internet: 15, communication_cloud: 0,
+      habillement_essentiel: 20, habillement_renouvellement: 0,
+      loisirs_streaming: 10, loisirs_sorties: 30, loisirs_passions: 0,
+      restaurants_repas: 25, restaurants_livraisons: 0,
+      vacances_transport: 0, vacances_hebergement: 0
+    },
+    futur: { epargneSecurite: 83.33, investissements: 125, projets: 30, dons: 6.67 },
+    debt: 0,
+    emergencySaved: 350,
+    patrimoine: {
+      comptesCourants: 250, comptesEpargne: 350, livrets: 500, comptesTerme: 0, liquide: 50,
+      bourseEurope: 400, bourseAfrique: 0, bourseUSA: 0, bourseAsie: 0,
+      assuranceVie: 0, per: 0, crypto: 100, crowdfunding: 0,
+      residencePrincipale: 0, immobilierLocatif: 0, scpi: 0,
+      entreprise: 0, droitsRetraite: 0, cet: 0,
+      creditsConso: 0, creditsImmo: 0, decouverts: 0, dettesPerso: 0
+    }
+  },
+  actif: {
+    label: 'Jeune Actif Célibataire',
+    income: { salaireNet: 2200, primes: 100, indemnites: 0, freelance: 0, revente: 0, loyers: 0, revenusFinanciers: 0, pensions: 0 },
+    incomeMinGuaranteed: 2200,
+    exp: {
+      logement_loyer: 720, logement_charges: 60, logement_taxe: 0, logement_pno: 0,
+      nourriture_courses: 260, nourriture_repas: 60, nourriture_reserves: 20,
+      transport_carburant: 75, transport_entretien: 30, transport_assurance: 45,
+      sante_sport: 40, sante_mutuelle: 25, sante_franchises: 0, sante_prevention: 15,
+      communication_mobile: 20, communication_internet: 30, communication_cloud: 5,
+      habillement_essentiel: 50, habillement_renouvellement: 30,
+      loisirs_streaming: 20, loisirs_sorties: 70, loisirs_passions: 30,
+      restaurants_repas: 100, restaurants_livraisons: 30,
+      vacances_transport: 50, vacances_hebergement: 60
+    },
+    futur: { epargneSecurite: 250, investissements: 350, projets: 150, dons: 40 },
+    debt: 0,
+    emergencySaved: 4500,
+    patrimoine: {
+      comptesCourants: 1200, comptesEpargne: 3000, livrets: 6500, comptesTerme: 0, liquide: 150,
+      bourseEurope: 7200, bourseAfrique: 0, bourseUSA: 2500, bourseAsie: 0,
+      assuranceVie: 4000, per: 1500, crypto: 800, crowdfunding: 0,
+      residencePrincipale: 0, immobilierLocatif: 0, scpi: 1500,
+      entreprise: 0, droitsRetraite: 0, cet: 0,
+      creditsConso: 0, creditsImmo: 0, decouverts: 0, dettesPerso: 0
+    }
+  },
+  famille: {
+    label: 'Cadre / Famille Propriétaire',
+    income: { salaireNet: 4200, primes: 250, indemnites: 0, freelance: 0, revente: 0, loyers: 450, revenusFinanciers: 50, pensions: 0 },
+    incomeMinGuaranteed: 4200,
+    exp: {
+      logement_loyer: 0, logement_charges: 180, logement_taxe: 120, logement_pno: 25,
+      nourriture_courses: 650, nourriture_repas: 80, nourriture_reserves: 50,
+      transport_carburant: 180, transport_entretien: 70, transport_assurance: 95,
+      sante_sport: 80, sante_mutuelle: 70, sante_franchises: 20, sante_prevention: 30,
+      communication_mobile: 45, communication_internet: 40, communication_cloud: 10,
+      habillement_essentiel: 120, habillement_renouvellement: 80,
+      loisirs_streaming: 35, loisirs_sorties: 120, loisirs_passions: 60,
+      restaurants_repas: 180, restaurants_livraisons: 50,
+      vacances_transport: 150, vacances_hebergement: 200
+    },
+    futur: { epargneSecurite: 400, investissements: 800, projets: 350, dons: 100 },
+    debt: 185000,
+    emergencySaved: 14000,
+    patrimoine: {
+      comptesCourants: 3200, comptesEpargne: 6000, livrets: 16000, comptesTerme: 5000, liquide: 300,
+      bourseEurope: 28000, bourseAfrique: 0, bourseUSA: 12000, bourseAsie: 3000,
+      assuranceVie: 25000, per: 12000, crypto: 2500, crowdfunding: 4000,
+      residencePrincipale: 340000, immobilierLocatif: 110000, scpi: 15000,
+      entreprise: 0, droitsRetraite: 0, cet: 0,
+      creditsConso: 4500, creditsImmo: 180000, decouverts: 0, dettesPerso: 0
+    }
+  },
+  freelance: {
+    label: 'Indépendant / Freelance',
+    income: { salaireNet: 3200, primes: 0, indemnites: 0, freelance: 600, revente: 0, loyers: 0, revenusFinanciers: 0, pensions: 0 },
+    incomeMinGuaranteed: 1800,
+    exp: {
+      logement_loyer: 800, logement_charges: 80, logement_taxe: 0, logement_pno: 0,
+      nourriture_courses: 320, nourriture_repas: 70, nourriture_reserves: 30,
+      transport_carburant: 60, transport_entretien: 25, transport_assurance: 40,
+      sante_sport: 45, sante_mutuelle: 60, sante_franchises: 0, sante_prevention: 20,
+      communication_mobile: 35, communication_internet: 40, communication_cloud: 30,
+      habillement_essentiel: 60, habillement_renouvellement: 40,
+      loisirs_streaming: 20, loisirs_sorties: 90, loisirs_passions: 40,
+      restaurants_repas: 120, restaurants_livraisons: 40,
+      vacances_transport: 80, vacances_hebergement: 100
+    },
+    futur: { epargneSecurite: 500, investissements: 650, projets: 200, dons: 50 },
+    debt: 0,
+    emergencySaved: 11000,
+    patrimoine: {
+      comptesCourants: 2200, comptesEpargne: 4000, livrets: 12000, comptesTerme: 0, liquide: 200,
+      bourseEurope: 15000, bourseAfrique: 0, bourseUSA: 5000, bourseAsie: 0,
+      assuranceVie: 8000, per: 9500, crypto: 2000, crowdfunding: 0,
+      residencePrincipale: 0, immobilierLocatif: 0, scpi: 5000,
+      entreprise: 15000, droitsRetraite: 0, cet: 0,
+      creditsConso: 0, creditsImmo: 0, decouverts: 0, dettesPerso: 0
+    }
+  }
+};
+
+function applyProfile(key){
+  const p = REALISTIC_PROFILES[key];
+  if(!p){ toast('Profil introuvable', 'warn'); return; }
+  const mult = EXCHANGE_RATES[state.currency] || 1;
+
+  function scaleObj(obj){
+    const out = {};
+    for(const k of Object.keys(obj)){
+      out[k] = state.currency === 'FCFA' ? Math.round(obj[k] * mult) : Math.round(obj[k] * mult * 100) / 100;
+    }
+    return out;
+  }
+
+  state.income = scaleObj(p.income);
+  state.incomeMinGuaranteed = state.currency === 'FCFA' ? Math.round(p.incomeMinGuaranteed * mult) : Math.round(p.incomeMinGuaranteed * mult * 100) / 100;
+  state.exp = scaleObj(p.exp);
+  state.futur = scaleObj(p.futur);
+  state.debt = state.currency === 'FCFA' ? Math.round(p.debt * mult) : Math.round(p.debt * mult * 100) / 100;
+  state.emergencySaved = state.currency === 'FCFA' ? Math.round(p.emergencySaved * mult) : Math.round(p.emergencySaved * mult * 100) / 100;
+  state.patrimoine = scaleObj(p.patrimoine);
+
+  scheduleSave();
+  rebuildSliders();
+  update();
+  toast(`Profil "${p.label}" appliqué avec succès !`, 'success', 3500);
+}
+
+function autoBalanceBudget(){
+  const inc = totalIncome();
+  const expT = expTotal();
+  const futT = futurTotal();
+  const reste = inc - expT - futT;
+  if(Math.abs(reste) < 0.5){
+    toast('Votre budget est déjà parfaitement équilibré à zéro !', 'info');
+    return;
+  }
+  if(reste > 0){
+    const partInvest = Math.round(reste * 0.5 * 100) / 100;
+    const partEpargne = Math.round(reste * 0.3 * 100) / 100;
+    const partProjets = Math.round((reste - partInvest - partEpargne) * 100) / 100;
+    state.futur.investissements = (state.futur.investissements || 0) + partInvest;
+    state.futur.epargneSecurite = (state.futur.epargneSecurite || 0) + partEpargne;
+    state.futur.projets = (state.futur.projets || 0) + partProjets;
+    toast(`Surplus alloué à 0 : +${fmtCurr(partInvest)} invest., +${fmtCurr(partEpargne)} sécurité, +${fmtCurr(partProjets)} projets`, 'success', 4000);
+  } else {
+    let def = -reste;
+    if(state.futur.projets > 0){
+      const red = Math.min(state.futur.projets, def);
+      state.futur.projets -= red;
+      def -= red;
+    }
+    if(def > 0 && state.exp.loisirs_sorties > 0){
+      const red = Math.min(state.exp.loisirs_sorties, def);
+      state.exp.loisirs_sorties -= red;
+      def -= red;
+    }
+    if(def > 0 && state.exp.restaurants_repas > 0){
+      const red = Math.min(state.exp.restaurants_repas, def);
+      state.exp.restaurants_repas -= red;
+      def -= red;
+    }
+    if(def > 0 && state.futur.investissements > 0){
+      const red = Math.min(state.futur.investissements, def);
+      state.futur.investissements -= red;
+      def -= red;
+    }
+    toast('Budget rééquilibré à zéro en ajustant les flux non-essentiels', 'warn', 4000);
+  }
+  scheduleSave();
+  rebuildSliders();
+  update();
+}
+
+function simulateNextMonth(){
+  const inc = totalIncome();
+  const expT = expTotal();
+  const epargne = state.futur.epargneSecurite || 0;
+  const invest = state.futur.investissements || 0;
+
+  state.emergencySaved = (state.emergencySaved || 0) + epargne;
+  state.patrimoine.livrets = (state.patrimoine.livrets || 0) + epargne;
+  if(state.comptes.urgenceRevolut !== undefined) state.comptes.urgenceRevolut += epargne;
+
+  state.patrimoine.bourseEurope = (state.patrimoine.bourseEurope || 0) + invest;
+  if(state.comptes.investRevolut !== undefined) state.comptes.investRevolut += invest;
+
+  if(state.debt > 0){
+    const remb = Math.min(state.debt, 150);
+    state.debt = Math.max(0, state.debt - remb);
+  }
+  if(state.patrimoine.creditsConso > 0){
+    state.patrimoine.creditsConso = Math.max(0, state.patrimoine.creditsConso - 100);
+  }
+  if(state.patrimoine.creditsImmo > 0){
+    state.patrimoine.creditsImmo = Math.max(0, state.patrimoine.creditsImmo - 400);
+  }
+
+  const monthNames = ['Jan','Fév','Mar','Avr','Mai','Juin','Juil','Août','Sep','Oct','Nov','Déc'];
+  const now = new Date();
+  const rowIdx = (state.monthlyTable?.length || 0);
+  const nextMonthIdx = (now.getMonth() + rowIdx) % 12;
+  const yearOffset = Math.floor(rowIdx / 12);
+  const rowDate = `${monthNames[nextMonthIdx]} ${now.getFullYear() + yearOffset}`;
+
+  if(!state.monthlyTable) state.monthlyTable = [];
+  state.monthlyTable.push({
+    id: 'm_' + Date.now(),
+    date: rowDate,
+    poste: 'Bilan Mensuel Capitalisé',
+    budget: Math.round(expT),
+    reel: Math.round(expT),
+    note: `Capitalisé: +${fmtCurr(epargne)} épargne, +${fmtCurr(invest)} invest.`
+  });
+
+  scheduleSave();
+  rebuildSliders();
+  renderMonthlyTable();
+  update();
+  toast(`Mois simulé : +${fmtCurr(epargne + invest)} capitalisés dans le patrimoine !`, 'success', 4500);
 }
 
 function sliderHTML(bind, label, value, max, step){
@@ -2752,11 +4505,11 @@ async function pushToGoogleSheets(){
       state: state
     };
 
-    // Envoi POST avec suivi
+    // Envoi POST vers Google Apps Script
     await fetch(state.sheetsUrl, {
       method: 'POST',
       mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify(payload)
     });
 
@@ -2773,27 +4526,45 @@ async function pushToGoogleSheets(){
    INTERCONNEXION : TAUX DE CHANGE EN DIRECT (GOOGLEFINANCE)
 ============================================================ */
 async function fetchLiveExchangeRates(){
-  if(!state.sheetsUrl || !state.sheetsUrl.startsWith('http')){
-    toast('Veuillez d\'abord connecter Google Sheets', 'warn');
-    return;
+  toast('Actualisation des devises en direct...', 'info', 2500);
+  if(state.sheetsUrl && state.sheetsUrl.startsWith('http')){
+    try {
+      const fetchUrl = state.sheetsUrl + (state.sheetsUrl.includes('?') ? '&' : '?') + 'action=rates&t=' + Date.now();
+      const res = await fetch(fetchUrl);
+      if(res.ok){
+        const data = await res.json();
+        if(data && data.status === 'success' && data.rates){
+          Object.assign(EXCHANGE_RATES, data.rates);
+          toast('Taux de change actualisés via Google Sheets & Google Finance !', 'success', 3500);
+          rebuildSliders();
+          update();
+          return;
+        }
+      }
+    } catch(e){
+      console.warn('Sheets rates fallback to public API:', e);
+    }
   }
-  toast('Actualisation des devises via Google Finance...', 'info', 2500);
+
+  // Fallback API publique directe si Google Sheets non connecté ou indisponible
   try {
-    const fetchUrl = state.sheetsUrl + (state.sheetsUrl.includes('?') ? '&' : '?') + 'action=rates&t=' + Date.now();
-    const res = await fetch(fetchUrl);
+    const res = await fetch('https://open.er-api.com/v6/latest/EUR');
     if(!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
-    if(data && data.status === 'success' && data.rates){
-      Object.assign(EXCHANGE_RATES, data.rates);
-      toast('Taux de change actualisés en direct depuis les marchés !', 'success', 3500);
+    if(data && data.rates){
+      if(data.rates.USD) EXCHANGE_RATES['$'] = Math.round(data.rates.USD * 100) / 100;
+      if(data.rates.GBP) EXCHANGE_RATES['£'] = Math.round(data.rates.GBP * 100) / 100;
+      if(data.rates.CHF) EXCHANGE_RATES['CHF'] = Math.round(data.rates.CHF * 100) / 100;
+      if(data.rates.CAD) EXCHANGE_RATES['CAD'] = Math.round(data.rates.CAD * 100) / 100;
+      if(data.rates.XOF) EXCHANGE_RATES['FCFA'] = Math.round(data.rates.XOF);
+      toast('Taux de change internationaux actualisés en direct !', 'success', 3500);
       rebuildSliders();
       update();
-    } else {
-      toast('Impossible de lire les devises en direct', 'warn');
+      return;
     }
   } catch(e){
-    console.warn('Erreur live rates:', e);
-    toast('Erreur lors de la récupération des taux : ' + e.message, 'error');
+    console.warn('Erreur public live rates:', e);
+    toast('Taux du marché indisponibles (taux indicatifs actifs)', 'warn', 3000);
   }
 }
 
@@ -3149,6 +4920,14 @@ function updateTableIndicators(){
   $('#alertes80').style.color = alerts > 0 ? 'var(--amber)' : 'var(--green)';
 }
 
+function updateGoalEffortSim(){
+  const amt = parseFloat($('#calcGoalAmount')?.value) || 0;
+  const m = parseInt($('#calcGoalMonths')?.value) || 12;
+  const eff = m > 0 ? (amt / m) : 0;
+  const el = $('#calcGoalMonthlyEffort');
+  if(el) el.textContent = fmtCurr(eff) + ' / mois';
+}
+
 /* ============================================================
    UPDATE
 ============================================================ */
@@ -3181,6 +4960,34 @@ function update(){
   $('#healthBreakdown').innerHTML = pillars.map((f,i) =>
     `<div class="hb-seg" style="background:${f >= 0.7 ? colors[i] : 'rgba(255,255,255,.1)'}"></div>`
   ).join('');
+
+  // HEALTH PILLARS BREAKDOWN DETAIL
+  const pTotal = $('#healthPillarScoreTotal');
+  if(pTotal) pTotal.textContent = `${Math.round(h.total)} / 100 · ${grade.label}`;
+  const hpEl = $('#healthPillarsDetail');
+  if(hpEl){
+    const pillarDefs = [
+      { name:'1. Taux d\'épargne', score:h.sEpargne, max:25, color:'#34d399', desc:`${tauxEpargne.toFixed(1)} % (cible ≥ 20 %)` },
+      { name:'2. Fonds de sécurité', score:h.sUrgence, max:20, color:'#22d3ee', desc:`${h.moisUrgence.toFixed(1)} mois de charges (cible 3–6m)` },
+      { name:'3. Maîtrise de la dette', score:h.sDette, max:15, color:'#38bdf8', desc:`Endettement ${h.tauxEnd.toFixed(1)} % (cible < 33 %)` },
+      { name:'4. Diversification', score:h.sDiversification, max:15, color:'#a78bfa', desc:`${h.cats}/4 classes d'actifs investies` },
+      { name:'5. Objectifs SMART', score:h.sObjectifs, max:10, color:'#fbbf24', desc:`${Math.round(h.avgGoal*100)} % d'avancement moyen` },
+      { name:'6. Discipline budgétaire', score:h.sDiscipline, max:15, color:'#f472b6', desc:Math.abs(reste)<1?'Zero-Based équilibré':'Solde à allouer' }
+    ];
+    hpEl.innerHTML = pillarDefs.map(p => {
+      const pPct = Math.min(100, (p.score / p.max) * 100);
+      return `<div class="pillar-row">
+        <div class="pillar-label">
+          <div>${p.name}</div>
+          <div class="mini" style="font-weight:400">${p.desc}</div>
+        </div>
+        <div class="pillar-bar-wrap">
+          <div class="bar-track"><div class="bar-fill" style="background:${p.color};width:${pPct}%"></div></div>
+        </div>
+        <div class="pillar-score" style="color:${p.color}">${p.score.toFixed(1)} <span class="mini" style="font-weight:400">/${p.max}</span></div>
+      </div>`;
+    }).join('');
+  }
 
   // HEADER 3-COLUMNS SUMMARY & income
   const curr = state.currency || '€';
@@ -3236,7 +5043,6 @@ function update(){
         const catKey = seg.dataset.cat;
         const matchingCat = catsData.find(c => c.cat === catKey);
         if(matchingCat) $('#stackedBarHoverLabel').textContent = `${matchingCat.label} : ${fmtCurr(matchingCat.value)} (${(matchingCat.value/totalExpVal*100).toFixed(1)}%)`;
-        // dim other accordion categories
         $$('.pat-section[data-cat]').forEach(sec => {
           if(sec.dataset.cat === catKey){
             sec.classList.add('is-highlighted');
@@ -3268,19 +5074,74 @@ function update(){
     });
   }
 
-  // Revenus KPIs
+  // Revenus KPIs & Analyse détaillée
   $('#revPrincipaux').textContent = fmtCurr(revPrincipaux());
   $('#revSecondaires').textContent = fmtCurr(revSecondaires());
   $('#revTotal').textContent = fmtCurr(inc);
   $('#revTotalSub').textContent = revSecondaires() > 0 ? Math.round(revSecondaires()/inc*100)+' % secondaire' : '100 % principal';
 
-  // Donut
+  const salairePart = inc > 0 ? (state.income.salaireNet / inc * 100) : 100;
+  const depEl = $('#depScoreTxt');
+  if(depEl) depEl.textContent = salairePart.toFixed(1) + ' %';
+  const depBar = $('#depScoreBar');
+  if(depBar){
+    depBar.style.width = Math.min(100, salairePart) + '%';
+    depBar.style.background = salairePart > 85 ? 'var(--red)' : (salairePart > 70 ? 'var(--amber)' : 'var(--green)');
+  }
+  const depAdv = $('#depScoreAdvice');
+  if(depAdv){
+    depAdv.textContent = salairePart > 85
+      ? 'Forte dépendance au revenu principal. Développez une activité secondaire ou du revenu passif.'
+      : (salairePart > 70 ? 'Vulnérabilité modérée : diversification en cours de renforcement.' : 'Excellente résilience : vos sources de revenus sont diversifiées.');
+  }
+
+  const revPassifs = (state.income.loyers || 0) + (state.income.revenusFinanciers || 0);
+  const passifPct = inc > 0 ? (revPassifs / inc * 100) : 0;
+  const rapTxt = $('#ratioActifPassifTxt');
+  if(rapTxt) rapTxt.textContent = `${(100 - passifPct).toFixed(0)}% Actif · ${passifPct.toFixed(0)}% Passif`;
+  const rapBar = $('#ratioActifPassifBar');
+  if(rapBar) rapBar.style.width = Math.min(100, passifPct) + '%';
+
+  const revAnnuelVal = inc * 12;
+  const revAnnEl = $('#revAnnuel');
+  if(revAnnEl) revAnnEl.textContent = fmtCurr(revAnnuelVal);
+  const revHebEl = $('#revHebdo');
+  if(revHebEl) revHebEl.textContent = fmtCurr(revAnnuelVal / 52);
+  const revJourEl = $('#revJour');
+  if(revJourEl) revJourEl.textContent = fmtCurr(inc / 21);
+  const tauxHorEl = $('#tauxHoraire');
+  if(tauxHorEl) tauxHorEl.textContent = (inc / 151.67).toFixed(1) + ' ' + curr + '/h';
+
+  // Donut & Strates Table
   const donutData = [1,2,3,4].map(k => ({ label: STRATA_META[k].name, value: st[k], color: STRATA_META[k].color }));
   $('#donutWrap').innerHTML = donutSVG(donutData);
   $('#legendStrata').innerHTML = donutData.map(d => {
     const p = stTotal>0 ? Math.round(d.value/stTotal*100) : 0;
     return `<div class="legend-item"><span class="dot" style="background:${d.color}"></span><span>${d.label}</span><span class="val">${fmtCurr(d.value)} · ${p}%</span></div>`;
   }).join('');
+
+  const sdtBody = $('#strataDetailBody');
+  if(sdtBody){
+    const strataDefs = [
+      { num:1, name:'N1 · Survie', desc:'Logement, nourriture, santé vitale', target:'< 50 %', maxPct:50 },
+      { num:2, name:'N2 · Nécessaire', desc:'Transports, travail, assurances', target:'< 15 %', maxPct:15 },
+      { num:3, name:'N3 · Confort', desc:'Télécom, fringues, abonnements', target:'< 15 %', maxPct:15 },
+      { num:4, name:'N4 · Luxe / Plaisir', desc:'Restaurants, sorties, vacances', target:'< 10 %', maxPct:10 }
+    ];
+    sdtBody.innerHTML = strataDefs.map(s => {
+      const val = st[s.num] || 0;
+      const part = inc > 0 ? (val / inc * 100) : 0;
+      const isOk = part <= s.maxPct;
+      return `<tr>
+        <td><b class="tag n${s.num}">N${s.num}</b></td>
+        <td><b>${s.name}</b><br><span class="mini">${s.desc}</span></td>
+        <td style="font-weight:700;font-variant-numeric:tabular-nums">${fmtCurr(val)}</td>
+        <td style="font-weight:700;color:${STRATA_META[s.num].color}">${part.toFixed(1)} %</td>
+        <td class="mini">${s.target}</td>
+        <td><span class="${isOk ? 'badge-ok' : 'badge-off'}">${isOk ? 'Optimal' : 'Compressible'}</span></td>
+      </tr>`;
+    }).join('');
+  }
 
   // Indicateurs
   $('#tauxEpargneTxt').textContent = tauxEpargne.toFixed(1) + ' %';
@@ -3355,6 +5216,57 @@ function update(){
   $('#allocSummary').textContent = fmtCurr(alloue) + ' / ' + fmtCurr(inc);
   $('#allocBar').style.width = inc>0 ? Math.min(100, alloue/inc*100) + '%' : '0%';
 
+  // ESTIMATEUR D'IMPÔT SUR LE REVENU & TMI (France 2025/2026)
+  const taxableAnnual = Math.max(0, inc * 12 * 0.9);
+  let taxSum = 0;
+  let tmi = 0;
+  const b1 = Math.min(Math.max(0, taxableAnnual - 11294), 28797 - 11294);
+  const b2 = Math.min(Math.max(0, taxableAnnual - 28797), 82341 - 28797);
+  const b3 = Math.min(Math.max(0, taxableAnnual - 82341), 177106 - 82341);
+  const b4 = Math.max(0, taxableAnnual - 177106);
+
+  taxSum = (b1 * 0.11) + (b2 * 0.30) + (b3 * 0.41) + (b4 * 0.45);
+  if(taxableAnnual > 177106) tmi = 45;
+  else if(taxableAnnual > 82341) tmi = 41;
+  else if(taxableAnnual > 28797) tmi = 30;
+  else if(taxableAnnual > 11294) tmi = 11;
+  else tmi = 0;
+
+  const taxMonthly = taxSum / 12;
+  const effectiveRate = taxableAnnual > 0 ? (taxSum / taxableAnnual * 100) : 0;
+  const perAnnual = (state.futur?.investissements || 0) * 12 * 0.3;
+  const perTaxSaving = perAnnual * (tmi / 100);
+
+  const tmiEl = $('#taxTmi');
+  if(tmiEl) tmiEl.textContent = tmi + ' %';
+  const tmiSub = $('#taxTmiSub');
+  if(tmiSub) tmiSub.textContent = tmi === 0 ? 'Non imposable' : `Tranche marginale à ${tmi} %`;
+  const taxAnnEl = $('#taxAnnual');
+  if(taxAnnEl) taxAnnEl.textContent = fmtCurr(taxSum);
+  const taxMoEl = $('#taxMonthly');
+  if(taxMoEl) taxMoEl.textContent = fmtCurr(taxMonthly) + ' / mois';
+  const taxEffEl = $('#taxEffectiveRate');
+  if(taxEffEl) taxEffEl.textContent = effectiveRate.toFixed(1) + ' %';
+  const perSavEl = $('#taxPerSaving');
+  if(perSavEl) perSavEl.textContent = fmtCurr(perTaxSaving) + ' d\'économie';
+  const perDesc = $('#taxPerDesc');
+  if(perDesc) perDesc.textContent = tmi > 0 ? `Pour ${fmtCurr(perAnnual)} versés en PER` : 'Non pertinent en TMI 0%';
+
+  const barEl = $('#taxBracketBar');
+  if(barEl){
+    const segs = [
+      { name: '0%', width: 20, color: '#34d399', active: taxableAnnual > 0 },
+      { name: '11%', width: 30, color: '#38bdf8', active: taxableAnnual > 11294 },
+      { name: '30%', width: 30, color: '#fbbf24', active: taxableAnnual > 28797 },
+      { name: '41%', width: 20, color: '#f87171', active: taxableAnnual > 82341 }
+    ];
+    barEl.innerHTML = segs.map(s => `
+      <div class="tax-bracket-seg" style="width:${s.width}%;background:${s.active ? s.color : 'rgba(255,255,255,.05)'};opacity:${s.active ? '1' : '0.35'}">
+        ${s.name}
+      </div>
+    `).join('');
+  }
+
   // Patrimoine
   const patBrut = patrimoineBrut();
   const patPassifs = patrimoinePassifs();
@@ -3379,6 +5291,140 @@ function update(){
     const el = $('#patTotal-'+cat.key);
     if(el) el.textContent = fmtCurr(tot);
   });
+
+  // RATIOS FINANCIERS DU PATRIMOINE
+  const solvabilite = patBrut > 0 ? (patNet / patBrut * 100) : 100;
+  const solEl = $('#ratioSolvabilite');
+  if(solEl){
+    solEl.textContent = solvabilite.toFixed(1) + ' %';
+    solEl.style.color = solvabilite >= 70 ? 'var(--green)' : (solvabilite >= 50 ? 'var(--amber)' : 'var(--red)');
+  }
+  const solBar = $('#barSolvabilite');
+  if(solBar){
+    solBar.style.width = Math.min(100, Math.max(0, solvabilite)) + '%';
+    solBar.style.background = solvabilite >= 70 ? 'var(--green)' : 'var(--amber)';
+  }
+
+  const levier = patBrut > 0 ? (patPassifs / patBrut * 100) : 0;
+  const levEl = $('#ratioLevier');
+  if(levEl){
+    levEl.textContent = levier.toFixed(1) + ' %';
+    levEl.style.color = levier <= 35 ? 'var(--green)' : (levier <= 50 ? 'var(--amber)' : 'var(--red)');
+  }
+  const levBar = $('#barLevier');
+  if(levBar){
+    levBar.style.width = Math.min(100, levier) + '%';
+    levBar.style.background = levier <= 35 ? 'var(--green)' : 'var(--red)';
+  }
+
+  const liquiditesVal = (state.patrimoine.comptesCourants||0) + (state.patrimoine.comptesEpargne||0) + (state.patrimoine.livrets||0) + (state.patrimoine.liquide||0);
+  const moisLiq = expT > 0 ? (liquiditesVal / expT) : 0;
+  const liqEl = $('#moisLiquidites');
+  if(liqEl){
+    liqEl.textContent = moisLiq.toFixed(1) + ' mois';
+    liqEl.style.color = moisLiq >= 3 ? 'var(--green)' : (moisLiq >= 1 ? 'var(--amber)' : 'var(--red)');
+  }
+  const liqBar = $('#barLiquidites');
+  if(liqBar){
+    liqBar.style.width = Math.min(100, (moisLiq / 6) * 100) + '%';
+  }
+
+  const anneesRevs = revAnnuelVal > 0 ? (patNet / revAnnuelVal) : 0;
+  const annRevEl = $('#anneesRevenusAccumulees');
+  if(annRevEl){
+    annRevEl.textContent = anneesRevs.toFixed(1) + ' ans';
+  }
+  const annRevBar = $('#barAnneesRev');
+  if(annRevBar){
+    annRevBar.style.width = Math.min(100, (anneesRevs / 10) * 100) + '%';
+  }
+
+  // SIMULATEUR DE DÉSENDETTEMENT ACCÉLÉRÉ (Snowball vs Avalanche)
+  const dpc = $('#debtPayoffContent');
+  if(dpc){
+    const debts = [];
+    if((state.patrimoine?.creditsConso || 0) > 0) debts.push({ name: 'Crédit Consommation', val: state.patrimoine.creditsConso, rate: 6.8 });
+    if((state.patrimoine?.creditsImmo || 0) > 0) debts.push({ name: 'Prêt Immobilier', val: state.patrimoine.creditsImmo, rate: 3.2 });
+    if((state.patrimoine?.decouverts || 0) > 0) debts.push({ name: 'Découvert bancaire', val: state.patrimoine.decouverts, rate: 16.0 });
+    if((state.patrimoine?.dettesPerso || 0) > 0) debts.push({ name: 'Dettes personnelles', val: state.patrimoine.dettesPerso, rate: 0.0 });
+    if((state.debt || 0) > 0 && debts.length === 0) debts.push({ name: 'Dettes diverses', val: state.debt, rate: 5.0 });
+
+    (state.customPatrimoine || []).filter(p => p.category === 'passifs' && (parseFloat(p.val)||0) > 0).forEach(cp => {
+      debts.push({ name: cp.name, val: parseFloat(cp.val)||0, rate: parseFloat(cp.rate) || 4.5 });
+    });
+
+    const totDettes = debts.reduce((s,d) => s + d.val, 0);
+
+    if(totDettes === 0){
+      dpc.innerHTML = `
+        <div style="background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.25);border-radius:10px;padding:16px;text-align:center">
+          <span style="font-size:24px">🎉</span>
+          <div style="font-weight:800;color:var(--green);font-size:13px;margin:4px 0">Aucune dette active !</div>
+          <p class="mini" style="margin:0;color:var(--muted)">Vous êtes à 100 % libre financièrement. Votre capacité d'épargne est entièrement dirigée vers la constitution de votre patrimoine net.</p>
+        </div>`;
+    } else {
+      const avalanche = [...debts].sort((a,b) => b.rate - a.rate);
+      const snowball = [...debts].sort((a,b) => a.val - b.val);
+      const surplusMensuel = Math.max(50, capacite);
+      const moisEstimes = Math.ceil(totDettes / surplusMensuel);
+
+      dpc.innerHTML = `
+        <div style="display:flex;gap:12px;margin-bottom:12px;flex-wrap:wrap">
+          <div class="ratio-box" style="flex:1;min-width:140px">
+            <div class="mini">Total du passif restant</div>
+            <b style="font-size:16px;color:var(--red)">${fmtCurr(totDettes)}</b>
+          </div>
+          <div class="ratio-box" style="flex:1;min-width:140px">
+            <div class="mini">Capacité d'accélération</div>
+            <b style="font-size:16px;color:var(--green)">${fmtCurr(surplusMensuel)} / mois</b>
+          </div>
+          <div class="ratio-box" style="flex:1;min-width:140px">
+            <div class="mini">Libération estimée</div>
+            <b style="font-size:16px;color:var(--blue)">~${moisEstimes} mois</b>
+          </div>
+        </div>
+        <div class="grid g2" style="gap:11px">
+          <div style="background:rgba(255,255,255,.02);border:1px solid var(--brd);border-radius:10px;padding:12px">
+            <div class="row-flex" style="margin-bottom:8px">
+              <b style="font-size:12px;color:var(--blue)">⚡ Méthode Avalanche (Recommandée)</b>
+              <span class="mini" style="color:var(--green)">Max économie d'intérêts</span>
+            </div>
+            <p class="mini" style="margin-bottom:8px">Cible prioritaire : solder en premier les crédits aux taux les plus élevés.</p>
+            ${avalanche.map((d, i) => `
+              <div class="snowball-row">
+                <div>
+                  <b>${i===0 ? '🎯 ' : ''}${d.name}</b>
+                  <div class="mini">${d.rate}% TAEG</div>
+                </div>
+                <div style="text-align:right">
+                  <b style="color:var(--red)">${fmtCurr(d.val)}</b>
+                  <div class="mini">${i===0 ? '<span class="badge-ok">Priorité #1</span>' : 'Ensuite'}</div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+          <div style="background:rgba(255,255,255,.02);border:1px solid var(--brd);border-radius:10px;padding:12px">
+            <div class="row-flex" style="margin-bottom:8px">
+              <b style="font-size:12px;color:var(--purple)">❄️ Méthode Boule de Neige</b>
+              <span class="mini" style="color:var(--purple)">Victoires psychologiques</span>
+            </div>
+            <p class="mini" style="margin-bottom:8px">Cible prioritaire : solder les plus petits montants pour libérer des lignes.</p>
+            ${snowball.map((d, i) => `
+              <div class="snowball-row">
+                <div>
+                  <b>${i===0 ? '🎯 ' : ''}${d.name}</b>
+                  <div class="mini">${d.rate}% TAEG</div>
+                </div>
+                <div style="text-align:right">
+                  <b style="color:var(--txt)">${fmtCurr(d.val)}</b>
+                  <div class="mini">${i===0 ? '<span class="badge-ok">Priorité #1</span>' : 'Ensuite'}</div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>`;
+    }
+  }
 
   updateProjection();
 
@@ -3413,7 +5459,6 @@ function update(){
       if(g){
         const val = parseFloat(e.target.value) || 0;
         g.saved = val;
-        // Si cet objectif est le Fonds d'urgence, propager vers state.emergencySaved et comptes
         if(g.name.toLowerCase().includes('urgence')){
           state.emergencySaved = val;
           syncCompanionInputs('emergencySaved', val);
@@ -3426,7 +5471,7 @@ function update(){
     });
   });
 
-  // FIRE
+  // FIRE 3 PALIERS (Lean, Standard, Fat)
   const annualExp = expT * 12;
   const fireNumber = annualExp * 25;
   const progress = fireNumber > 0 ? Math.min(100, (patNet/fireNumber)*100) : 0;
@@ -3439,12 +5484,51 @@ function update(){
       if(n >= fireNumber){ yearsToFI = y; break; }
     }
   }
+
+  const vitalExp = ((st[1]||0) + (st[2]||0)) * 12;
+  const leanFireNumber = Math.max(1, vitalExp * 25);
+  const leanPct = Math.min(100, (patNet / leanFireNumber) * 100);
+  const fatFireNumber = annualExp * 1.5 * 25;
+  const fatPct = fatFireNumber > 0 ? Math.min(100, (patNet / fatFireNumber) * 100) : 0;
+
+  let yearsToLean = null;
+  let yearsToFat = null;
+  if(annualSavings > 0){
+    let n1 = patNet;
+    let n3 = patNet;
+    for(let y = 1; y <= 60; y++){
+      n1 = n1 * 1.07 + annualSavings;
+      if(yearsToLean === null && n1 >= leanFireNumber){ yearsToLean = y; }
+      n3 = n3 * 1.07 + annualSavings;
+      if(yearsToFat === null && n3 >= fatFireNumber){ yearsToFat = y; }
+    }
+  }
+
+  const lfn = $('#leanFireNumber');
+  if(lfn) lfn.textContent = fmtCurr(leanFireNumber);
+  const lfp = $('#leanFirePct');
+  if(lfp) lfp.textContent = Math.round(leanPct) + ' %';
+  const lfy = $('#leanFireYears');
+  if(lfy) lfy.textContent = yearsToLean ? '~' + yearsToLean + ' ans' : (annualSavings<=0 ? '—' : '>60 ans');
+
+  const ffn = $('#fatFireNumber');
+  if(ffn) ffn.textContent = fmtCurr(fatFireNumber);
+  const ffp = $('#fatFirePct');
+  if(ffp) ffp.textContent = Math.round(fatPct) + ' %';
+  const ffy = $('#fatFireYears');
+  if(ffy) ffy.textContent = yearsToFat ? '~' + yearsToFat + ' ans' : (annualSavings<=0 ? '—' : '>60 ans');
+
+  const fpTxt2 = $('#fireProgressTxt2');
+  if(fpTxt2) fpTxt2.textContent = progress.toFixed(1) + ' %';
+
   $('#fireAnnual').textContent = fmtCurr(annualExp);
   $('#fireNumber').textContent = fmtCurr(fireNumber);
   $('#fireProgressTxt').textContent = progress.toFixed(1) + ' %';
   $('#fireProgressBar').style.width = progress + '%';
   $('#fireCurrentNet').textContent = fmtCurr(patNet);
   $('#fireYears').textContent = yearsToFI !== null ? '~'+yearsToFI+' ans' : (annualSavings <= 0 ? '—' : '>60 ans');
+
+  updateGoalEffortSim();
 
   // Automatisation
   const split = [
@@ -3492,6 +5576,10 @@ function update(){
   $('#segOblig').textContent = 'Obligations ' + oblig + ' %';
   $('#allocTxt').textContent = actions + ' % / ' + oblig + ' %';
   updateMonteCarlo();
+  updateMarketSimulator();
+  updateMyPortfolioAnalysis();
+  generateInvestmentAdvices();
+  renderStocksTable();
 
   // Monthly table indicators
   updateTableIndicators();
@@ -3517,6 +5605,788 @@ function updateMonteCarlo(){
   $('#dcaP10').textContent = fmtCurr(mc.p10[years]);
   $('#dcaP50').textContent = fmtCurr(mc.p50[years]);
   $('#dcaP90').textContent = fmtCurr(mc.p90[years]);
+}
+
+/* ============================================================
+   SIMULATEUR BOURSIER MULTI-MARCHÉS (BRVM, BVMAC, NGX, EUR, US, ASIE)
+============================================================ */
+const MARKET_DEFS = {
+  brvm: {
+    id: 'brvm',
+    name: 'Bourse Régionale des Valeurs Mobilières (BRVM)',
+    region: 'Afrique de l\'Ouest (UEMOA : Côte d\'Ivoire, Sénégal, Togo, Bénin, Burkina...)',
+    currency: 'FCFA (XOF)',
+    divYield: 7.4,
+    growthRate: 5.2,
+    volatility: 12,
+    flag: '🇨🇮 🇸🇳 🇹🇬',
+    stars: ['Sonatel (SN)', 'SGBCI (CI)', 'Ecobank CI', 'Palmci', 'Onatel (BF)', 'BOA Bénin'],
+    fxRisk: 'Faible vis-à-vis de l\'Euro (parité fixe 1 € = 655.957 FCFA).',
+    taxAdvantage: 'Exonération d\'impôt ou IRVM réduit (2% à 6% en zone UEMOA). Rente nette optimale.',
+    desc: 'Marché réputé pour ses dividendes records et réguliers, adossé à la croissance bancaire, télécom et agro-industrielle de l\'Afrique de l\'Ouest.'
+  },
+  bvmac: {
+    id: 'bvmac',
+    name: 'Bourse des Valeurs Mobilières d\'Afrique Centrale (BVMAC)',
+    region: 'Afrique Centrale (CEMAC : Cameroun, Gabon, Congo, Guinée Équatoriale...)',
+    currency: 'FCFA (XAF)',
+    divYield: 6.2,
+    growthRate: 4.5,
+    volatility: 14,
+    flag: '🇨🇲 🇬🇦 🇨🇬',
+    stars: ['Bange Bank (GE)', 'SOCAPALM (CM)', 'SAFACAM (CM)', 'La Régionale Bank', 'SCG-Ré (GA)'],
+    fxRisk: 'Faible vis-à-vis de l\'Euro (parité fixe 1 € = 655.957 FCFA).',
+    taxAdvantage: 'Fiscalité locale modérée sur dividendes (TSI).',
+    desc: 'Bourse de la zone CEMAC en pleine consolidation, offrant des rendements attractifs portés par l\'agro-industrie et le secteur financier régional.'
+  },
+  ngx: {
+    id: 'ngx',
+    name: 'Nigerian Exchange Group (NGX)',
+    region: 'Nigéria (Lagos) · 1ère puissance économique & démographique d\'Afrique',
+    currency: 'Naira (NGN)',
+    divYield: 8.8,
+    growthRate: 11.5,
+    volatility: 22,
+    flag: '🇳🇬',
+    stars: ['Dangote Cement', 'MTN Nigeria', 'Zenith Bank', 'Guaranty Trust (GTCO)', 'BUA Foods'],
+    fxRisk: 'Élevé : volatilité de change du Naira. Fort potentiel pour les investisseurs locaux et de la diaspora.',
+    taxAdvantage: 'Exonération ciblée sur les plus-values pour stimuler les capitaux.',
+    desc: 'Marché ultra-dynamique, réputé pour ses géants industriels panafricains et des rendements nominaux élevés pour contrer l\'inflation.'
+  },
+  europe: {
+    id: 'europe',
+    name: 'Bourses Européennes (Euronext, CAC 40, DAX)',
+    region: 'Union Européenne & Zone Euro',
+    currency: 'Euro (€)',
+    divYield: 3.3,
+    growthRate: 5.8,
+    volatility: 14,
+    flag: '🇪🇺 🇫🇷 🇩🇪',
+    stars: ['Air Liquide', 'LVMH', 'TotalEnergies', 'ASML', 'SAP', 'Schneider Electric', 'ETF WPEA'],
+    fxRisk: 'Nul pour résidents Zone Euro et Zone Franc CFA.',
+    taxAdvantage: 'Plafond PEA de 150 000 € exonéré d\'impôt sur le revenu après 5 ans.',
+    desc: 'Cadre juridique ultra-protecteur, forte gouvernance et fiscalité allégée via le PEA. Pilier central de stabilité.'
+  },
+  usa: {
+    id: 'usa',
+    name: 'Bourses Américaines (S&P 500, Nasdaq, NYSE)',
+    region: 'États-Unis d\'Amérique',
+    currency: 'Dollar ($)',
+    divYield: 1.6,
+    growthRate: 8.8,
+    volatility: 16,
+    flag: '🇺🇸',
+    stars: ['Microsoft', 'Apple', 'Nvidia', 'Alphabet (Google)', 'Amazon', 'Berkshire Hathaway', 'ETF S&P 500'],
+    fxRisk: 'Modéré : fluctuations du taux de change EUR/USD.',
+    taxAdvantage: 'Accessible en PEA via ETF synthétiques (PE500 / ESE) ou CTO.',
+    desc: 'Le moteur technologique et capitaliste mondial. Rendement historique annualisé d\'environ 10 % sur les 30 dernières années.'
+  },
+  asie: {
+    id: 'asie',
+    name: 'Bourses Asiatiques (Nikkei 225, Hang Seng, SSE, Nifty)',
+    region: 'Asie-Pacifique (Japon, Chine, Inde, Singapour)',
+    currency: 'JPY, HKD, INR, CNY',
+    divYield: 2.9,
+    growthRate: 6.5,
+    volatility: 17,
+    flag: '🇯🇵 🇭🇰 🇮🇳',
+    stars: ['Toyota (JP)', 'Tencent (HK)', 'TSMC (TW)', 'Reliance Industries (IN)', 'Alibaba', 'ETF PAEEM'],
+    fxRisk: 'Modéré : panier de devises asiatiques diversifié.',
+    taxAdvantage: 'Accessible en direct ou via ETF Marchés Émergents (PAEEM).',
+    desc: 'L\'épicentre de la croissance industrielle et technologique mondiale, offrant une décorrélation stratégique précieuse vis-à-vis de l\'Occident.'
+  },
+  mixte: {
+    id: 'mixte',
+    name: 'Portefeuille Mondial Diversifié (Stratégie Idéale)',
+    region: 'Allocation Recommandée : 50% USA + 25% Europe + 15% Afrique (BRVM/BVMAC) + 10% Asie',
+    currency: 'Multi-devises',
+    divYield: 4.3,
+    growthRate: 7.2,
+    volatility: 13,
+    flag: '🌐 🌍',
+    stars: ['ETF MSCI World + ETF S&P 500 + Panier BRVM Dividendes (Sonatel/SGBCI) + ETF Émergents'],
+    fxRisk: 'Minimal : risque lissé par la diversification mondiale et multi-devises.',
+    taxAdvantage: 'Combinaison PEA (Europe/Monde) + SGI UEMOA (Afrique sans double imposition).',
+    desc: 'L\'équilibre parfait entre forte appréciation du capital (USA/Asie) et cash-flow passif résilient en dividendes réguliers (Afrique/Europe).'
+  }
+};
+
+function initMarketSimulatorEvents(){
+  // Sélection des marchés boursiers
+  $$('#marketSelectorWrap [data-market]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      $$('#marketSelectorWrap [data-market]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      if(!state.marketSim) state.marketSim = {};
+      state.marketSim.activeMarket = btn.dataset.market;
+      scheduleSave();
+      updateMarketSimulator();
+    });
+  });
+
+  // Synchronisation des curseurs et champs numériques
+  const initInp = $('#simMktInit');
+  const initRng = $('#simMktInitRange');
+  if(initInp && initRng){
+    initInp.addEventListener('input', e => { initRng.value = e.target.value; updateMarketSimulator(); scheduleSave(); });
+    initRng.addEventListener('input', e => { initInp.value = e.target.value; updateMarketSimulator(); scheduleSave(); });
+  }
+
+  const moInp = $('#simMktMonthly');
+  const moRng = $('#simMktMonthlyRange');
+  if(moInp && moRng){
+    moInp.addEventListener('input', e => { moRng.value = e.target.value; updateMarketSimulator(); scheduleSave(); });
+    moRng.addEventListener('input', e => { moInp.value = e.target.value; updateMarketSimulator(); scheduleSave(); });
+  }
+
+  const yrInp = $('#simMktYears');
+  const yrRng = $('#simMktYearsRange');
+  if(yrInp && yrRng){
+    yrInp.addEventListener('input', e => { yrRng.value = e.target.value; updateMarketSimulator(); scheduleSave(); });
+    yrRng.addEventListener('input', e => { yrInp.value = e.target.value; updateMarketSimulator(); scheduleSave(); });
+  }
+
+  const reinv = $('#simMktReinvest');
+  if(reinv){
+    reinv.addEventListener('change', () => { updateMarketSimulator(); scheduleSave(); });
+  }
+
+  // 1-clic : Simuler avec le portefeuille réel
+  const syncRealBtn = $('#syncSimWithRealPortfolioBtn');
+  if(syncRealBtn){
+    syncRealBtn.addEventListener('click', syncSimWithRealPortfolio);
+  }
+
+  // Modal d'ajout d'une action
+  $('#openAddStockModalBtn')?.addEventListener('click', () => {
+    $('#stockForm')?.reset();
+    $('#stockModal')?.classList.add('show');
+  });
+  $('#closeStockModal')?.addEventListener('click', () => $('#stockModal')?.classList.remove('show'));
+  $('#cancelStockBtn')?.addEventListener('click', () => $('#stockModal')?.classList.remove('show'));
+  $('#stockModal')?.addEventListener('click', e => {
+    if(e.target.id === 'stockModal') e.currentTarget.classList.remove('show');
+  });
+  $('#saveStockBtn')?.addEventListener('click', saveStock);
+
+  // Boutons presets 1-clic (Sonatel, Total, Apple, etc.)
+  $$('.stock-preset-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const isCFA = (state.currency === 'FCFA');
+      const mkt = btn.dataset.stkMarket || 'brvm';
+      let pru = parseFloat(btn.dataset.stkPru) || 0;
+      let price = parseFloat(btn.dataset.stkPrice) || 0;
+
+      // Si devise Euro et titre BRVM/BVMAC renseigné en FCFA, convertir selon la devise active ou laisser tel quel
+      if(!isCFA && (mkt === 'brvm' || mkt === 'bvmac')){
+        pru = Math.round((pru / 655.957) * 100) / 100;
+        price = Math.round((price / 655.957) * 100) / 100;
+      } else if(isCFA && (mkt === 'europe' || mkt === 'usa')){
+        pru = Math.round(pru * 655.957);
+        price = Math.round(price * 655.957);
+      }
+
+      if($('#stockNameInp')) $('#stockNameInp').value = btn.dataset.stkName || '';
+      if($('#stockTickerInp')) $('#stockTickerInp').value = btn.dataset.stkTicker || '';
+      if($('#stockMarketInp')) $('#stockMarketInp').value = mkt;
+      if($('#stockPruInp')) $('#stockPruInp').value = pru;
+      if($('#stockPriceInp')) $('#stockPriceInp').value = price;
+      if($('#stockDivYieldInp')) $('#stockDivYieldInp').value = btn.dataset.stkYield || '';
+      if(!$('#stockSharesInp').value) $('#stockSharesInp').value = '10';
+      $('#stockSharesInp')?.focus();
+    });
+  });
+
+  // Boutons Stress Test
+  $$('#stressScenarioWrap .stress-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      $$('#stressScenarioWrap .stress-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.stockStressScenario = parseFloat(btn.dataset.scenario) || 0;
+      scheduleSave();
+      renderStocksTable();
+    });
+  });
+
+  // Suppression d'action déléguée
+  $('#stocksTableBody')?.addEventListener('click', e => {
+    const delBtn = e.target.closest('[data-del-stock]');
+    if(delBtn){
+      deleteStock(delBtn.dataset.delStock);
+    }
+  });
+}
+
+function updateMarketSimulator(){
+  const mKey = state.marketSim?.activeMarket || 'brvm';
+  const m = MARKET_DEFS[mKey] || MARKET_DEFS.brvm;
+
+  // Mise à jour de l'onglet actif
+  $$('#marketSelectorWrap [data-market]').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.market === mKey);
+  });
+
+  // Fiche d'identité du marché sélectionné
+  const pCard = $('#marketProfileCard');
+  if(pCard){
+    pCard.innerHTML = `
+      <div class="row-flex" style="margin-bottom:8px;flex-wrap:wrap;gap:8px">
+        <div style="display:flex;align-items:center;gap:9px">
+          <span style="font-size:22px">${m.flag}</span>
+          <div>
+            <b style="font-size:13.5px;color:var(--txt)">${m.name}</b>
+            <div class="mini" style="color:var(--muted)">${m.region} · Devise de cotation : <b style="color:var(--blue)">${m.currency}</b></div>
+          </div>
+        </div>
+        <div style="display:flex;gap:7px;align-items:center;flex-wrap:wrap">
+          <span class="mkt-badge" style="background:rgba(52,211,153,.15);color:var(--green)">Dividende : ~${m.divYield}% / an</span>
+          <span class="mkt-badge" style="background:rgba(56,189,248,.15);color:var(--blue)">Croissance : ~${m.growthRate}% / an</span>
+          <span class="mkt-badge" style="background:rgba(251,191,36,.15);color:var(--amber)">Volatilité : ${m.volatility}%</span>
+        </div>
+      </div>
+      <p class="mini" style="margin-bottom:8px;line-height:1.6;color:var(--txt)">${m.desc}</p>
+      <div class="grid g2" style="gap:8px;font-size:11px">
+        <div style="background:rgba(255,255,255,.02);border:1px solid var(--brd);border-radius:8px;padding:7px 10px">
+          <b style="color:var(--green)">🏆 Valeurs & Indices Vedettes :</b>
+          <div style="color:var(--muted);margin-top:2px">${m.stars.join(' · ')}</div>
+        </div>
+        <div style="background:rgba(255,255,255,.02);border:1px solid var(--brd);border-radius:8px;padding:7px 10px">
+          <b style="color:var(--blue)">🛡️ Régime Fiscal & Risque :</b>
+          <div style="color:var(--muted);margin-top:2px">${m.taxAdvantage} ${m.fxRisk}</div>
+        </div>
+      </div>`;
+  }
+
+  // Lecture des paramètres
+  const mult = EXCHANGE_RATES[state.currency] || 1;
+  const initCap = parseFloat($('#simMktInit')?.value) || 0;
+  const monthly = parseFloat($('#simMktMonthly')?.value) || 0;
+  const years = Math.max(1, parseInt($('#simMktYears')?.value) || 15);
+  const reinvest = $('#simMktReinvest')?.checked ?? true;
+
+  const g = m.growthRate / 100;
+  const d = m.divYield / 100;
+  const totalR = g + d;
+
+  const ptsInvested = [initCap];
+  const ptsCapital = [initCap];
+  const ptsReinvest = [initCap];
+
+  let balReinvest = initCap;
+  let balCap = initCap;
+  let cumDividends = 0;
+
+  for(let y = 1; y <= years; y++){
+    const annualDca = monthly * 12;
+    ptsInvested.push(initCap + annualDca * y);
+
+    // Avec dividendes réinvestis (intérêts composés totaux)
+    balReinvest = balReinvest * (1 + totalR) + annualDca * (1 + totalR / 2);
+    ptsReinvest.push(balReinvest);
+
+    // Sans réinvestissement (plus-value seule + dividendes thésaurisés en cash)
+    const yearDiv = (balCap + annualDca / 2) * d;
+    cumDividends += yearDiv;
+    balCap = balCap * (1 + g) + annualDca * (1 + g / 2);
+    ptsCapital.push(balCap);
+  }
+
+  const finalTotal = reinvest ? balReinvest : (balCap + cumDividends);
+  const totalInvest = initCap + monthly * 12 * years;
+  const totalGains = Math.max(0, finalTotal - totalInvest);
+  const gainsPct = totalInvest > 0 ? (totalGains / totalInvest * 100) : 0;
+  const finalAnnualDiv = (reinvest ? balReinvest : balCap) * d;
+  const monthlyRente = finalAnnualDiv / 12;
+  const multFactor = totalInvest > 0 ? (finalTotal / totalInvest) : 0;
+
+  // Mise à jour des KPIs
+  const totEl = $('#simMktResultTotal');
+  if(totEl) totEl.textContent = fmtCurr(finalTotal);
+  const multEl = $('#simMktMultiplier');
+  if(multEl) multEl.textContent = `×${multFactor.toFixed(2)} votre mise`;
+  const invEl = $('#simMktInvested');
+  if(invEl) invEl.textContent = fmtCurr(totalInvest);
+  const gainsEl = $('#simMktGains');
+  if(gainsEl) gainsEl.textContent = '+' + fmtCurr(totalGains);
+  const gainsPctEl = $('#simMktGainsPct');
+  if(gainsPctEl) gainsPctEl.textContent = `+${Math.round(gainsPct)} % de plus-value globale`;
+  const renteEl = $('#simMktRente');
+  if(renteEl) renteEl.textContent = fmtCurr(monthlyRente) + ' / m';
+
+  // Rendu du graphique SVG multi-courbes
+  const chartEl = $('#simMktChart');
+  if(chartEl){
+    chartEl.innerHTML = drawMarketProjectionChart({
+      invested: ptsInvested,
+      capital: ptsCapital,
+      reinvest: ptsReinvest
+    });
+  }
+}
+
+function drawMarketProjectionChart(series, w=580, h=200, pad=34){
+  const allVals = [...series.invested, ...series.capital, ...series.reinvest];
+  const max = Math.max(...allVals, 10);
+  const n = series.invested.length - 1;
+  const X = i => pad + (i / Math.max(n, 1)) * (w - 2 * pad);
+  const Y = v => h - pad - (v / max) * (h - 2 * pad);
+
+  let s = `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" preserveAspectRatio="none" style="display:block;overflow:visible">`;
+  s += `<defs>
+    <linearGradient id="reinvestGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#34d399" stop-opacity=".25"/>
+      <stop offset="100%" stop-color="#34d399" stop-opacity=".02"/>
+    </linearGradient>
+  </defs>`;
+
+  // Grille horizontale
+  for(let i = 0; i <= 4; i++){
+    const y = pad + (i / 4) * (h - 2 * pad);
+    s += `<line x1="${pad}" y1="${y}" x2="${w - pad}" y2="${y}" stroke="rgba(255,255,255,.05)" stroke-width="1"/>`;
+    const val = max * (1 - i / 4);
+    s += `<text x="${pad - 6}" y="${y + 3}" text-anchor="end" fill="#8b9bb4" font-size="8.5" font-family="Inter,sans-serif">${fmt(val)}</text>`;
+  }
+
+  // Graduations temporelles X
+  const stepX = Math.max(1, Math.floor(n / 5));
+  for(let i = 0; i <= n; i += stepX){
+    const x = X(i);
+    s += `<text x="${x}" y="${h - pad + 14}" text-anchor="middle" fill="#8b9bb4" font-size="8.5" font-family="Inter,sans-serif">an ${i}</text>`;
+  }
+
+  // Zone remplie sous la courbe avec réinvestissement
+  const areaReinvest = series.reinvest.map((v, i) => (i ? 'L' : 'M') + X(i).toFixed(1) + ',' + Y(v).toFixed(1)).join(' ') +
+    ` L${X(n).toFixed(1)},${h - pad} L${X(0).toFixed(1)},${h - pad} Z`;
+  s += `<path d="${areaReinvest}" fill="url(#reinvestGrad)"/>`;
+
+  // Tracer les courbes
+  const drawP = (arr, color, strokeW, dash) => {
+    const p = arr.map((v, i) => (i ? 'L' : 'M') + X(i).toFixed(1) + ',' + Y(v).toFixed(1)).join(' ');
+    return `<path d="${p}" fill="none" stroke="${color}" stroke-width="${strokeW}" ${dash ? `stroke-dasharray="${dash}"` : ''} stroke-linecap="round" stroke-linejoin="round"/>`;
+  };
+
+  s += drawP(series.invested, '#a78bfa', 1.8, '4 3');
+  s += drawP(series.capital, '#38bdf8', 2.0);
+  s += drawP(series.reinvest, '#34d399', 2.4);
+
+  // Points terminaux
+  s += `<circle cx="${X(n)}" cy="${Y(series.invested[n])}" r="3.5" fill="#a78bfa"/>`;
+  s += `<circle cx="${X(n)}" cy="${Y(series.capital[n])}" r="3.5" fill="#38bdf8"/>`;
+  s += `<circle cx="${X(n)}" cy="${Y(series.reinvest[n])}" r="4.5" fill="#34d399"/>`;
+
+  s += `</svg>`;
+  return s;
+}
+
+function updateMyPortfolioAnalysis(){
+  const eur = state.patrimoine.bourseEurope || 0;
+  const afr = state.patrimoine.bourseAfrique || 0;
+  const usa = state.patrimoine.bourseUSA || 0;
+  const asi = state.patrimoine.bourseAsie || 0;
+  const customInvest = (state.customPatrimoine || []).filter(p => p.category === 'investis').reduce((s,p)=>s+(parseFloat(p.val)||0), 0);
+  const totalPort = eur + afr + usa + asi + customInvest;
+
+  const tBadge = $('#myPortTotalBadge');
+  if(tBadge) tBadge.textContent = fmtCurr(totalPort) + ' investis';
+
+  const bd = $('#myPortfolioBreakdown');
+  if(bd){
+    if(totalPort <= 0){
+      bd.innerHTML = `
+        <div style="padding:16px;text-align:center;color:var(--muted);font-size:12px">
+          Aucune ligne d'actions déclarée. Renseignez vos avoirs dans l'onglet <b>Patrimoine</b>.
+        </div>`;
+    } else {
+      const pEur = (eur / totalPort) * 100;
+      const pAfr = (afr / totalPort) * 100;
+      const pUsa = (usa / totalPort) * 100;
+      const pAsi = (asi / totalPort) * 100;
+      const pCust = (customInvest / totalPort) * 100;
+
+      bd.innerHTML = `
+        <div class="portfolio-share-bar">
+          ${pEur>0 ? `<div class="portfolio-share-seg" style="width:${pEur}%;background:#38bdf8" title="Europe: ${fmtCurr(eur)} (${pEur.toFixed(1)}%)"></div>` : ''}
+          ${pAfr>0 ? `<div class="portfolio-share-seg" style="width:${pAfr}%;background:#34d399" title="Afrique: ${fmtCurr(afr)} (${pAfr.toFixed(1)}%)"></div>` : ''}
+          ${pUsa>0 ? `<div class="portfolio-share-seg" style="width:${pUsa}%;background:#a78bfa" title="USA: ${fmtCurr(usa)} (${pUsa.toFixed(1)}%)"></div>` : ''}
+          ${pAsi>0 ? `<div class="portfolio-share-seg" style="width:${pAsi}%;background:#fbbf24" title="Asie: ${fmtCurr(asi)} (${pAsi.toFixed(1)}%)"></div>` : ''}
+          ${pCust>0 ? `<div class="portfolio-share-seg" style="width:${pCust}%;background:#f472b6" title="Autres: ${fmtCurr(customInvest)} (${pCust.toFixed(1)}%)"></div>` : ''}
+        </div>
+        <div class="grid g2" style="gap:6px;margin-top:9px">
+          <div style="display:flex;justify-content:space-between;padding:5px 8px;background:rgba(255,255,255,.02);border-radius:6px;font-size:11px">
+            <span style="display:flex;align-items:center;gap:6px"><span class="dot" style="background:#38bdf8"></span>Europe (PEA)</span>
+            <b>${fmtCurr(eur)} <span class="mini" style="color:var(--muted)">(${pEur.toFixed(0)}%)</span></b>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:5px 8px;background:rgba(255,255,255,.02);border-radius:6px;font-size:11px">
+            <span style="display:flex;align-items:center;gap:6px"><span class="dot" style="background:#34d399"></span>Afrique (BRVM/BVMAC)</span>
+            <b>${fmtCurr(afr)} <span class="mini" style="color:var(--muted)">(${pAfr.toFixed(0)}%)</span></b>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:5px 8px;background:rgba(255,255,255,.02);border-radius:6px;font-size:11px">
+            <span style="display:flex;align-items:center;gap:6px"><span class="dot" style="background:#a78bfa"></span>USA (S&P 500)</span>
+            <b>${fmtCurr(usa)} <span class="mini" style="color:var(--muted)">(${pUsa.toFixed(0)}%)</span></b>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:5px 8px;background:rgba(255,255,255,.02);border-radius:6px;font-size:11px">
+            <span style="display:flex;align-items:center;gap:6px"><span class="dot" style="background:#fbbf24"></span>Asie & Émergents</span>
+            <b>${fmtCurr(asi)} <span class="mini" style="color:var(--muted)">(${pAsi.toFixed(0)}%)</span></b>
+          </div>
+        </div>`;
+    }
+  }
+
+  // Dividendes actuels estimés
+  const df = $('#myDividendsForecast');
+  if(df){
+    const estDivAnnual = (eur * 0.033) + (afr * 0.074) + (usa * 0.016) + (asi * 0.029) + (customInvest * 0.04);
+    const estDivMonthly = estDivAnnual / 12;
+    const monthlyCharges = expTotal() || 1;
+    const couvPassifPct = (estDivMonthly / monthlyCharges) * 100;
+
+    df.innerHTML = `
+      <div class="grid g3" style="gap:7px;margin-bottom:8px">
+        <div class="ratio-box" style="padding:9px">
+          <div class="mini">Dividendes / an</div>
+          <b style="font-size:14px;color:var(--green)">${fmtCurr(estDivAnnual)}</b>
+        </div>
+        <div class="ratio-box" style="padding:9px">
+          <div class="mini">Rente / mois</div>
+          <b style="font-size:14px;color:#22d3ee">${fmtCurr(estDivMonthly)}</b>
+        </div>
+        <div class="ratio-box" style="padding:9px">
+          <div class="mini">Couverture charges</div>
+          <b style="font-size:14px;color:${couvPassifPct>=10?'var(--green)':'var(--txt)'}">${couvPassifPct.toFixed(1)} %</b>
+        </div>
+      </div>
+      <p class="mini" style="margin:0;line-height:1.5;color:var(--muted)">
+        ${totalPort > 0 
+          ? `Vos investissements boursiers génèrent déjà environ <b>${fmtCurr(estDivAnnual)}</b> par an de dividendes passifs sans entamer votre capital.` 
+          : 'En allouant 150 €/mois en DCA régulier sur la BRVM ou un ETF Monde, vous amorcez une rente de dividende croissante dès la 1ère année.'}
+      </p>`;
+  }
+}
+
+function generateInvestmentAdvices(){
+  const wrap = $('#investmentAdviceCards');
+  if(!wrap) return;
+
+  const eur = state.patrimoine.bourseEurope || 0;
+  const afr = state.patrimoine.bourseAfrique || 0;
+  const usa = state.patrimoine.bourseUSA || 0;
+  const asi = state.patrimoine.bourseAsie || 0;
+  const total = eur + afr + usa + asi;
+
+  let advice1 = {}, advice2 = {}, advice3 = {};
+
+  if(total === 0){
+    advice1 = {
+      icon: '🌱',
+      title: 'Démarrage : Règle des Petits Pas (DCA)',
+      color: 'var(--green)',
+      text: 'Commencez avec <b>50 € à 150 € par mois</b> en investissement programmé (DCA). Choisissez un ETF indiciel mondial (ex: WPEA ou CW8) sur PEA pour automatiser sans stress de timing.'
+    };
+    advice2 = {
+      icon: '📈',
+      title: 'Opportunité Panafricaine BRVM / BVMAC',
+      color: 'var(--blue)',
+      text: 'La <b>BRVM</b> offre des rendements de dividende exceptionnels (<b>7 à 9 % nets</b> sur Sonatel, SGBCI, Ecobank). Ouvrez un compte titre auprès d\'une SGI agréée (CGF, BOA Capital, Hudson).'
+    };
+    advice3 = {
+      icon: '🛡️',
+      title: 'Sécurité : 3 Mois d\'Urgence Avant les Marchés',
+      color: 'var(--amber)',
+      text: 'Ne placez en bourse que du capital dont vous n\'avez pas besoin avant <b>au moins 5 ans</b>. Assurez-vous d\'avoir validé le Palier 1 et 2 de votre fonds d\'urgence.'
+    };
+  } else {
+    const pAfr = (afr / total) * 100;
+    const pUsa = (usa / total) * 100;
+    const pEur = (eur / total) * 100;
+
+    if(pAfr < 10){
+      advice1 = {
+        icon: '🌍',
+        title: 'Renforcer l\'exposition Afrique (BRVM / BVMAC)',
+        color: 'var(--green)',
+        text: `Votre poche Afrique ne représente que <b>${pAfr.toFixed(0)} %</b>. Une cible de <b>15 à 20 %</b> permet de doper vos dividendes réels tout en profitant de la parité fixe Euro/FCFA sans risque de change direct.`
+      };
+    } else {
+      advice1 = {
+        icon: '✅',
+        title: 'Excellente présence sur les marchés africains',
+        color: 'var(--green)',
+        text: `Avec <b>${pAfr.toFixed(0)} %</b> sur la zone Afrique, vous captez un cash-flow de dividendes élevé. Veillez à réinvestir systématiquement ces dividendes pour démultiplier le capital.`
+      };
+    }
+
+    if(pUsa < 30){
+      advice2 = {
+        icon: '🚀',
+        title: 'Moteur de Croissance US (S&P 500 / Nasdaq)',
+        color: 'var(--blue)',
+        text: `Les États-Unis représentent plus de 60 % de la capitalisation mondiale. Pensez à allouer <b>40 à 50 %</b> de vos flux DCA vers un ETF S&P 500 pour maximiser l'appréciation du capital long terme.`
+      };
+    } else {
+      advice2 = {
+        icon: '⚡',
+        title: 'Moteur US robuste et performant',
+        color: 'var(--blue)',
+        text: `Votre part US de <b>${pUsa.toFixed(0)} %</b> assure une excellente exposition à l'innovation technologique et à la productivité des leaders mondiaux.`
+      };
+    }
+
+    advice3 = {
+      icon: '💼',
+      title: 'Optimisation Fiscale & Comptes Dédiés',
+      color: 'var(--purple)',
+      text: 'Privilégiez le <b>PEA</b> pour vos ETF Europe/Monde (exonération totale d\'impôt après 5 ans) et un <b>compte SGI agréé UEMOA</b> pour vos titres BRVM pour bénéficier d\'un IRVM réduit.'
+    };
+  }
+
+  wrap.innerHTML = [advice1, advice2, advice3].map(a => `
+    <div class="advice-card">
+      <div style="display:flex;align-items:center;gap:7px;margin-bottom:4px">
+        <span style="font-size:16px">${a.icon}</span>
+        <b style="font-size:12px;color:${a.color}">${a.title}</b>
+      </div>
+      <p class="mini" style="line-height:1.6;margin:0;color:var(--txt)">${a.text}</p>
+    </div>
+  `).join('');
+}
+
+/* ============================================================
+   PORTEFEUILLE D'ACTIONS RÉEL & STRESS TEST
+============================================================ */
+function syncSimWithRealPortfolio(){
+  const eur = Number(state.patrimoine.bourseEurope) || 0;
+  const afr = Number(state.patrimoine.bourseAfrique) || 0;
+  const usa = Number(state.patrimoine.bourseUSA) || 0;
+  const asi = Number(state.patrimoine.bourseAsie) || 0;
+  const customInvest = (state.customPatrimoine || [])
+    .filter(x => x.category === 'bourse')
+    .reduce((acc, c) => acc + (Number(c.val) || 0), 0);
+  const totalBourse = eur + afr + usa + asi + customInvest;
+
+  const monthlyInvest = Number(state.futur?.investissements) || 150;
+
+  // Calcul valeur portefeuille actions individuelles
+  const stocksVal = (state.stocks || []).reduce((acc, s) => acc + ((Number(s.shares) || 0) * (Number(s.price) || 0)), 0);
+  const capitalToUse = Math.max(totalBourse, stocksVal, 100);
+
+  if(!state.marketSim) state.marketSim = {};
+  state.marketSim.initCapital = Math.round(capitalToUse);
+  state.marketSim.monthly = Math.round(monthlyInvest);
+  state.marketSim.activeMarket = 'mixte';
+
+  const initInp = $('#simMktInit');
+  const initRng = $('#simMktInitRange');
+  if(initInp) initInp.value = state.marketSim.initCapital;
+  if(initRng) initRng.value = state.marketSim.initCapital;
+
+  const moInp = $('#simMktMonthly');
+  const moRng = $('#simMktMonthlyRange');
+  if(moInp) moInp.value = state.marketSim.monthly;
+  if(moRng) moRng.value = state.marketSim.monthly;
+
+  $$('#marketSelectorWrap [data-market]').forEach(b => {
+    b.classList.toggle('active', b.dataset.market === 'mixte');
+  });
+
+  scheduleSave();
+  updateMarketSimulator();
+  toast(`Portefeuille synchronisé : ${fmtCurr(capitalToUse)} de capital et ${fmtCurr(monthlyInvest)}/mois en DCA`, 'success', 3500);
+}
+
+function saveStock(){
+  const name = $('#stockNameInp')?.value.trim();
+  const ticker = $('#stockTickerInp')?.value.trim().toUpperCase() || '';
+  const market = $('#stockMarketInp')?.value || 'brvm';
+  const shares = parseFloat($('#stockSharesInp')?.value) || 0;
+  const pru = parseFloat($('#stockPruInp')?.value) || 0;
+  const price = parseFloat($('#stockPriceInp')?.value) || 0;
+  const divYield = parseFloat($('#stockDivYieldInp')?.value) || 0;
+
+  if(!name){
+    toast('Veuillez renseigner le nom de la société ou ETF', 'warning');
+    return;
+  }
+  if(shares <= 0){
+    toast('Veuillez indiquer un nombre de titres valide', 'warning');
+    return;
+  }
+  if(pru < 0 || price < 0){
+    toast('PRU et cours doivent être positifs', 'warning');
+    return;
+  }
+
+  if(!state.stocks) state.stocks = [];
+  const newStock = {
+    id: 'stk_' + Date.now(),
+    name,
+    ticker,
+    market,
+    shares,
+    pru,
+    price,
+    divYield
+  };
+  state.stocks.push(newStock);
+  scheduleSave();
+  $('#stockModal')?.classList.remove('show');
+  $('#stockForm')?.reset();
+  renderStocksTable();
+  updateMyPortfolioAnalysis();
+  toast(`Action ${name} (${ticker || market.toUpperCase()}) ajoutée avec succès !`, 'success');
+}
+
+function deleteStock(id){
+  if(!state.stocks) return;
+  const idx = state.stocks.findIndex(s => s.id === id);
+  if(idx >= 0){
+    const sName = state.stocks[idx].name;
+    state.stocks.splice(idx, 1);
+    scheduleSave();
+    renderStocksTable();
+    updateMyPortfolioAnalysis();
+    toast(`Titre ${sName} retiré du portefeuille`, 'info', 2000);
+  }
+}
+
+function renderStocksTable(){
+  const tbody = $('#stocksTableBody');
+  if(!tbody) return;
+
+  const stocks = state.stocks || [];
+  const scenario = state.stockStressScenario || 0;
+
+  // Mise à jour de l'état actif des boutons de scénario
+  $$('#stressScenarioWrap .stress-btn').forEach(b => {
+    b.classList.toggle('active', parseFloat(b.dataset.scenario) === scenario);
+  });
+
+  const marketBadges = {
+    brvm: { label: 'BRVM', color: '#34d399' },
+    bvmac: { label: 'BVMAC', color: '#22d3ee' },
+    ngx: { label: 'NGX', color: '#f59e0b' },
+    europe: { label: 'Europe (PEA)', color: '#38bdf8' },
+    usa: { label: 'USA', color: '#a78bfa' },
+    asie: { label: 'Asie', color: '#fbbf24' }
+  };
+
+  let totalCost = 0;
+  let totalVal = 0;
+  let totalDividends = 0;
+
+  if(stocks.length === 0){
+    tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;color:var(--muted);padding:18px 10px;font-size:12px">Aucune action individuelle ajoutée pour l'instant. Cliquez sur <b>"+ Ajouter une action"</b> pour renseigner vos titres réels ou tester les presets 1-clic (Sonatel, Total, Apple...).</td></tr>`;
+  } else {
+    tbody.innerHTML = stocks.map(stk => {
+      const shares = Number(stk.shares) || 0;
+      const pru = Number(stk.pru) || 0;
+      const basePrice = Number(stk.price) || 0;
+      // Impact du stress test sur le cours effectif
+      const effectivePrice = scenario !== 0 ? Math.max(0.01, basePrice * (1 + scenario / 100)) : basePrice;
+
+      const cost = shares * pru;
+      const val = shares * effectivePrice;
+      const gain = val - cost;
+      const gainPct = cost > 0 ? (gain / cost) * 100 : 0;
+      const divAnnual = val * ((Number(stk.divYield) || 0) / 100);
+
+      totalCost += cost;
+      totalVal += val;
+      totalDividends += divAnnual;
+
+      const mInfo = marketBadges[stk.market] || { label: stk.market.toUpperCase(), color: 'var(--txt)' };
+      const gainClass = gain >= 0 ? 'color:var(--green)' : 'color:var(--red)';
+      const gainSign = gain >= 0 ? '+' : '';
+
+      return `
+        <tr>
+          <td>
+            <b style="color:var(--txt);font-size:12px">${stk.name}</b>
+            ${stk.ticker ? `<span class="mini" style="margin-left:4px;color:var(--muted);font-weight:600">(${stk.ticker})</span>` : ''}
+          </td>
+          <td><span class="stock-badge" style="background:${mInfo.color}22;color:${mInfo.color};border:1px solid ${mInfo.color}44">${mInfo.label}</span></td>
+          <td style="font-weight:600">${shares}</td>
+          <td style="color:var(--muted)">${fmtCurr(pru)}</td>
+          <td>
+            <b>${fmtCurr(effectivePrice)}</b>
+            ${scenario !== 0 ? `<span class="mini" style="display:block;color:${scenario<0?'var(--red)':'var(--green)'}">${scenario>0?'+':''}${scenario}%</span>` : ''}
+          </td>
+          <td><b style="color:var(--txt)">${fmtCurr(val)}</b></td>
+          <td>
+            <b style="${gainClass}">${gainSign}${fmtCurr(gain)}</b>
+            <div class="mini" style="${gainClass}">${gainSign}${gainPct.toFixed(1)} %</div>
+          </td>
+          <td>
+            <b style="color:#22d3ee">${fmtCurr(divAnnual)}</b>
+            <div class="mini" style="color:var(--muted)">${stk.divYield || 0} % / an</div>
+          </td>
+          <td>
+            <button class="btn-mini" data-del-stock="${stk.id}" title="Supprimer ce titre" style="background:rgba(239,68,68,.12);color:var(--red);border:1px solid rgba(239,68,68,.25);padding:2px 7px;font-size:11px">✕</button>
+          </td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  // KPIs
+  const totalGain = totalVal - totalCost;
+  const totalGainPct = totalCost > 0 ? (totalGain / totalCost) * 100 : 0;
+  const avgYieldPct = totalVal > 0 ? (totalDividends / totalVal) * 100 : 0;
+  const monthlyRente = totalDividends / 12;
+
+  const tvEl = $('#stocksTotalVal');
+  if(tvEl) tvEl.textContent = fmtCurr(totalVal);
+  const cbEl = $('#stocksCountBadge');
+  if(cbEl) cbEl.textContent = `${stocks.length} ligne${stocks.length>1?'s':''} en portefeuille`;
+
+  const tgEl = $('#stocksTotalGain');
+  if(tgEl){
+    tgEl.textContent = (totalGain >= 0 ? '+' : '') + fmtCurr(totalGain);
+    tgEl.style.color = totalGain >= 0 ? 'var(--green)' : 'var(--red)';
+  }
+  const tgpEl = $('#stocksTotalGainPct');
+  if(tgpEl){
+    tgpEl.textContent = (totalGain >= 0 ? '+' : '') + totalGainPct.toFixed(1) + ' %';
+    tgpEl.style.color = totalGain >= 0 ? 'var(--green)' : 'var(--red)';
+  }
+
+  const tdEl = $('#stocksTotalDividends');
+  if(tdEl) tdEl.textContent = `${fmtCurr(totalDividends)} / an`;
+  const ayEl = $('#stocksAvgYield');
+  if(ayEl) ayEl.textContent = `Rendement moyen : ${avgYieldPct.toFixed(1)} %`;
+
+  const mrEl = $('#stocksMonthlyRente');
+  if(mrEl) mrEl.textContent = `${fmtCurr(monthlyRente)} / m`;
+
+  // Bannière dynamique de Stress Test
+  const srb = $('#stressResultBanner');
+  if(srb){
+    if(stocks.length === 0){
+      srb.innerHTML = `<span style="color:var(--muted)">Ajoutez vos actions pour voir l'effet immédiat des scénarios de marché (-30%, -15%, +18%) sur votre capital réel.</span>`;
+    } else if(scenario === -30){
+      srb.innerHTML = `
+        <span style="color:#f87171;font-weight:700">📉 Scénario Krach Boursier Brutal (-30%) :</span>
+        Votre portefeuille subit une décote temporaire d'environ <b>-${fmtCurr(totalVal * 0.30)}</b>.
+        <span style="color:var(--green)"><b>Point clé résilience :</b> Vos dividendes (estimés à <b>${fmtCurr(totalDividends)}/an</b>) continuent d'être versés par les entreprises solides (ex: Sonatel, Total). C'est le meilleur moment pour accumuler en DCA à bas prix sans paniquer.</span>
+      `;
+    } else if(scenario === -15){
+      srb.innerHTML = `
+        <span style="color:#fbbf24;font-weight:700">🌧️ Scénario Correction Saine de Marché (-15%) :</span>
+        Impact de repli de <b>-${fmtCurr(totalVal * 0.15)}</b>.
+        Ce type de correction survient en moyenne <b>une fois tous les 18 mois</b> et représente une opportunité statistique majeure de renforcement pour un investisseur à long terme.
+      `;
+    } else if(scenario === 18){
+      srb.innerHTML = `
+        <span style="color:var(--green);font-weight:700">🚀 Scénario Bull Run Dynamique (+18%) :</span>
+        Votre valorisation grimpe de <b>+${fmtCurr(totalVal * 0.18)}</b> sous l'effet de l'optimisme des marchés.
+        <span style="color:var(--txt)">Conseil discipline : Pensez à rééquilibrer périodiquement vers votre poche sécurisée si votre part actions dépasse votre tolérance au risque.</span>
+      `;
+    } else {
+      srb.innerHTML = `
+        <span style="color:var(--blue);font-weight:700">📈 Scénario Nominal / Croisière Historique (+8.5%/an) :</span>
+        Votre portefeuille d'actions capitalise à son rythme séculaire. Rente brute de <b>${fmtCurr(monthlyRente)}/mois</b> immédiatement disponible ou réinvestie pour des intérêts composés exponentiels.
+      `;
+    }
+  }
 }
 
 function updateChecklist(){
@@ -3558,6 +6428,540 @@ function checkMilestones(){
 }
 
 /* ============================================================
+   SÉCURITÉ BIOMÉTRIQUE (WEBAUTHN / EMPREINTE & CODE PIN)
+============================================================ */
+let isAppLocked = false;
+let enteredPin = '';
+let lastUserActivity = Date.now();
+
+// Encodeurs / Décodeurs ArrayBuffer <-> Base64
+function arrayBufferToBase64(buffer) {
+  let binary = '';
+  const bytes = new Uint8Array(buffer);
+  for (let i = 0; i < bytes.byteLength; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return btoa(binary);
+}
+
+function base64ToArrayBuffer(base64) {
+  const binaryString = atob(base64);
+  const bytes = new Uint8Array(binaryString.length);
+  for (let i = 0; i < binaryString.length; i++) {
+    bytes[i] = binaryString.charCodeAt(i);
+  }
+  return bytes.buffer;
+}
+
+// Hachage cryptographique SHA-256 pour le code PIN
+async function sha256Hash(text) {
+  const msgUint8 = new TextEncoder().encode(String(text));
+  const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+// Détection de la compatibilité biométrique de l'appareil
+async function checkDeviceBiometricsCapability() {
+  const detailsEl = $('#deviceBiometricDetails');
+  const badgeEl = $('#biometricRegisteredBadge');
+  const pinBadgeEl = $('#pinConfiguredBadge');
+
+  if (state.security && state.security.pinHash) {
+    if (pinBadgeEl) {
+      pinBadgeEl.textContent = 'Configuré (Actif)';
+      pinBadgeEl.style.background = 'rgba(52,211,153,.15)';
+      pinBadgeEl.style.color = 'var(--green)';
+    }
+  } else {
+    if (pinBadgeEl) {
+      pinBadgeEl.textContent = 'Non défini';
+      pinBadgeEl.style.background = 'rgba(248,113,113,.15)';
+      pinBadgeEl.style.color = 'var(--red)';
+    }
+  }
+
+  if (state.security && state.security.credentialId) {
+    if (badgeEl) {
+      badgeEl.textContent = 'Empreinte associée';
+      badgeEl.style.background = 'rgba(52,211,153,.15)';
+      badgeEl.style.color = 'var(--green)';
+    }
+  } else {
+    if (badgeEl) {
+      badgeEl.textContent = 'Non configurée';
+      badgeEl.style.background = 'rgba(248,113,113,.15)';
+      badgeEl.style.color = 'var(--red)';
+    }
+  }
+
+  if (!window.isSecureContext) {
+    if (detailsEl) {
+      detailsEl.innerHTML = '<span style="color:var(--amber)">⚠️ L\'API biométrique WebAuthn requiert HTTPS (ou localhost). En fichier local (file:///), le code PIN de secours assure la sécurité.</span>';
+    }
+    return false;
+  }
+
+  if (!window.PublicKeyCredential) {
+    if (detailsEl) {
+      detailsEl.innerHTML = '<span style="color:var(--muted)">Navigateur sans support WebAuthn direct. Le code PIN est recommandé.</span>';
+    }
+    return false;
+  }
+
+  try {
+    const available = await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
+    if (available) {
+      if (detailsEl) {
+        detailsEl.innerHTML = '<span style="color:var(--green)">✅ Capteur biométrique détecté (Windows Hello, Touch ID, Face ID ou Empreinte Android).</span>';
+      }
+      return true;
+    } else {
+      if (detailsEl) {
+        detailsEl.innerHTML = '<span style="color:var(--muted)">Aucun capteur biométrique détecté sur cet appareil. Le code PIN de secours fonctionnera parfaitement.</span>';
+      }
+      return false;
+    }
+  } catch(e) {
+    if (detailsEl) detailsEl.textContent = 'Vérification biométrique indisponible.';
+    return false;
+  }
+}
+
+// Enregistrement de l'empreinte digitale via WebAuthn
+async function registerBiometricCredential() {
+  if (!window.isSecureContext) {
+    toast('La biométrie WebAuthn requiert HTTPS (déployez sur Netlify/Vercel pour l\'activer)', 'warn', 5000);
+    return;
+  }
+  if (!window.PublicKeyCredential) {
+    toast('WebAuthn n\'est pas supporté par ce navigateur', 'warn', 4000);
+    return;
+  }
+
+  toast('Touchez le capteur d\'empreinte de votre appareil...', 'info', 4000);
+
+  try {
+    const challenge = new Uint8Array(32);
+    crypto.getRandomValues(challenge);
+    const userId = new TextEncoder().encode('user_patrimoine_' + Date.now());
+
+    const credential = await navigator.credentials.create({
+      publicKey: {
+        challenge: challenge,
+        rp: {
+          name: "Suivi Patrimoine",
+          id: window.location.hostname || undefined
+        },
+        user: {
+          id: userId,
+          name: "patrimoine_user",
+          displayName: "Titulaire du Patrimoine"
+        },
+        pubKeyCredParams: [
+          { alg: -7, type: "public-key" },  // ES256
+          { alg: -257, type: "public-key" } // RS256
+        ],
+        authenticatorSelection: {
+          authenticatorAttachment: "platform",
+          userVerification: "required"
+        },
+        timeout: 60000
+      }
+    });
+
+    if (credential && credential.rawId) {
+      state.security.credentialId = arrayBufferToBase64(credential.rawId);
+      state.security.enabled = true;
+      scheduleSave();
+      checkDeviceBiometricsCapability();
+      updateSecurityUI();
+      toast('✅ Empreinte digitale enregistrée avec succès sur cet appareil !', 'success', 4000);
+    }
+  } catch(err) {
+    console.error('Erreur enregistrement biométrique:', err);
+    if (err.name === 'NotAllowedError') {
+      toast('Enregistrement annulé par l\'utilisateur ou délai dépassé', 'warn', 4000);
+    } else {
+      toast('Erreur biométrique : ' + err.message, 'error', 4500);
+    }
+  }
+}
+
+// Déverrouillage par empreinte digitale
+async function triggerBiometricAuth() {
+  const btn = $('#lockTriggerBiometricBtn');
+  const hintEl = $('#lockBiometricDeviceHint');
+
+  if (!window.isSecureContext || !window.PublicKeyCredential) {
+    switchLockView('pin');
+    return;
+  }
+
+  if (!state.security || !state.security.credentialId) {
+    if (state.security && state.security.pinHash) {
+      switchLockView('pin');
+    } else {
+      registerBiometricCredential().then(() => {
+        if (state.security.credentialId) unlockApp();
+      });
+    }
+    return;
+  }
+
+  try {
+    if (btn) btn.classList.add('scanning');
+    if (hintEl) hintEl.textContent = 'Scannez votre empreinte maintenant...';
+
+    const challenge = new Uint8Array(32);
+    crypto.getRandomValues(challenge);
+    const credIdBuffer = base64ToArrayBuffer(state.security.credentialId);
+
+    const assertion = await navigator.credentials.get({
+      publicKey: {
+        challenge: challenge,
+        allowCredentials: [{
+          id: credIdBuffer,
+          type: "public-key"
+        }],
+        userVerification: "required",
+        timeout: 60000
+      }
+    });
+
+    if (assertion) {
+      toast('Authentification biométrique réussie !', 'success', 2500);
+      unlockApp();
+    }
+  } catch(err) {
+    console.warn('Échec lecture biométrique:', err);
+    if (btn) btn.classList.remove('scanning');
+    if (hintEl) hintEl.textContent = 'Échec ou annulation. Réessayez ou utilisez votre code PIN.';
+    if (err.name !== 'NotAllowedError') {
+      switchLockView('pin');
+    }
+  }
+}
+
+// Verrouillage et déverrouillage de l'espace
+function lockApp() {
+  if (!state.security || !state.security.enabled) return;
+  isAppLocked = true;
+  enteredPin = '';
+  updatePinDots();
+  const portal = $('#lockPortal');
+  if (portal) {
+    portal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+  // Afficher empreinte par défaut si configurée et compatible, sinon PIN
+  if (state.security.credentialId && window.isSecureContext && window.PublicKeyCredential) {
+    switchLockView('biometric');
+    setTimeout(() => {
+      if (isAppLocked) triggerBiometricAuth();
+    }, 350);
+  } else {
+    switchLockView('pin');
+  }
+}
+
+function unlockApp() {
+  isAppLocked = false;
+  enteredPin = '';
+  const portal = $('#lockPortal');
+  if (portal) {
+    portal.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+  lastUserActivity = Date.now();
+  updateSecurityUI();
+}
+
+function switchLockView(view) {
+  const bioView = $('#lockBiometricView');
+  const pinView = $('#lockPinView');
+  const hintEl = $('#lockBiometricDeviceHint');
+  const errEl = $('#lockPinError');
+  if (errEl) errEl.textContent = '';
+  enteredPin = '';
+  updatePinDots();
+
+  if (view === 'pin') {
+    if (bioView) bioView.style.display = 'none';
+    if (pinView) pinView.style.display = 'block';
+  } else {
+    if (pinView) pinView.style.display = 'none';
+    if (bioView) bioView.style.display = 'block';
+    if (hintEl) hintEl.textContent = 'Capteur d\'empreinte PC ou Téléphone (Windows Hello, Touch ID, Face ID)';
+  }
+}
+
+function updatePinDots() {
+  const dots = $$('#lockPinDots .p-dot');
+  dots.forEach((dot, idx) => {
+    dot.classList.toggle('filled', idx < enteredPin.length);
+  });
+}
+
+async function handlePinDigit(digit) {
+  if (enteredPin.length >= 6) return;
+  enteredPin += String(digit);
+  updatePinDots();
+
+  if (enteredPin.length >= 4) {
+    const enteredHash = await sha256Hash(enteredPin);
+    if (state.security && state.security.pinHash && enteredHash === state.security.pinHash) {
+      toast('Code PIN validé avec succès !', 'success', 2500);
+      unlockApp();
+    } else if (enteredPin.length === 6) {
+      triggerWrongPinEffect();
+    }
+  }
+}
+
+function handlePinBackspace() {
+  if (enteredPin.length > 0) {
+    enteredPin = enteredPin.slice(0, -1);
+    updatePinDots();
+  }
+}
+
+function triggerWrongPinEffect() {
+  const card = $('#lockCard');
+  const err = $('#lockPinError');
+  if (err) err.textContent = 'Code PIN incorrect. Veuillez réessayer.';
+  if (card) {
+    card.classList.add('shake-anim');
+    setTimeout(() => card.classList.remove('shake-anim'), 500);
+  }
+  setTimeout(() => {
+    enteredPin = '';
+    updatePinDots();
+  }, 650);
+}
+
+// Mise à jour de l'interface des réglages de sécurité
+function updateSecurityUI() {
+  const btnLabel = $('#securityHeaderLabel');
+  const headerBtn = $('#securityHeaderBtn');
+  const disableBtn = $('#disableSecurityBtn');
+  const toggle = $('#securityEnableToggle');
+  const select = $('#autoLockTimeoutSelect');
+  const tabToggle = $('#lockOnTabLeaveToggle');
+
+  const isEnabled = !!(state.security && state.security.enabled);
+
+  if (toggle) toggle.checked = isEnabled;
+  if (select && state.security) select.value = state.security.autoLockMinutes ?? 5;
+  if (tabToggle && state.security) tabToggle.checked = !!state.security.lockOnTabLeave;
+
+  if (isEnabled) {
+    if (btnLabel) btnLabel.textContent = 'Verrouiller';
+    if (headerBtn) {
+      headerBtn.style.background = 'rgba(52,211,153,.15)';
+      headerBtn.style.borderColor = 'rgba(52,211,153,.35)';
+      headerBtn.style.color = 'var(--green)';
+      headerBtn.title = 'Cliquez pour verrouiller l\'espace ou modifier les réglages';
+    }
+    if (disableBtn) disableBtn.style.display = 'inline-block';
+  } else {
+    if (btnLabel) btnLabel.textContent = 'Sécurité';
+    if (headerBtn) {
+      headerBtn.style.background = 'rgba(167,139,250,.12)';
+      headerBtn.style.borderColor = 'rgba(167,139,250,.3)';
+      headerBtn.style.color = 'var(--purple)';
+      headerBtn.title = 'Activer la protection biométrique / code PIN';
+    }
+    if (disableBtn) disableBtn.style.display = 'none';
+  }
+}
+
+// Initialisation des écouteurs d'événements de sécurité
+function initSecurityEventListeners() {
+  // Bouton Sécurité dans le Header
+  const secBtn = $('#securityHeaderBtn');
+  if (secBtn) {
+    secBtn.addEventListener('click', () => {
+      checkDeviceBiometricsCapability();
+      updateSecurityUI();
+      $('#securityConfigModal').classList.add('show');
+    });
+  }
+
+  // Fermeture du modal de sécurité
+  const closeBtn = $('#closeSecurityModal');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      $('#securityConfigModal').classList.remove('show');
+    });
+  }
+
+  // Toggle activation sécurité
+  const toggle = $('#securityEnableToggle');
+  if (toggle) {
+    toggle.addEventListener('change', e => {
+      if (e.target.checked) {
+        if (!state.security.pinHash && !state.security.credentialId) {
+          toast('Veuillez d\'abord enregistrer votre empreinte ou un code PIN ci-dessous', 'warn', 4500);
+          e.target.checked = false;
+          return;
+        }
+        state.security.enabled = true;
+        scheduleSave();
+        updateSecurityUI();
+        toast('Protection activée ! L\'espace sera verrouillé à chaque ouverture.', 'success', 3500);
+      } else {
+        state.security.enabled = false;
+        scheduleSave();
+        updateSecurityUI();
+        toast('Protection désactivée', 'info', 2500);
+      }
+    });
+  }
+
+  // Enregistrer empreinte
+  const regBioBtn = $('#registerBiometricBtn');
+  if (regBioBtn) {
+    regBioBtn.addEventListener('click', () => {
+      registerBiometricCredential();
+    });
+  }
+
+  // Enregistrer PIN
+  const savePinBtn = $('#savePinBtn');
+  const pinInput = $('#newPinInput');
+  if (savePinBtn && pinInput) {
+    savePinBtn.addEventListener('click', async () => {
+      const pin = pinInput.value.trim();
+      if (pin.length < 4 || pin.length > 6 || !/^\d+$/.test(pin)) {
+        toast('Le code PIN doit comporter entre 4 et 6 chiffres', 'warn', 3500);
+        return;
+      }
+      const hash = await sha256Hash(pin);
+      state.security.pinHash = hash;
+      state.security.enabled = true;
+      pinInput.value = '';
+      scheduleSave();
+      checkDeviceBiometricsCapability();
+      updateSecurityUI();
+      toast('✅ Code PIN de secours enregistré avec succès !', 'success', 3500);
+    });
+  }
+
+  // Sélection du délai d'auto-verrouillage
+  const timeoutSelect = $('#autoLockTimeoutSelect');
+  if (timeoutSelect) {
+    timeoutSelect.addEventListener('change', e => {
+      state.security.autoLockMinutes = Number(e.target.value);
+      scheduleSave();
+      toast('Délai d\'auto-verrouillage mis à jour', 'info', 2000);
+    });
+  }
+
+  // Toggle verrouiller si onglet masqué
+  const tabToggle = $('#lockOnTabLeaveToggle');
+  if (tabToggle) {
+    tabToggle.addEventListener('change', e => {
+      state.security.lockOnTabLeave = e.target.checked;
+      scheduleSave();
+    });
+  }
+
+  // Désactiver sécurité
+  const disableBtn = $('#disableSecurityBtn');
+  if (disableBtn) {
+    disableBtn.addEventListener('click', () => {
+      if (confirm('Désactiver toute protection biométrique et code PIN ?')) {
+        state.security.enabled = false;
+        state.security.credentialId = '';
+        state.security.pinHash = '';
+        scheduleSave();
+        checkDeviceBiometricsCapability();
+        updateSecurityUI();
+        toast('Sécurité désactivée', 'info', 2500);
+      }
+    });
+  }
+
+  // Bouton "Verrouiller maintenant" dans le modal
+  const lockNowBtn = $('#lockNowTestBtn');
+  if (lockNowBtn) {
+    lockNowBtn.addEventListener('click', () => {
+      if (!state.security.pinHash && !state.security.credentialId) {
+        toast('Veuillez d\'abord configurer une empreinte ou un code PIN', 'warn', 3500);
+        return;
+      }
+      state.security.enabled = true;
+      scheduleSave();
+      $('#securityConfigModal').classList.remove('show');
+      setTimeout(lockApp, 150);
+    });
+  }
+
+  // Éléments du Portail de Déverrouillage
+  const trigBioBtn = $('#lockTriggerBiometricBtn');
+  if (trigBioBtn) trigBioBtn.addEventListener('click', triggerBiometricAuth);
+
+  const switchToPin = $('#lockSwitchToPinBtn');
+  if (switchToPin) switchToPin.addEventListener('click', () => switchLockView('pin'));
+
+  const switchToBio = $('#lockSwitchToBiometricBtn');
+  if (switchToBio) switchToBio.addEventListener('click', () => switchLockView('biometric'));
+
+  // Pavé numérique PIN
+  $$('#lockPinView .num-key[data-pin]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      handlePinDigit(btn.dataset.pin);
+    });
+  });
+
+  const backspaceBtn = $('#lockPinBackspaceBtn');
+  if (backspaceBtn) backspaceBtn.addEventListener('click', handlePinBackspace);
+
+  // Support du clavier physique pour le code PIN
+  window.addEventListener('keydown', e => {
+    if (!isAppLocked) return;
+    if ($('#lockPinView').style.display !== 'none') {
+      if (/^[0-9]$/.test(e.key)) {
+        e.preventDefault();
+        handlePinDigit(e.key);
+      } else if (e.key === 'Backspace') {
+        e.preventDefault();
+        handlePinBackspace();
+      } else if (e.key === 'Escape') {
+        switchLockView('biometric');
+      }
+    }
+  });
+
+  // Détection de l'activité utilisateur pour auto-verrouillage
+  ['mousedown', 'mousemove', 'keydown', 'scroll', 'touchstart'].forEach(evt => {
+    window.addEventListener(evt, () => {
+      lastUserActivity = Date.now();
+    }, { passive: true });
+  });
+
+  // Vérification périodique du délai d'inactivité
+  setInterval(() => {
+    if (!state.security || !state.security.enabled || isAppLocked) return;
+    const timeoutMin = Number(state.security.autoLockMinutes);
+    if (timeoutMin > 0) {
+      const elapsed = Date.now() - lastUserActivity;
+      if (elapsed > timeoutMin * 60 * 1000) {
+        lockApp();
+      }
+    }
+  }, 15000);
+
+  // Verrouillage au changement d'onglet si activé
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden && state.security && state.security.enabled && state.security.lockOnTabLeave) {
+      lockApp();
+    }
+  });
+}
+
+/* ============================================================
    INIT & CIRCUIT BREAKER
 ============================================================ */
 try {
@@ -3567,6 +6971,14 @@ try {
   updateChecklist();
   if(state.theme === 'light'){
     document.documentElement.setAttribute('data-theme', 'light');
+  }
+
+  // Initialisation de la sécurité & portail biométrique
+  initSecurityEventListeners();
+  updateSecurityUI();
+  checkDeviceBiometricsCapability();
+  if (state.security && state.security.enabled) {
+    lockApp();
   }
   const renderDuration = performance.now() - startTime;
   if(renderDuration > 800){
@@ -3581,6 +6993,15 @@ try {
       <p style="color:var(--muted);font-size:12px">Le widget a rencontré une erreur d'exécution. Vos données locales restent sécurisées.</p>
       <pre style="background:rgba(0,0,0,.3);padding:10px;border-radius:8px;font-size:11px;color:var(--red);overflow-x:auto;margin-top:10px">${fatalErr.stack||fatalErr.message}</pre>`;
   }
+}
+
+/* Service Worker Registration (PWA Offline Support) */
+if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(err => {
+      console.warn('[PWA] Service Worker registration skipped:', err);
+    });
+  });
 }
 </script>
 </body>
